@@ -8,7 +8,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { id } = req.query as { id: string };
+  const { id, token } = req.query as { id: string; token: string };
+  if (token !== process.env.WEBHOOK_TOKEN) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
   const { output, status } = req.body;
   let response;
   if (status === "succeeded") {

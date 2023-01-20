@@ -10,8 +10,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     fetch(`https://images.extrapolate.workers.dev/${id}`, {
       method: "DELETE",
       headers: {
-        "X-Cloudflare-Workers-Secret": process.env
-          .CLOUDFLARE_WORKER_SECRET as string,
+        "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,
       },
     }),
     redis.set(id, {

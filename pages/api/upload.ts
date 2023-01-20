@@ -28,11 +28,10 @@ export default async function handler(req: NextRequest) {
       : "https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io";
 
   await Promise.allSettled([
-    fetch(`https://images.extrapolate.workers.dev/${key}`, {
+    fetch(`https://images.extrapolate.workers.dev/test2`, {
       method: "PUT",
       headers: {
-        "X-Cloudflare-Workers-Secret": process.env
-          .CLOUDFLARE_WORKER_SECRET as string,
+        "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,
       },
       body: Uint8Array.from(atob(image.replace(/^data[^,]+,/, "")), (v) =>
         v.charCodeAt(0),
