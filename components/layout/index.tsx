@@ -76,8 +76,8 @@ export default function Layout({
             rel="noopener noreferrer"
           >
             Vercel
-          </a>{" "}
-          and{" "}
+          </a>
+          ,{" "}
           <a
             className="font-semibold text-gray-600 transition-colors hover:text-black"
             href="https://replicate.com"
@@ -85,6 +85,15 @@ export default function Layout({
             rel="noopener noreferrer"
           >
             Replicate
+          </a>{" "}
+          and{" "}
+          <a
+            className="font-semibold text-gray-600 transition-colors hover:text-black"
+            href="https://upstash.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Upstash
           </a>
           .
         </p>

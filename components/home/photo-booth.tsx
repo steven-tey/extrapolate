@@ -165,7 +165,7 @@ export default function PhotoBooth({
                         className="text-sm text-gray-500"
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                       >
-                        This can take anywhere between 20 seconds to 2 minutes.
+                        This can take anywhere between 2-3 minutes to run.
                       </motion.p>
                       <motion.input
                         className="w-full border-b border-gray-200 bg-white px-5 py-2 text-center text-sm transition-colors placeholder:text-gray-400 focus:border-gray-800 focus:outline-none focus:ring-0"
