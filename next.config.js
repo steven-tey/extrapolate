@@ -3,13 +3,18 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["lh3.googleusercontent.com"],
+    domains: ["images.extrapolate.workers.dev", "replicate.delivery"],
   },
   async redirects() {
     return [
       {
         source: "/github",
-        destination: "https://github.com/steven-tey/precedent",
+        destination: "https://github.com/steven-tey/extrapolate",
+        permanent: false,
+      },
+      {
+        source: "/p",
+        destination: "/",
         permanent: false,
       },
     ];

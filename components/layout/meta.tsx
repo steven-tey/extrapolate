@@ -3,8 +3,8 @@ import Head from "next/head";
 const DOMAIN = "https://precedent.dev";
 
 export default function Meta({
-  title = "Precedent - Building blocks for your Next.js project",
-  description = "Precedent is the all-in-one solution for your Next.js project. It includes a design system, authentication, analytics, and more.",
+  title = "Extrapolate - Transform your face with Artificial Intelligence",
+  description = "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and privacy friendly.",
   image = `${DOMAIN}/api/og`,
 }: {
   title?: string;

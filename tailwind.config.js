@@ -12,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["var(--font-sf)", "system-ui", "sans-serif"],
+        display: ["var(--font-clash)"],
         default: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       animation: {
@@ -38,6 +38,8 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/line-clamp"),
     plugin(({ addVariant }) => {
+      addVariant("radix-state-checked", '&[data-state="checked"]');
+      addVariant("radix-state-unchecked", '&[data-state="unchecked"]');
       addVariant("radix-side-top", '&[data-side="top"]');
       addVariant("radix-side-bottom", '&[data-side="bottom"]');
     }),

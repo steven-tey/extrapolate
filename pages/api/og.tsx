@@ -6,15 +6,15 @@ export const config = {
   runtime: "experimental-edge",
 };
 
-const sfPro = fetch(
-  new URL("../../styles/SF-Pro-Display-Medium.otf", import.meta.url),
+const clash = fetch(
+  new URL("../../styles/ClashDisplay-Semibold.otf", import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 export default async function handler(req: NextRequest) {
-  const [sfProData] = await Promise.all([sfPro]);
+  const [clashData] = await Promise.all([clash]);
 
   const { searchParams } = req.nextUrl;
-  const title = searchParams.get("title") || "Precedent";
+  const title = searchParams.get("title") || "Extrapolate";
 
   return new ImageResponse(
     (
@@ -28,7 +28,7 @@ export default async function handler(req: NextRequest) {
           justifyContent: "center",
           backgroundColor: "white",
           backgroundImage:
-            "linear-gradient(to bottom right, #E0E7FF 25%, #ffffff 50%, #CFFAFE 75%)",
+            "linear-gradient(to bottom right, #D1FAE5 25%, #EFF6FF 50%, #FFE4E6 75%)",
         }}
       >
         <img
@@ -39,12 +39,11 @@ export default async function handler(req: NextRequest) {
         <h1
           style={{
             fontSize: "100px",
-            fontFamily: "SF Pro",
+            fontFamily: "ClashDisplay-Semibold",
             background:
               "linear-gradient(to bottom right, #000000 21.66%, #78716c 86.47%)",
             backgroundClip: "text",
             color: "transparent",
-            lineHeight: "5rem",
             letterSpacing: "-0.02em",
           }}
         >
@@ -58,7 +57,7 @@ export default async function handler(req: NextRequest) {
       fonts: [
         {
           name: "SF Pro",
-          data: sfProData,
+          data: clashData,
         },
       ],
     },
