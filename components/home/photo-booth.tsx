@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
+import { toast } from "react-hot-toast";
 
 const variants = {
   enter: (direction: number) => {
@@ -38,10 +39,12 @@ export default function PhotoBooth({
   input,
   blurDataURL,
   output,
+  email,
 }: {
   input: string;
   blurDataURL: string;
   output?: string;
+  email?: string;
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -57,7 +60,7 @@ export default function PhotoBooth({
       if (loading) {
         setShowHelper(true);
       }
-    }, 2000);
+    }, 5000);
   }, [loading]);
 
   return (
@@ -73,7 +76,13 @@ export default function PhotoBooth({
           {state === "output" ? "View original" : "View result"}
         </p>
       </button>
-      {output && state === "output" && (
+      {/* 
+        only show this if:
+          - it's on a page with an id (i.e. not the demo page) 
+          - there's an output
+          - we're in the output tab
+      */}
+      {id && output && state === "output" && (
         <button
           onClick={() => {
             setDownloading(true);
@@ -81,7 +90,7 @@ export default function PhotoBooth({
               headers: new Headers({
                 Origin: location.origin,
               }),
-              mode: "no-cors",
+              mode: "cors",
             })
               .then((response) => response.blob())
               .then((blob) => {
@@ -141,7 +150,15 @@ export default function PhotoBooth({
                       onSubmit={(e) => {
                         e.preventDefault();
                         const email = e.currentTarget.email.value;
-                        alert(email);
+                        fetch(`/api/images/${id}/email`, {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ email }),
+                        }).then(() => {
+                          toast.success("Email saved!");
+                        });
                       }}
                     >
                       <motion.p
@@ -156,6 +173,7 @@ export default function PhotoBooth({
                         type="email"
                         id="email"
                         name="email"
+                        defaultValue={email}
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                       />
                     </motion.form>
