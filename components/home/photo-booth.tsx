@@ -40,11 +40,13 @@ export default function PhotoBooth({
   blurDataURL,
   output,
   email,
+  failed,
 }: {
   input: string;
   blurDataURL: string;
   output?: string;
   email?: string;
+  failed?: boolean;
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -53,12 +55,12 @@ export default function PhotoBooth({
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showHelper, setShowHelper] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
       if (loading) {
-        setShowHelper(true);
+        setShowForm(true);
       }
     }, 5000);
   }, [loading]);
@@ -88,7 +90,7 @@ export default function PhotoBooth({
           - there's an output
           - we're in the output tab
       */}
-      {id && output && state === "output" && (
+      {id && output && state === "output" && !failed && (
         <button
           onClick={() => {
             setDownloading(true);
@@ -135,10 +137,17 @@ export default function PhotoBooth({
               exit="exit"
               className="absolute h-full w-full"
             >
+              {failed && (
+                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[280px]">
+                  <p className="text-sm text-red-600">
+                    Failed to run - could not find face in image. Try another!
+                  </p>
+                </div>
+              )}
               {loading && (
                 <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[280px]">
                   <LoadingCircle />
-                  {id && showHelper && (
+                  {id && showForm && (
                     <motion.form
                       className="my-4 flex flex-col items-center space-y-4"
                       initial="hidden"

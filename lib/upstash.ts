@@ -37,6 +37,7 @@ export interface DataProps {
   email?: string; // for users to be notified
   output?: string; // output of prediction
   expired?: boolean; // if the data is expired
+  failed?: boolean; // if the prediction failed
 }
 
 export async function getData(id: string) {

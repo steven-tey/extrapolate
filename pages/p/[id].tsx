@@ -88,6 +88,7 @@ export default function PhotoPage({
             blurDataURL={blurDataURL}
             output={data!.output}
             email={data!.email}
+            failed={data!.failed}
           />
         )}
       </motion.div>

@@ -27,6 +27,18 @@ export default async function handler(
     response = await redis.set(id as string, {
       output,
     });
+  } else if (status === "failed") {
+    const { email } = (await getData(id)) || {};
+    if (email) {
+      sendMail({
+        subject: "Extrapolate: Failed to process your image",
+        to: email,
+        component: <Notification url="https://extrapolate.app/" failed />,
+      });
+    }
+    response = await redis.set(id as string, {
+      failed: true,
+    });
   } else {
     response = null;
   }
