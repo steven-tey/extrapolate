@@ -65,7 +65,7 @@ export default function PhotoBooth({
 
   return (
     <motion.div
-      className="group relative mx-auto mt-10 h-[600px] w-[600px] overflow-hidden rounded-2xl border border-gray-200"
+      className="group relative mx-auto mt-10 h-[350px] w-full overflow-hidden rounded-2xl border border-gray-200 sm:h-[600px] sm:w-[600px]"
       variants={FADE_DOWN_ANIMATION_VARIANTS}
     >
       <button

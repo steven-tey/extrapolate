@@ -66,7 +66,7 @@ export default function PhotoPage({
         </motion.p>
         {data?.expired ? (
           <motion.div
-            className="mx-auto mt-10 flex h-[600px] w-[600px] flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white"
+            className="mx-auto mt-10 flex h-[350px] w-full flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white sm:h-[600px] sm:w-[600px]"
             variants={FADE_DOWN_ANIMATION_VARIANTS}
           >
             <p className="text-sm text-gray-500">
