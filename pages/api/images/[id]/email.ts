@@ -2,7 +2,7 @@ import { getData, redis } from "@/lib/upstash";
 import { NextRequest } from "next/server";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 export default async function handler(req: NextRequest) {
