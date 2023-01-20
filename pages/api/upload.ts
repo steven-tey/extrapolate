@@ -3,11 +3,6 @@ import { NextRequest } from "next/server";
 
 export const config = {
   runtime: "experimental-edge",
-  api: {
-    bodyParser: {
-      sizeLimit: "5200kb",
-    },
-  },
 };
 
 export default async function handler(req: NextRequest) {

@@ -63,6 +63,12 @@ export default function PhotoBooth({
     }, 5000);
   }, [loading]);
 
+  useEffect(() => {
+    if (output) {
+      setLoading(false);
+    }
+  }, [output]);
+
   return (
     <motion.div
       className="group relative mx-auto mt-10 h-[350px] w-full overflow-hidden rounded-2xl border border-gray-200 sm:h-[600px] sm:w-[600px]"
@@ -77,7 +83,7 @@ export default function PhotoBooth({
         </p>
       </button>
       {/* 
-        only show this if:
+        only show the download button if:
           - it's on a page with an id (i.e. not the demo page) 
           - there's an output
           - we're in the output tab
@@ -187,6 +193,7 @@ export default function PhotoBooth({
                   width={1280}
                   height={1280}
                   className="object-cover"
+                  onLoadStart={() => setLoading(true)}
                   onLoadingComplete={() => setLoading(false)}
                 />
               )}
