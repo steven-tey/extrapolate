@@ -28,6 +28,7 @@ export default function PhotoPage({
   const { data } = useSWR<DataProps>(`/api/images/${id}`, fetcher, {
     fallbackData,
     refreshInterval: fallbackData.output || fallbackData.expired ? 0 : 500,
+    refreshWhenHidden: true,
   });
   const { UploadModal, setShowUploadModal } = useUploadModal();
 
