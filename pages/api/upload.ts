@@ -1,4 +1,4 @@
-import { ratelimit, setRandomKey } from "@/lib/upstash";
+import { ratelimit, redis, setRandomKey } from "@/lib/upstash";
 import { NextRequest } from "next/server";
 
 export const config = {
@@ -22,13 +22,10 @@ export default async function handler(req: NextRequest) {
   const { key } = await setRandomKey({
     email,
   });
-  const domain =
-    process.env.NODE_ENV === "production"
-      ? "https://extrapolate.app"
-      : "https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io";
+  const domain = "https://extrapolate.app";
 
-  await Promise.allSettled([
-    fetch(`https://images.extrapolate.workers.dev/test2`, {
+  const [r2, replicate, qstash] = await Promise.allSettled([
+    fetch(`https://images.extrapolate.workers.dev/${key}`, {
       method: "PUT",
       headers: {
         "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,
@@ -52,7 +49,7 @@ export default async function handler(req: NextRequest) {
         },
         webhook_completed: `${domain}/api/images/${key}/webhook`,
       }),
-    }),
+    }).then((res) => res.json()),
     fetch(
       `https://qstash.upstash.io/v1/publish/${domain}/api/images/${key}/delete`,
       {
@@ -64,7 +61,23 @@ export default async function handler(req: NextRequest) {
         },
       },
     ),
-  ]);
+  ]).then((results) =>
+    results.map((result) => {
+      if (result.status === "fulfilled") {
+        return result.value;
+      } else {
+        return result.reason;
+      }
+    }),
+  );
+
+  const { id: replicateId } = replicate;
+
+  // update replicateId in redis
+  await redis.set(key, {
+    replicateId,
+    email,
+  });
 
   return new Response(JSON.stringify({ key }));
 }

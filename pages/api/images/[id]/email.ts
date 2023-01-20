@@ -14,13 +14,14 @@ export default async function handler(req: NextRequest) {
     });
   }
   if (req.method === "POST") {
-    const { output } = (await getKey(id)) || {};
-    if (!output) {
+    const data = (await getKey(id)) || {};
+    if (data && !data.output) {
       await redis.set(id, {
+        ...data,
         email,
       });
     }
-    return new Response(JSON.stringify({ output }));
+    return new Response(JSON.stringify(data));
   } else {
     return new Response(null, {
       status: 404,
