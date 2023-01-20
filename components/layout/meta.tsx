@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const DOMAIN = "https://precedent.dev";
+const DOMAIN = "https://extrapolate.app";
 
 export default function Meta({
   title = "Extrapolate - Transform your face with Artificial Intelligence",

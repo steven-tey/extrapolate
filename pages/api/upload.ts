@@ -47,11 +47,11 @@ export default async function handler(req: NextRequest) {
           image,
           target_age: "default",
         },
-        webhook_completed: `https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io/api/images/${key}/webhook`,
+        webhook_completed: `https://extrapolate.app/api/images/${key}/webhook`,
       }),
     }),
     fetch(
-      `https://qstash.upstash.io/v1/publish/https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io/api/images/${key}/delete`,
+      `https://qstash.upstash.io/v1/publish/https://extrapolate.app/api/images/${key}/delete`,
       {
         method: "POST",
         headers: {
