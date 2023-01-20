@@ -12,10 +12,7 @@ import { UploadCloud } from "lucide-react";
 import { LoadingDots } from "@/components/shared/icons";
 import Switch from "@/components/shared/switch";
 import { motion } from "framer-motion";
-import {
-  FADE_DOWN_ANIMATION_VARIANTS,
-  FADE_IN_ANIMATION_SETTINGS,
-} from "@/lib/constants";
+import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import { useRouter } from "next/router";
 
 const UploadModal = ({
@@ -43,7 +40,7 @@ const UploadModal = ({
       setFileSizeTooBig(false);
       const file = event.currentTarget.files && event.currentTarget.files[0];
       if (file) {
-        if (file.size / 1024 / 1024 > 2) {
+        if (file.size / 1024 / 1024 > 5) {
           setFileSizeTooBig(true);
         } else {
           const reader = new FileReader();
@@ -107,7 +104,7 @@ const UploadModal = ({
               <p className="block text-sm font-medium text-gray-700">Photo</p>
               {fileSizeTooBig && (
                 <p className="text-sm text-red-500">
-                  File size too big (max 2MB)
+                  File size too big (max 5MB)
                 </p>
               )}
             </div>

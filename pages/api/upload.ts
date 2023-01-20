@@ -5,7 +5,7 @@ export const config = {
   runtime: "experimental-edge",
   api: {
     bodyParser: {
-      sizeLimit: "2200kb",
+      sizeLimit: "5200kb",
     },
   },
 };
