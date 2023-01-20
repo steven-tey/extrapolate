@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getData, redis } from "@/lib/upstash";
-import { mutate } from "swr";
 import sendMail from "emails";
 import Notification from "emails/Notification";
 
@@ -9,7 +8,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const { id, token } = req.query as { id: string; token: string };
-  if (token !== process.env.WEBHOOK_TOKEN) {
+  if (token !== process.env.REPLICATE_WEBHOOK_TOKEN) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
@@ -28,7 +27,6 @@ export default async function handler(
     response = await redis.set(id as string, {
       output,
     });
-    mutate(`/api/images/${id}`);
   } else {
     response = null;
   }

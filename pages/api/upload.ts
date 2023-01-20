@@ -22,7 +22,10 @@ export default async function handler(req: NextRequest) {
   const { key } = await setRandomKey({
     email,
   });
-  const domain = "https://extrapolate.app";
+  const domain =
+    process.env.NODE_ENV === "development"
+      ? "https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io"
+      : "https://extrapolate.app";
 
   const [r2, replicate, qstash] = await Promise.allSettled([
     fetch(`https://images.extrapolate.workers.dev/${key}`, {
@@ -47,7 +50,7 @@ export default async function handler(req: NextRequest) {
           image,
           target_age: "default",
         },
-        webhook_completed: `${domain}/api/images/${key}/webhook`,
+        webhook_completed: `${domain}/api/images/${key}/webhook?token=${process.env.REPLICATE_WEBHOOK_TOKEN}`,
       }),
     }).then((res) => res.json()),
     fetch(

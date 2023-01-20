@@ -27,6 +27,7 @@ export default function PhotoPage({
   const { id } = router.query;
   const { data } = useSWR<DataProps>(`/api/images/${id}`, fetcher, {
     fallbackData,
+    refreshInterval: fallbackData.output || fallbackData.expired ? 0 : 500,
   });
   const { UploadModal, setShowUploadModal } = useUploadModal();
 
