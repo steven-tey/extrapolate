@@ -8,6 +8,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/launch",
+        destination: "https://twitter.com/steventey/status/1616505632001232896",
+        permanent: false,
+      },
+      {
         source: "/github",
         destination: "https://github.com/steven-tey/extrapolate",
         permanent: false,
