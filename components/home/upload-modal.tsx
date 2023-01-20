@@ -166,6 +166,9 @@ const UploadModal = ({
                   } h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
                 />
                 <p className="mt-2 text-center text-sm text-gray-500">
+                  Drag and drop or click to upload.
+                </p>
+                <p className="mt-2 text-center text-sm text-gray-500">
                   Recommended: 1:1 square ratio, with a clear view of your face
                 </p>
                 <span className="sr-only">Photo upload</span>
