@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { Twitter } from "@/components/shared/icons";
 import { useUploadModal } from "@/components/home/upload-modal";
-import { Wand } from "lucide-react";
+import { Upload } from "lucide-react";
 import PhotoBooth from "@/components/home/photo-booth";
 
 export default function Home() {
@@ -60,8 +60,8 @@ export default function Home() {
           onClick={() => setShowUploadModal(true)}
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          <Wand className="h-5 w-5 text-white group-hover:text-black" />
-          <p>Transform my face</p>
+          <Upload className="h-5 w-5 text-white group-hover:text-black" />
+          <p>Upload a photo</p>
         </motion.button>
         <PhotoBooth
           input="https://images.extrapolate.workers.dev/input.jpg"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
+import { Github } from "../shared/icons";
 
 export default function Layout({
   meta,
@@ -39,28 +40,35 @@ export default function Layout({
             ></Image>
             <p>Extrapolate</p>
           </Link>
-          <a
-            className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            href="https://vercel.com/templates"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg
-              className="h-4 w-4 group-hover:text-black"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="flex items-center space-x-4">
+            <a
+              href="https://vercel.com/templates/next.js/extrapolate"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <path
-                d="M12 4L20 20H4L12 4Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <p>Deploy</p>
-          </a>
+              <svg
+                className="h-6 w-6 group-hover:text-black"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 4L20 20H4L12 4Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/steven-tey/extrapolate"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github />
+            </a>
+          </div>
         </div>
       </div>
       <main className="flex min-h-screen w-full flex-col items-center justify-center py-32">
