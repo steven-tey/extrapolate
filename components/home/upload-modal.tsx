@@ -136,7 +136,7 @@ const UploadModal = ({
                   setFileSizeTooBig(false);
                   const file = e.dataTransfer.files && e.dataTransfer.files[0];
                   if (file) {
-                    if (file.size / 1024 / 1024 > 2) {
+                    if (file.size / 1024 / 1024 > 5) {
                       setFileSizeTooBig(true);
                     } else {
                       const reader = new FileReader();
