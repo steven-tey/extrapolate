@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { redis } from "@/lib/upstash";
+import { getKey, redis } from "@/lib/upstash";
 import { mutate } from "swr";
+import sendMail from "emails";
+import Notification from "emails/Notification";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,6 +12,14 @@ export default async function handler(
   const { output, status } = req.body;
   let response;
   if (status === "succeeded") {
+    const { email } = (await getKey(id)) || {};
+    if (email) {
+      sendMail({
+        subject: "Your Extrapolate results are ready!",
+        to: email,
+        component: <Notification url={`https://extrapolate.app/p/${id}`} />,
+      });
+    }
     response = await redis.set(id as string, {
       output,
     });

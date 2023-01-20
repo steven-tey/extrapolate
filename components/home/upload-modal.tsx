@@ -197,7 +197,7 @@ const UploadModal = ({
           <div className="border-t border-b border-gray-200 py-5">
             <div className="flex items-center justify-between">
               <p className="block text-sm font-medium text-gray-700">
-                Email Notification
+                Notify via email when complete
               </p>
               <Switch
                 fn={() => {

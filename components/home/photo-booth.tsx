@@ -1,9 +1,9 @@
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { Download, SkipBack, SkipForward } from "lucide-react";
+import { Download } from "lucide-react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
 
 const variants = {
@@ -50,6 +50,15 @@ export default function PhotoBooth({
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showHelper, setShowHelper] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (loading) {
+        setShowHelper(true);
+      }
+    }, 2000);
+  }, [loading]);
 
   return (
     <motion.div
@@ -112,8 +121,45 @@ export default function PhotoBooth({
               className="absolute h-full w-full"
             >
               {loading && (
-                <div className="z-10 flex h-full w-full items-center justify-center bg-white">
+                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[280px]">
                   <LoadingCircle />
+                  {id && showHelper && (
+                    <motion.form
+                      className="my-4 flex flex-col items-center space-y-4"
+                      initial="hidden"
+                      whileInView="show"
+                      animate="show"
+                      viewport={{ once: true }}
+                      variants={{
+                        hidden: {},
+                        show: {
+                          transition: {
+                            staggerChildren: 0.2,
+                          },
+                        },
+                      }}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const email = e.currentTarget.email.value;
+                        alert(email);
+                      }}
+                    >
+                      <motion.p
+                        className="text-sm text-gray-500"
+                        variants={FADE_DOWN_ANIMATION_VARIANTS}
+                      >
+                        This can take anywhere between 20 seconds to 2 minutes.
+                      </motion.p>
+                      <motion.input
+                        className="w-full border-b border-gray-200 bg-white px-5 py-2 text-center text-sm transition-colors placeholder:text-gray-400 focus:border-gray-800 focus:outline-none focus:ring-0"
+                        placeholder="Send me an email when it's done"
+                        type="email"
+                        id="email"
+                        name="email"
+                        variants={FADE_DOWN_ANIMATION_VARIANTS}
+                      />
+                    </motion.form>
+                  )}
                 </div>
               )}
               {output && (
