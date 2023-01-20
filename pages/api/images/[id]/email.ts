@@ -1,4 +1,4 @@
-import { getKey, redis } from "@/lib/upstash";
+import { getData, redis } from "@/lib/upstash";
 import { NextRequest } from "next/server";
 
 export const config = {
@@ -14,7 +14,7 @@ export default async function handler(req: NextRequest) {
     });
   }
   if (req.method === "POST") {
-    const data = (await getKey(id)) || {};
+    const data = (await getData(id)) || {};
     if (data && !data.output) {
       await redis.set(id, {
         ...data,

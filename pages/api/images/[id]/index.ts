@@ -1,4 +1,4 @@
-import { getKey } from "@/lib/upstash";
+import { getData } from "@/lib/upstash";
 import { NextRequest } from "next/server";
 
 export const config = {
@@ -7,7 +7,7 @@ export const config = {
 
 export default async function handler(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id") as string;
-  const data = await getKey(id);
+  const data = await getData(id);
   if (data) {
     return new Response(JSON.stringify(data));
   } else {

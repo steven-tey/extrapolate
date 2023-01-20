@@ -6,7 +6,7 @@ import { ParsedUrlQuery } from "node:querystring";
 import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import Layout from "@/components/layout";
-import { getKey, DataProps } from "@/lib/upstash";
+import { getData, DataProps } from "@/lib/upstash";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import PhotoBooth from "@/components/home/photo-booth";
 import { getPlaiceholder } from "plaiceholder";
@@ -109,7 +109,7 @@ export const getStaticProps = async (
 ) => {
   const { id } = context.params;
   const input = `https://images.extrapolate.workers.dev/${id}`;
-  const data = await getKey(id);
+  const data = await getData(id);
   if (data) {
     const { base64 } = await getPlaiceholder(input);
     return {

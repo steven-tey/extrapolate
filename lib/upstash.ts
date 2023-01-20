@@ -39,7 +39,7 @@ export interface DataProps {
   expired?: boolean; // if the data is expired
 }
 
-export async function getKey(key: string) {
-  const data = await redis.get<DataProps>(key);
+export async function getData(id: string) {
+  const data = await redis.get<DataProps>(id);
   return data;
 }
