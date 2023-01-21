@@ -138,14 +138,14 @@ export default function PhotoBooth({
               className="absolute h-full w-full"
             >
               {failed && (
-                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[280px]">
+                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
                   <p className="text-sm text-red-600">
                     Failed to run - could not find face in image. Try another!
                   </p>
                 </div>
               )}
               {loading && (
-                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[280px]">
+                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
                   <LoadingCircle />
                   {id && showForm && (
                     <motion.form
@@ -201,7 +201,7 @@ export default function PhotoBooth({
                   src={output}
                   width={1280}
                   height={1280}
-                  className="object-cover"
+                  className="h-full object-cover"
                   onLoadStart={() => setLoading(true)}
                   onLoadingComplete={() => setLoading(false)}
                 />
