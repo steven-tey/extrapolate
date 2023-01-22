@@ -57,7 +57,7 @@ export default function Home({ count }: { count: number }) {
             90? Upload a photo and find out!{" "}
             <Tooltip
               content={
-                <div className="flex max-w-xs flex-col items-center space-y-3 p-5 text-center">
+                <div className="flex flex-col items-center justify-center space-y-3 p-10 text-center sm:max-w-xs">
                   <p className="text-sm text-gray-700">
                     Any photos you upload are automatically deleted after 24
                     hours.
@@ -73,7 +73,7 @@ export default function Home({ count }: { count: number }) {
                 </div>
               }
             >
-              <span className="cursor-default underline decoration-dotted underline-offset-2 transition-colors hover:text-gray-800">
+              <span className="hidden cursor-default underline decoration-dotted underline-offset-2 transition-colors hover:text-gray-800 sm:block">
                 100% free and privacy-friendly
               </span>
             </Tooltip>
