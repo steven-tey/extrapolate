@@ -114,11 +114,17 @@ export const getStaticProps = async (
   const input = `https://images.extrapolate.workers.dev/${id}`;
   const data = await getData(id);
   if (data) {
-    const { base64 } = await getPlaiceholder(input);
+    let imageData: { base64: string } | undefined;
+    try {
+      imageData = await getPlaiceholder(input);
+    } catch (error) {
+      console.error(error);
+    }
+    const { base64 } = imageData || {};
     return {
       props: {
         input,
-        blurDataURL: base64,
+        blurDataURL: base64 || "",
         data,
       },
       revalidate: 1,
