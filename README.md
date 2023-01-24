@@ -35,7 +35,7 @@ https://user-images.githubusercontent.com/28986134/213781048-d215894d-2286-4176-
 ## Features
 
 - 3s GIF of your face as it ages through time 🧓
-- Email notification when the GIF is ready (via [Replicate](https://replicate.com) webhook callback)
+- Email notification when the GIF is ready (via [Replicate webhook callback](https://replicate.com/docs/reference/http#create-prediction--webhook_completed) + [`/webhook` API endpoint](https://github.com/steven-tey/extrapolate/blob/main/pages/api/images/%5Bid%5D/webhook.tsx))
 - Store & retrieve photos from [Cloudflare R2](https://www.cloudflare.com/lp/pg-r2/) using Workers
 - Photos auto-delete after 24 hours (via [Upstash](https://upstash.com) qStash)
 
