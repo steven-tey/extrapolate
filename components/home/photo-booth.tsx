@@ -198,6 +198,7 @@ export default function PhotoBooth({
               {output && (
                 <Image
                   alt="demo gif"
+                  unoptimized
                   src={output}
                   width={1280}
                   height={1280}
