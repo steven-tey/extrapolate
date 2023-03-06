@@ -18,6 +18,11 @@ const nextConfig = {
         permanent: false,
       },
       {
+        source: "/deploy",
+        destination: "https://vercel.com/templates/next.js/extrapolate",
+        permanent: false,
+      },
+      {
         source: "/p",
         destination: "/",
         permanent: false,
