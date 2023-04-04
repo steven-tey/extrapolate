@@ -198,7 +198,6 @@ export default function PhotoBooth({
               {output && (
                 <Image
                   alt="demo gif"
-                  unoptimized
                   src={output}
                   width={1280}
                   height={1280}
@@ -225,7 +224,6 @@ export default function PhotoBooth({
                 placeholder="blur"
                 blurDataURL={blurDataURL}
                 fill
-                unoptimized
               />
             </motion.div>
           )}
