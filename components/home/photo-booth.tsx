@@ -225,6 +225,7 @@ export default function PhotoBooth({
                 placeholder="blur"
                 blurDataURL={blurDataURL}
                 fill
+                unoptimized
               />
             </motion.div>
           )}
