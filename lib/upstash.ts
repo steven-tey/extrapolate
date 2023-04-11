@@ -44,6 +44,5 @@ export interface DataProps {
 }
 
 export async function getData(id: string) {
-  const data = await redis.get<DataProps>(id);
-  return data;
+  return await redis.get<DataProps>(id);
 }
