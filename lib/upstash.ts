@@ -34,7 +34,6 @@ export async function setRandomKey(data: any): Promise<{ key: string }> {
 }
 
 export interface DataProps {
-  email?: string; // for users to be notified
   output?: string; // output of prediction
   expired?: boolean; // if the data is expired
   failed?: boolean; // if the prediction failed

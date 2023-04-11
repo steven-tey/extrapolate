@@ -3,8 +3,8 @@ import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
 import { Provider as RWBProvider } from "react-wrap-balancer";
 import cx from "classnames";
-import localFont from "@next/font/local";
-import { Inter } from "@next/font/google";
+import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
 const clash = localFont({
   src: "../styles/ClashDisplay-Semibold.otf",

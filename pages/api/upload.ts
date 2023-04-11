@@ -1,12 +1,18 @@
-import { ratelimit, redis, setRandomKey } from "@/lib/upstash";
 import { NextRequest } from "next/server";
+import { ratelimit, redis, setRandomKey } from "@/lib/upstash";
+import Replicate from "replicate";
 
 export const config = {
   runtime: "edge",
 };
 
+const replicate = new Replicate({
+  // get your token from https://replicate.com/account
+  auth: process.env.REPLICATE_API_TOKEN || "",
+});
+
 export default async function handler(req: NextRequest) {
-  const { image, email } = await req.json();
+  const { image } = await req.json();
   if (!image) {
     return new Response("Missing image", { status: 400 });
   }
@@ -15,15 +21,13 @@ export default async function handler(req: NextRequest) {
     return new Response("Don't DDoS me pls 🥺", { status: 429 });
   }
   if (req.method === "POST") {
-    const { key } = await setRandomKey({
-      email,
-    });
+    const { key } = await setRandomKey({});
     const domain =
       process.env.NODE_ENV === "development"
-        ? "https://2aa7-2600-1700-b5e4-b50-f57d-e9fc-7d51-b85d.ngrok.io"
+        ? "https://c14c-2600-1700-b5e4-b50-4dcb-f2e2-e081-ddbe.ngrok-free.app"
         : "https://extrapolate.app";
 
-    const [r2, replicate, qstash] = await Promise.allSettled([
+    await Promise.allSettled([
       fetch(`https://images.extrapolate.workers.dev/${key}`, {
         method: "PUT",
         headers: {
@@ -33,22 +37,16 @@ export default async function handler(req: NextRequest) {
           v.charCodeAt(0),
         ),
       }),
-      fetch("https://api.replicate.com/v1/predictions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + process.env.REPLICATE_API_KEY,
+      replicate.predictions.create({
+        version:
+          "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
+        input: {
+          image,
+          target_age: "default",
         },
-        body: JSON.stringify({
-          version:
-            "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
-          input: {
-            image,
-            target_age: "default",
-          },
-          webhook_completed: `${domain}/api/images/${key}/webhook?token=${process.env.REPLICATE_WEBHOOK_TOKEN}`,
-        }),
-      }).then((res) => res.json()),
+        webhook: `${domain}/api/images/${key}/webhook`,
+        webhook_events_filter: ["completed"],
+      }),
       fetch(
         `https://qstash.upstash.io/v1/publish/${domain}/api/images/${key}/delete`,
         {
@@ -69,14 +67,6 @@ export default async function handler(req: NextRequest) {
         }
       }),
     );
-
-    const { id: replicateId } = replicate;
-
-    // update replicateId in redis
-    await redis.set(key, {
-      replicateId,
-      email,
-    });
 
     return new Response(JSON.stringify({ key }));
   } else {

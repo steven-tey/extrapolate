@@ -10,9 +10,6 @@ import {
 import Image from "next/image";
 import { UploadCloud } from "lucide-react";
 import { LoadingDots } from "@/components/shared/icons";
-import Switch from "@/components/shared/switch";
-import { motion } from "framer-motion";
-import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 import { useRouter } from "next/router";
 
 const UploadModal = ({
@@ -23,13 +20,10 @@ const UploadModal = ({
   setShowUploadModal: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
-  const [notify, setNotify] = useState(false);
   const [data, setData] = useState<{
     image: string | null;
-    email: string | null;
   }>({
     image: null,
-    email: null,
   });
   const [fileSizeTooBig, setFileSizeTooBig] = useState(false);
 
@@ -75,8 +69,7 @@ const UploadModal = ({
           </a>
           <h3 className="font-display text-2xl font-bold">Upload Photo</h3>
           <p className="text-sm text-gray-500">
-            Your photos will be automatically deleted after 24 hours, unless you
-            choose to save them.
+            Your photos will be automatically deleted after 24 hours.
           </p>
         </div>
 
@@ -192,38 +185,6 @@ const UploadModal = ({
                 onChange={onChangePicture}
               />
             </div>
-          </div>
-
-          <div className="border-t border-b border-gray-200 py-5">
-            <div className="flex items-center justify-between">
-              <p className="block text-sm font-medium text-gray-700">
-                Notify via email when complete
-              </p>
-              <Switch
-                fn={() => {
-                  setNotify((prev) => !prev);
-                  setData((prev) => ({ ...prev, email: null }));
-                }}
-                checked={notify}
-              />
-            </div>
-            {notify && (
-              <motion.div
-                className="relative mt-2 flex rounded-md shadow-sm"
-                {...FADE_IN_ANIMATION_SETTINGS}
-              >
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="block w-full rounded-md border-gray-300 text-sm text-gray-900 placeholder-gray-300 focus:border-gray-500 focus:outline-none focus:ring-gray-500"
-                  placeholder="panic@thedis.co"
-                  onChange={(e) =>
-                    setData((prev) => ({ ...prev, email: e.target.value }))
-                  }
-                />
-              </motion.div>
-            )}
           </div>
 
           <button

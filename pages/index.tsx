@@ -16,7 +16,7 @@ export default function Home({ count }: { count: number }) {
     <Layout>
       <UploadModal />
       <motion.div
-        className="max-w-2xl px-5 xl:px-0"
+        className="z-10 max-w-2xl px-5 xl:px-0"
         initial="hidden"
         whileInView="show"
         animate="show"
@@ -66,7 +66,7 @@ export default function Home({ count }: { count: number }) {
                     href="https://github.com/steven-tey/extrapolate"
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="mt-4 rounded-full border border-black bg-black py-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-black"
+                    className="mt-4 rounded-full border border-black bg-black px-5 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black"
                   >
                     See how it works
                   </a>

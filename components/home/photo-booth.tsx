@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
-import { toast } from "react-hot-toast";
 
 const variants = {
   enter: (direction: number) => {
@@ -39,13 +38,11 @@ export default function PhotoBooth({
   input,
   blurDataURL,
   output,
-  email,
   failed,
 }: {
   input: string;
   blurDataURL: string;
   output?: string;
-  email?: string;
   failed?: boolean;
 }) {
   const router = useRouter();
@@ -78,7 +75,7 @@ export default function PhotoBooth({
     >
       <button
         onClick={() => setState(state === "output" ? "input" : "output")}
-        className="absolute top-5 left-5 z-10 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
+        className="absolute left-5 top-5 z-10 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
       >
         <p className="text-sm font-semibold text-gray-500">
           {state === "output" ? "View original" : "View result"}
@@ -111,7 +108,7 @@ export default function PhotoBooth({
               })
               .catch((e) => console.error(e));
           }}
-          className="absolute top-5 right-5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm transition-all hover:scale-105 active:scale-95"
+          className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm transition-all hover:scale-105 active:scale-95"
         >
           {downloading ? (
             <LoadingCircle />
@@ -148,33 +145,12 @@ export default function PhotoBooth({
                 <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
                   <LoadingCircle />
                   {id && showForm && (
-                    <motion.form
+                    <motion.div
                       className="my-4 flex flex-col items-center space-y-4"
                       initial="hidden"
                       whileInView="show"
                       animate="show"
                       viewport={{ once: true }}
-                      variants={{
-                        hidden: {},
-                        show: {
-                          transition: {
-                            staggerChildren: 0.2,
-                          },
-                        },
-                      }}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        const email = e.currentTarget.email.value;
-                        fetch(`/api/images/${id}/email`, {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({ email }),
-                        }).then(() => {
-                          toast.success("Email saved!");
-                        });
-                      }}
                     >
                       <motion.p
                         className="text-sm text-gray-500"
@@ -182,16 +158,7 @@ export default function PhotoBooth({
                       >
                         This can take anywhere between 2-3 minutes to run.
                       </motion.p>
-                      <motion.input
-                        className="w-full border-b border-gray-200 bg-white px-5 py-2 text-center text-sm transition-colors placeholder:text-gray-400 focus:border-gray-800 focus:outline-none focus:ring-0"
-                        placeholder="Send me an email when it's done"
-                        type="email"
-                        id="email"
-                        name="email"
-                        defaultValue={email}
-                        variants={FADE_DOWN_ANIMATION_VARIANTS}
-                      />
-                    </motion.form>
+                    </motion.div>
                   )}
                 </div>
               )}

@@ -37,7 +37,7 @@ export default function PhotoPage({
       <Toaster />
       <UploadModal />
       <motion.div
-        className="max-w-2xl px-5 xl:px-0"
+        className="z-10 max-w-2xl px-5 xl:px-0"
         initial="hidden"
         whileInView="show"
         animate="show"
@@ -87,7 +87,6 @@ export default function PhotoPage({
             input={input}
             blurDataURL={blurDataURL}
             output={data!.output}
-            email={data!.email}
             failed={data!.failed}
           />
         )}
