@@ -8,6 +8,5 @@ export const config = {
 export default async function handler(req: NextRequest) {
   const id = req.nextUrl.pathname.split("/")[3];
   const data = await getData(id);
-  console.log(id, data);
   return NextResponse.json(data);
 }
