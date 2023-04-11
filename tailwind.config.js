@@ -36,7 +36,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
-    require("@tailwindcss/line-clamp"),
     plugin(({ addVariant }) => {
       addVariant("radix-state-checked", '&[data-state="checked"]');
       addVariant("radix-state-unchecked", '&[data-state="unchecked"]');
