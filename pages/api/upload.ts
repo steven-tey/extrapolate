@@ -27,7 +27,7 @@ export default async function handler(req: NextRequest) {
         ? "https://c14c-2600-1700-b5e4-b50-4dcb-f2e2-e081-ddbe.ngrok-free.app"
         : `https://${process.env.VERCEL_URL}`;
 
-    await Promise.allSettled([
+    const [, output, _] = await Promise.allSettled([
       fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${key}`, {
         method: "PUT",
         headers: {
@@ -67,6 +67,13 @@ export default async function handler(req: NextRequest) {
         }
       }),
     );
+
+    const { id: replicateId } = output;
+
+    // update replicateId in redis
+    await redis.set(key, {
+      replicateId,
+    });
 
     return new Response(JSON.stringify({ key }));
   } else {
