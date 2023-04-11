@@ -7,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     id: string;
   };
   await Promise.allSettled([
-    fetch(`https://images.extrapolate.workers.dev/${id}`, {
+    fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${id}`, {
       method: "DELETE",
       headers: {
         "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,

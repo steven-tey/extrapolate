@@ -92,9 +92,9 @@ export default function Home({ count }: { count: number }) {
           </p>
         </motion.div>
         <PhotoBooth
-          input="https://images.extrapolate.workers.dev/input.jpg"
+          input={`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/input.jpg`}
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR4nAEnANj/ALjj/4mIh+P+/9Lv/wCn0+xeLxV9cWWUtL0AUz0tKQAAeVU0j4d/y2cTsDiuaawAAAAASUVORK5CYII="
-          output="https://images.extrapolate.workers.dev/output.gif"
+          output={`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/output.gif`}
         />
       </motion.div>
     </Layout>

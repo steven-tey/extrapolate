@@ -28,7 +28,7 @@ export default async function handler(req: NextRequest) {
         : "https://extrapolate.app";
 
     await Promise.allSettled([
-      fetch(`https://images.extrapolate.workers.dev/${key}`, {
+      fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${key}`, {
         method: "PUT",
         headers: {
           "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,

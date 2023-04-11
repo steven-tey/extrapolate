@@ -110,7 +110,7 @@ export const getStaticProps = async (
   context: GetStaticPropsContext & { params: Params },
 ) => {
   const { id } = context.params;
-  const input = `https://images.extrapolate.workers.dev/${id}`;
+  const input = `${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${id}`;
   const data = await getData(id);
   if (data) {
     let imageData: { base64: string } | undefined;
