@@ -19,22 +19,26 @@ export const nanoid = customAlphabet(
   7,
 ); // 7-character random string
 
-export async function setRandomKey(data: any): Promise<{ key: string }> {
+export async function setRandomKey(): Promise<{ key: string }> {
   /* recursively set link till successful */
   const key = nanoid();
-  const response = await redis.set(key, data, {
-    nx: true,
-  });
+  const response = await redis.set(
+    key,
+    { output: null },
+    {
+      nx: true,
+    },
+  );
   if (response !== "OK") {
     // by the off chance that key already exists
-    return setRandomKey(data);
+    return setRandomKey();
   } else {
     return { key };
   }
 }
 
 export interface DataProps {
-  output?: string; // output of prediction
+  output: string | null; // output of prediction
   expired?: boolean; // if the data is expired
   failed?: boolean; // if the prediction failed
 }

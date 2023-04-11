@@ -42,7 +42,7 @@ export default function PhotoBooth({
 }: {
   input: string;
   blurDataURL: string;
-  output?: string;
+  output: string | null;
   failed?: boolean;
 }) {
   const router = useRouter();

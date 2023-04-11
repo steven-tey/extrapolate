@@ -21,7 +21,7 @@ export default async function handler(req: NextRequest) {
     return new Response("Don't DDoS me pls 🥺", { status: 429 });
   }
   if (req.method === "POST") {
-    const { key } = await setRandomKey({});
+    const { key } = await setRandomKey();
     const domain =
       process.env.NODE_ENV === "development"
         ? "https://c14c-2600-1700-b5e4-b50-4dcb-f2e2-e081-ddbe.ngrok-free.app"
