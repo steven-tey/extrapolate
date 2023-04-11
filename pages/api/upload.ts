@@ -25,7 +25,7 @@ export default async function handler(req: NextRequest) {
     const domain =
       process.env.NODE_ENV === "development"
         ? "https://c14c-2600-1700-b5e4-b50-4dcb-f2e2-e081-ddbe.ngrok-free.app"
-        : "https://extrapolate.app";
+        : `https://${process.env.VERCEL_URL}`;
 
     await Promise.allSettled([
       fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${key}`, {
