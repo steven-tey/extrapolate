@@ -37,22 +37,16 @@ export default async function handler(req: NextRequest) {
           v.charCodeAt(0),
         ),
       }),
-      fetch("https://api.replicate.com/v1/predictions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token " + process.env.REPLICATE_API_TOKEN,
+      replicate.predictions.create({
+        version:
+          "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
+        input: {
+          image,
+          target_age: "default",
         },
-        body: JSON.stringify({
-          version:
-            "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
-          input: {
-            image,
-            target_age: "default",
-          },
-          webhook_completed: `${domain}/api/images/${key}/webhook`,
-        }),
-      }).then((res) => res.json()),
+        webhook: `${domain}/api/images/${key}/webhook`,
+        webhook_events_filter: ["completed"],
+      }),
       fetch(
         `https://qstash.upstash.io/v1/publish/${domain}/api/images/${key}/delete`,
         {
