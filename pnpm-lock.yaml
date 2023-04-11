@@ -12,9 +12,9 @@ specifiers:
   '@types/node': 18.11.18
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
-  '@upstash/qstash': ^0.3.3
-  '@upstash/ratelimit': ^0.1.5
-  '@upstash/redis': ^1.19.3
+  '@upstash/qstash': ^0.3.6
+  '@upstash/ratelimit': ^0.4.1
+  '@upstash/redis': ^1.20.2
   '@vercel/analytics': ^0.1.6
   '@vercel/og': ^0.0.26
   autoprefixer: ^10.4.13
@@ -26,6 +26,7 @@ specifiers:
   framer-motion: ^10.11.2
   lucide-react: 0.105.0-alpha.4
   ms: ^2.1.3
+  nanoid: ^4.0.2
   next: 13.3.0
   plaiceholder: ^2.5.0
   postcss: ^8.4.21
@@ -52,7 +53,7 @@ dependencies:
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
   '@upstash/qstash': 0.3.6
-  '@upstash/ratelimit': 0.1.5_@upstash+redis@1.20.2
+  '@upstash/ratelimit': 0.4.1_@upstash+redis@1.20.2
   '@upstash/redis': 1.20.2
   '@vercel/analytics': 0.1.11_react@18.2.0
   '@vercel/og': 0.0.26
@@ -63,6 +64,7 @@ dependencies:
   framer-motion: 10.11.2_biqbaboplfbrettd7655fr4n2y
   lucide-react: 0.105.0-alpha.4_react@18.2.0
   ms: 2.1.3
+  nanoid: 4.0.2
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
   plaiceholder: 2.5.0_sharp@0.31.3
   react: 18.2.0
@@ -815,18 +817,30 @@ packages:
       eslint-visitor-keys: 3.4.0
     dev: false
 
+  /@upstash/core-analytics/0.0.6:
+    resolution: {integrity: sha512-cpPSR0XJAJs4Ddz9nq3tINlPS5aLfWVCqhhtHnXt4p7qr5+/Znlt1Es736poB/9rnl1hAHrOsOvVj46NEXcVqA==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@upstash/redis': 1.20.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@upstash/qstash/0.3.6:
     resolution: {integrity: sha512-NKN4jbPhB5lfHoSIaU7AuQ3F+yGS20e/FBRiUuPetcKoi354wHhKj9AJFfkFT5SSeLq0XEsXRNynm8gqCS4HjQ==}
     dependencies:
       '@deno/shim-crypto': 0.3.1
     dev: false
 
-  /@upstash/ratelimit/0.1.5_@upstash+redis@1.20.2:
-    resolution: {integrity: sha512-v0zq3Xpq42HQBvXDvm0C4djYvKC5TjHG29uCpbIQcOw0znJNroHewI8y4Yk4tBeEF1rvj2RjDkFihjCp6uTExQ==}
+  /@upstash/ratelimit/0.4.1_@upstash+redis@1.20.2:
+    resolution: {integrity: sha512-NdL4E8jOrqSIOuDFVx5TLdh0/2tefgnrzBeqx+soy1cjGnx8sKdCZpOi4xhG5rm6F9ch89ZzIcBm6iRhx+tLgA==}
     peerDependencies:
-      '@upstash/redis': ^1.4.0
+      '@upstash/redis': ^1.20.1
     dependencies:
+      '@upstash/core-analytics': 0.0.6
       '@upstash/redis': 1.20.2
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@upstash/redis/1.20.2:
@@ -2796,6 +2810,12 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid/4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /napi-build-utils/1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
