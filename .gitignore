@@ -37,3 +37,6 @@ yarn-error.log*
 next-env.d.ts
 
 .mailing
+
+pages/admin.tsx
+pages/api/scripts*

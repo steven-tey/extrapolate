@@ -87,7 +87,6 @@ export default function PhotoPage({
             input={input}
             blurDataURL={blurDataURL}
             output={data!.output}
-            email={data!.email}
             failed={data!.failed}
           />
         )}

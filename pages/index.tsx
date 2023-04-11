@@ -66,7 +66,7 @@ export default function Home({ count }: { count: number }) {
                     href="https://github.com/steven-tey/extrapolate"
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="mt-4 rounded-full border border-black bg-black py-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-black"
+                    className="mt-4 rounded-full border border-black bg-black px-5 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black"
                   >
                     See how it works
                   </a>
