@@ -6,7 +6,7 @@ export const config = {
 };
 
 export default async function handler(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get("id");
+  const id = req.nextUrl.pathname.split("/")[3];
 
   const { output, status } = await req.json();
   let response;
