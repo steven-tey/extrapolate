@@ -27,7 +27,7 @@ export default async function handler(req: NextRequest) {
         ? "https://c14c-2600-1700-b5e4-b50-4dcb-f2e2-e081-ddbe.ngrok-free.app"
         : `https://${process.env.VERCEL_URL}`;
 
-    const [, output, _] = await Promise.allSettled([
+    await Promise.allSettled([
       fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${key}`, {
         method: "PUT",
         headers: {
@@ -37,16 +37,22 @@ export default async function handler(req: NextRequest) {
           v.charCodeAt(0),
         ),
       }),
-      replicate.predictions.create({
-        version:
-          "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
-        input: {
-          image,
-          target_age: "default",
+      fetch("https://api.replicate.com/v1/predictions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token " + process.env.REPLICATE_API_TOKEN,
         },
-        webhook: `${domain}/api/images/${key}/webhook`,
-        webhook_events_filter: ["completed"],
-      }),
+        body: JSON.stringify({
+          version:
+            "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
+          input: {
+            image,
+            target_age: "default",
+          },
+          webhook_completed: `${domain}/api/images/${key}/webhook`,
+        }),
+      }).then((res) => res.json()),
       fetch(
         `https://qstash.upstash.io/v1/publish/${domain}/api/images/${key}/delete`,
         {
@@ -67,13 +73,6 @@ export default async function handler(req: NextRequest) {
         }
       }),
     );
-
-    const { id: replicateId } = output;
-
-    // update replicateId in redis
-    await redis.set(key, {
-      replicateId,
-    });
 
     return new Response(JSON.stringify({ key }));
   } else {
