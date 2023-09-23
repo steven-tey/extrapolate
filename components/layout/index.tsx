@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
-import { Github } from "../shared/icons";
+import { BuyMeACoffee, Github } from "../shared/icons";
 
 export default function Layout({
   meta,
@@ -70,37 +70,27 @@ export default function Layout({
       <main className="flex min-h-screen w-full flex-col items-center justify-center py-32">
         {children}
       </main>
-      <div className="absolute w-full border-t border-gray-200 bg-white py-5 text-center">
+      <div className="absolute w-full py-5 text-center">
         <p className="text-gray-500">
-          Powered by{" "}
+          A project by{" "}
           <a
-            className="font-semibold text-gray-600 transition-colors hover:text-black"
-            href="https://vercel.com"
+            className="font-semibold text-gray-600 underline-offset-4 transition-colors hover:underline"
+            href="https://twitter.com/steventey"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Vercel
+            Steven Tey
           </a>
-          ,{" "}
-          <a
-            className="font-semibold text-gray-600 transition-colors hover:text-black"
-            href="https://replicate.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Replicate
-          </a>{" "}
-          and{" "}
-          <a
-            className="font-semibold text-gray-600 transition-colors hover:text-black"
-            href="https://upstash.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Upstash
-          </a>
-          .
         </p>
+        <a
+          href="https://www.buymeacoffee.com/steventey"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mx-auto mt-2 flex max-w-fit items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-6 py-2 transition-all duration-75 hover:scale-105"
+        >
+          <BuyMeACoffee className="h-6 w-6" />
+          <p className="font-medium text-gray-600">Buy me a coffee</p>
+        </a>
       </div>
     </>
   );
