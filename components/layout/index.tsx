@@ -37,6 +37,7 @@ export default function Layout({
               width="30"
               height="30"
               className="mr-2 rounded-sm"
+              unoptimized
             ></Image>
             <p>Extrapolate</p>
           </Link>

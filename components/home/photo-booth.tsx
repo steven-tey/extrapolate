@@ -171,6 +171,7 @@ export default function PhotoBooth({
                   className="h-full object-cover"
                   onLoadStart={() => setLoading(true)}
                   onLoadingComplete={() => setLoading(false)}
+                  unoptimized
                 />
               )}
             </motion.div>
