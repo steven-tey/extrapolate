@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
@@ -31,14 +31,13 @@ export default function Layout({
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
           <Link href="/" className="flex items-center font-display text-2xl">
-            <Image
+            <img
               src="/logo.png"
               alt="Logo image of a chat bubble"
               width="30"
               height="30"
               className="mr-2 rounded-sm"
-              unoptimized
-            ></Image>
+            />
             <p>Extrapolate</p>
           </Link>
           <div className="flex items-center space-x-4">

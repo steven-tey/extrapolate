@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Modal from "@/components/shared/modal";
 import {
   useState,
@@ -7,7 +8,6 @@ import {
   useMemo,
   ChangeEvent,
 } from "react";
-import Image from "next/image";
 import { UploadCloud } from "lucide-react";
 import { LoadingDots } from "@/components/shared/icons";
 import { useRouter } from "next/router";
@@ -59,13 +59,10 @@ const UploadModal = ({
       <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
         <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center md:px-16">
           <a href="https://extrapolate.app">
-            <Image
+            <img
               src="/logo.png"
               alt="Logo"
               className="h-10 w-10 rounded-full"
-              width={20}
-              height={20}
-              unoptimized
             />
           </a>
           <h3 className="font-display text-2xl font-bold">Upload Photo</h3>

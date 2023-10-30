@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Download } from "lucide-react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
 
@@ -163,15 +163,10 @@ export default function PhotoBooth({
                 </div>
               )}
               {output && (
-                <Image
+                <img
                   alt="output image"
                   src={output}
-                  width={1280}
-                  height={1280}
                   className="h-full object-cover"
-                  onLoadStart={() => setLoading(true)}
-                  onLoadingComplete={() => setLoading(false)}
-                  unoptimized
                 />
               )}
             </motion.div>
@@ -185,13 +180,10 @@ export default function PhotoBooth({
               exit="exit"
               className="absolute h-full w-full"
             >
-              <Image
+              <img
                 alt="original image"
                 src={input}
-                className="object-cover"
-                placeholder="blur"
-                blurDataURL={blurDataURL}
-                fill
+                className="h-full object-cover"
               />
             </motion.div>
           )}
