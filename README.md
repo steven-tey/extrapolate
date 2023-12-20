@@ -26,7 +26,7 @@
 
 ## Introduction
 
-Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and privacy friendly.
+Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and open-source.
 
 https://user-images.githubusercontent.com/28986134/213781048-d215894d-2286-4176-a200-f745b255ecbe.mp4
 
@@ -34,7 +34,6 @@ https://user-images.githubusercontent.com/28986134/213781048-d215894d-2286-4176-
 
 - 3s GIF of your face as it ages through time 🧓
 - Store & retrieve photos from [Cloudflare R2](https://www.cloudflare.com/lp/pg-r2/) using Workers
-- Photos auto-delete after 24 hours (via [Upstash](https://upstash.com) qStash)
 
 ## Deploy Your Own
 
@@ -45,7 +44,7 @@ You can deploy this template to Vercel with the button below:
 Note that you'll need to:
 
 - Set up a [ReplicateHQ](https://replicate.com) account to get the `REPLICATE_API_TOKEN` env var.
-- Set up an [Upstash](https://upstash.com) account to get the Upstash Redis and QStash env vars.
+- Set up an [Upstash](https://upstash.com) account to get the Upstash Redis env vars.
 - Create a [Cloudflare R2 instance](https://www.cloudflare.com/lp/pg-r2/) and set up a [Cloudflare Worker](https://workers.cloudflare.com/) to handle uploads & reads (instructions below).
 
 ### Cloudflare R2 setup instructions

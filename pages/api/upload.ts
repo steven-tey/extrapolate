@@ -47,17 +47,6 @@ export default async function handler(req: NextRequest) {
         webhook: `${domain}/api/images/${key}/webhook`,
         webhook_events_filter: ["completed"],
       }),
-      fetch(
-        `https://qstash.upstash.io/v1/publish/${domain}/api/images/${key}/delete`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + process.env.QSTASH_TOKEN,
-            "Upstash-Delay": "1d",
-          },
-        },
-      ),
     ]).then((results) =>
       results.map((result) => {
         if (result.status === "fulfilled") {

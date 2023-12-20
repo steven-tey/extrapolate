@@ -54,29 +54,7 @@ export default function Home({ count }: { count: number }) {
         >
           <Balancer ratio={0.6}>
             Curious how you&apos;ll look in 10 years? 20 years? When you&apos;re
-            90? Upload a photo and find out!{" "}
-            <Tooltip
-              content={
-                <div className="flex flex-col items-center justify-center space-y-3 p-10 text-center sm:max-w-xs">
-                  <p className="text-sm text-gray-700">
-                    Any photos you upload are automatically deleted after 24
-                    hours.
-                  </p>
-                  <a
-                    href="https://github.com/steven-tey/extrapolate"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="mt-4 rounded-full border border-black bg-black px-5 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black"
-                  >
-                    See how it works
-                  </a>
-                </div>
-              }
-            >
-              <span className="hidden cursor-default underline decoration-dotted underline-offset-2 transition-colors hover:text-gray-800 sm:block">
-                100% free and privacy-friendly
-              </span>
-            </Tooltip>
+            90? Upload a photo and find out! 100% free and open-source.
           </Balancer>
         </motion.p>
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">

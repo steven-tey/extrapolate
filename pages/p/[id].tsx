@@ -57,15 +57,6 @@ export default function PhotoPage({
         >
           Your Results
         </motion.h1>
-        <motion.p
-          className="mt-6 text-center text-gray-500 md:text-xl"
-          variants={FADE_DOWN_ANIMATION_VARIANTS}
-        >
-          <Balancer ratio={0.6}>
-            Your photos will be stored in our servers for 24 hours. After that,
-            they will be deleted.
-          </Balancer>
-        </motion.p>
         {data?.expired ? (
           <motion.div
             className="mx-auto mt-10 flex h-[350px] w-full flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white sm:h-[600px] sm:w-[600px]"

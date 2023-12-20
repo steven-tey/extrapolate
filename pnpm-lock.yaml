@@ -23,9 +23,6 @@ dependencies:
   '@types/react-dom':
     specifier: 18.0.10
     version: 18.0.10
-  '@upstash/qstash':
-    specifier: ^0.3.6
-    version: 0.3.6
   '@upstash/ratelimit':
     specifier: ^0.4.4
     version: 0.4.4
@@ -148,10 +145,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
-
-  /@deno/shim-crypto@0.3.1:
-    resolution: {integrity: sha512-ed4pNnfur6UbASEgF34gVxR9p7Mc3qF+Ygbmjiil8ws5IhNFhPDFy5vE5hQAUA9JmVsSxXPcVLM5Rf8LOZqQ5Q==}
-    dev: false
 
   /@emotion/is-prop-valid@0.8.8:
     resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
@@ -1012,12 +1005,6 @@ packages:
       '@upstash/redis': 1.22.0
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /@upstash/qstash@0.3.6:
-    resolution: {integrity: sha512-NKN4jbPhB5lfHoSIaU7AuQ3F+yGS20e/FBRiUuPetcKoi354wHhKj9AJFfkFT5SSeLq0XEsXRNynm8gqCS4HjQ==}
-    dependencies:
-      '@deno/shim-crypto': 0.3.1
     dev: false
 
   /@upstash/ratelimit@0.4.4:

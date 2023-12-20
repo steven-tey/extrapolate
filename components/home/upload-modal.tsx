@@ -66,9 +66,6 @@ const UploadModal = ({
             />
           </a>
           <h3 className="font-display text-2xl font-bold">Upload Photo</h3>
-          <p className="text-sm text-gray-500">
-            Your photos will be automatically deleted after 24 hours.
-          </p>
         </div>
 
         <form
