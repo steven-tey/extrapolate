@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { ratelimit, setRandomKey } from "@/lib/upstash";
 import Replicate from "replicate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabase } from "@/lib/supabase";
 
 export const config = {
   runtime: "edge",
@@ -35,6 +36,7 @@ export default async function handler(req: NextRequest) {
         cacheControl: "3600",
         upsert: true,
       }),
+      await supabase.from("data").upsert({ id: key }),
       replicate.predictions.create({
         version:
           "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
