@@ -45,9 +45,10 @@ export interface DataProps {
 }
 
 export async function getData(id: string) {
-  return await supabase
+  const { data } = await supabase
     .from("data")
-    .select("output,expired,failed")
+    .select("*")
     .eq("id", id)
     .returns<DataProps>();
+  return data;
 }
