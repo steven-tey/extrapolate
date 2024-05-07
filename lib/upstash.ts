@@ -49,6 +49,7 @@ export async function getData(id: string) {
     .from("data")
     .select("*")
     .eq("id", id)
-    .returns<DataProps>();
+    .returns<DataProps>()
+    .single();
   return data;
 }
