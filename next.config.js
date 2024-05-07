@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["images.extrapolate.workers.dev", "replicate.delivery"],
+    domains: ["extrapolate-new.ajayvignesh01.workers.dev", "replicate.delivery"],
   },
   async redirects() {
     return [
