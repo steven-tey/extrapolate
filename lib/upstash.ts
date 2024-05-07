@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { customAlphabet } from "nanoid";
+import { supabase } from "@/lib/supabase";
 
 // Initiate Redis instance
 export const redis = new Redis({
@@ -44,5 +45,9 @@ export interface DataProps {
 }
 
 export async function getData(id: string) {
-  return await redis.get<DataProps>(id);
+  return await supabase
+    .from("data")
+    .select("output,expired,failed")
+    .eq("id", id)
+    .returns<DataProps>();
 }

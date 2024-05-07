@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { redis } from "@/lib/upstash";
+import { supabase } from "@/lib/supabase";
 
 export const config = {
   runtime: "edge",
@@ -11,13 +11,17 @@ export default async function handler(req: NextRequest) {
   const { output, status } = await req.json();
   let response;
   if (status === "succeeded") {
-    response = await redis.set(id as string, {
-      output,
-    });
+    const { error } = await supabase
+      .from("data")
+      .update({ output: output })
+      .eq("id", id);
+    response = error;
   } else if (status === "failed") {
-    response = await redis.set(id as string, {
-      failed: true,
-    });
+    const { error } = await supabase
+      .from("data")
+      .update({ failed: true })
+      .eq("id", id);
+    response = error;
   } else {
     response = null;
   }

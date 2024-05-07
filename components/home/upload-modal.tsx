@@ -25,6 +25,7 @@ const UploadModal = ({
   }>({
     image: null,
   });
+  const [file, setFile] = useState<File>();
   const [fileSizeTooBig, setFileSizeTooBig] = useState(false);
 
   const [dragActive, setDragActive] = useState(false);
@@ -37,6 +38,7 @@ const UploadModal = ({
         if (file.size / 1024 / 1024 > 5) {
           setFileSizeTooBig(true);
         } else {
+          setFile(file);
           const reader = new FileReader();
           reader.onload = (e) => {
             setData((prev) => ({ ...prev, image: e.target?.result as string }));
@@ -73,9 +75,11 @@ const UploadModal = ({
           onSubmit={async (e) => {
             e.preventDefault();
             setSaving(true);
+            const formData = new FormData();
+            formData.append("image", file!);
             fetch("/api/upload", {
               method: "POST",
-              body: JSON.stringify(data),
+              body: formData,
             }).then(async (res) => {
               if (res.status === 200) {
                 const { key } = await res.json();
@@ -127,6 +131,7 @@ const UploadModal = ({
                     if (file.size / 1024 / 1024 > 5) {
                       setFileSizeTooBig(true);
                     } else {
+                      setFile(file);
                       const reader = new FileReader();
                       reader.onload = (e) => {
                         setData((prev) => ({

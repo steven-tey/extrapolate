@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
-import { ratelimit, redis, setRandomKey } from "@/lib/upstash";
+import { ratelimit, setRandomKey } from "@/lib/upstash";
 import Replicate from "replicate";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const config = {
   runtime: "edge",
@@ -12,7 +13,8 @@ const replicate = new Replicate({
 });
 
 export default async function handler(req: NextRequest) {
-  const { image } = await req.json();
+  const formData = await req.formData();
+  const image = formData.get("image") as File;
   if (!image) {
     return new Response("Missing image", { status: 400 });
   }
@@ -28,14 +30,10 @@ export default async function handler(req: NextRequest) {
         : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
     await Promise.allSettled([
-      fetch(`${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${key}`, {
-        method: "PUT",
-        headers: {
-          "X-CF-Secret": process.env.CLOUDFLARE_WORKER_SECRET as string,
-        },
-        body: Uint8Array.from(atob(image.replace(/^data[^,]+,/, "")), (v) =>
-          v.charCodeAt(0),
-        ),
+      await supabaseAdmin.storage.from("data").upload(`/${key}`, image, {
+        contentType: image.type,
+        cacheControl: "3600",
+        upsert: true,
       }),
       replicate.predictions.create({
         version:

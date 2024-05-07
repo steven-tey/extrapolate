@@ -1,6 +1,5 @@
 import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-import Balancer from "react-wrap-balancer";
 import { motion } from "framer-motion";
 import { ParsedUrlQuery } from "node:querystring";
 import useSWR from "swr";
@@ -101,7 +100,7 @@ export const getStaticProps = async (
   context: GetStaticPropsContext & { params: Params },
 ) => {
   const { id } = context.params;
-  const input = `${process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER}/${id}`;
+  const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/${id}`;
   const data = await getData(id);
   if (data) {
     let imageData: { base64: string } | undefined;
