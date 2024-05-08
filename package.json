@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "start": "next start",
     "lint": "next lint",
+    "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "tunnel": "cloudflared tunnel --url http://localhost:3000"
   },
   "dependencies": {
@@ -17,16 +17,11 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.1",
-    "@types/node": "20.12.10",
-    "@types/react": "18.3.1",
-    "@types/react-dom": "18.3.0",
     "@upstash/ratelimit": "^1.1.3",
     "@upstash/redis": "^1.30.1",
     "@vercel/analytics": "^1.2.2",
     "@vercel/og": "^0.6.2",
     "classnames": "^2.5.1",
-    "eslint": "8.57.0",
-    "eslint-config-next": "14.2.3",
     "focus-trap-react": "^10.2.3",
     "framer-motion": "^11.1.9",
     "lucide-react": "0.378.0",
@@ -42,7 +37,6 @@
     "replicate": "^0.29.4",
     "sharp": "^0.33.3",
     "swr": "^2.2.5",
-    "typescript": "5.4.5",
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {
@@ -50,12 +44,17 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.13",
     "@types/ms": "^0.7.34",
+    "@types/node": "20.12.10",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
     "autoprefixer": "^10.4.19",
-    "concurrently": "^8.2.2",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.3",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.3",
+    "typescript": "5.4.5"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +67,8 @@
     "trailingComma": "all",
     "printWidth": 80,
     "tabWidth": 2,
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

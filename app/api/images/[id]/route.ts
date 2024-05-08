@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
 import { DataProps } from "@/lib/types";
+import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge"
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const id = req.nextUrl.pathname.split("/")[3];
+
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
   // TODO: error handling
   const { data, error } = await supabase
     .from("data")

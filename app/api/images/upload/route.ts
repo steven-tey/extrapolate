@@ -1,21 +1,20 @@
 import { NextRequest } from "next/server";
 import Replicate from "replicate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { supabase } from "@/lib/supabase";
 import { nanoid } from "nanoid";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge"
 
-const replicate = new Replicate({
-  // get your token from https://replicate.com/account
-  auth: process.env.REPLICATE_API_TOKEN || "",
-});
+export async function GET(req: NextRequest) {
+  const replicate = new Replicate({
+    // get your token from https://replicate.com/account
+    auth: process.env.REPLICATE_API_TOKEN || "",
+  });
 
-export default async function handler(req: NextRequest) {
   // Get Image
   const formData = await req.formData();
   const image = formData.get("image") as File;
@@ -41,7 +40,7 @@ export default async function handler(req: NextRequest) {
     const domain =
       process.env.NODE_ENV === "development"
         ? // run `pnpm tunnel` and set TUNNEL_URL
-          process.env.TUNNEL_URL!
+        process.env.TUNNEL_URL!
         : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
     await Promise.allSettled([
@@ -81,6 +80,9 @@ export default async function handler(req: NextRequest) {
 
 // Generates new key that doesn't already exist in db
 async function setRandomKey(): Promise<{ key: string }> {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
   /* recursively set link till successful */
   const key = nanoid();
   const { error } = await supabase.from("data").insert({ id: key });
