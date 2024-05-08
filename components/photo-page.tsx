@@ -43,6 +43,7 @@ export default function PhotoPage({
         async (payload) => {
           setData(payload.new as DataProps);
           await realtime.unsubscribe();
+          await supabase.removeChannel(realtime);
         },
       )
       .subscribe();

@@ -1,7 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [process.env.NEXT_PUBLIC_SUPABASE_URL, "replicate.delivery"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: `${process.env.NEXT_PUBLIC_SUPABASE_URL}`,
+        port: '',
+        pathname: '/storage/v1/object/public/data/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'replicate.delivery',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   async redirects() {
     return [
