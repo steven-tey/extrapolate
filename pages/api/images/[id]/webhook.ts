@@ -15,13 +15,13 @@ export default async function handler(req: NextRequest) {
       .from("data")
       .update({ output: output })
       .eq("id", id);
-    response = error;
+    response = error ? error : 'OK';
   } else if (status === "failed") {
     const { error } = await supabase
       .from("data")
       .update({ failed: true })
       .eq("id", id);
-    response = error;
+    response = error ? error : 'OK';
   } else {
     response = null;
   }
