@@ -1,4 +1,3 @@
-import Layout from "@/components/layout";
 import HomePage from "@/components/home-page";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
@@ -19,9 +18,5 @@ async function getCount() {
 export default async function Home() {
   const count = await getCount();
 
-  return (
-    <Layout>
-      <HomePage count={count} />
-    </Layout>
-  );
+  return <HomePage count={count} />;
 }

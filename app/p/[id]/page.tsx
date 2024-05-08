@@ -1,4 +1,3 @@
-import Layout from "@/components/layout";
 import { getPlaiceholder } from "plaiceholder";
 import { DataProps } from "@/lib/types";
 import PhotoPage from "@/components/photo-page";
@@ -41,13 +40,11 @@ export default async function Photo({ params }: { params: { id: string } }) {
   const { input, blurDataURL, data: fallbackData } = await getData(id);
 
   return (
-    <Layout>
-      <PhotoPage
-        id={id}
-        input={input}
-        blurDataURL={blurDataURL}
-        data={fallbackData}
-      />
-    </Layout>
+    <PhotoPage
+      id={id}
+      input={input}
+      blurDataURL={blurDataURL}
+      data={fallbackData}
+    />
   );
 }
