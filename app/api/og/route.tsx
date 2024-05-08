@@ -1,16 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextRequest } from "next/server";
-import {ImageResponse} from "@vercel/og";
 import {getURL} from "@/lib/utils";
+import { ImageResponse } from "next/og";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = 'edge'
 
-export default async function handler(req: NextRequest) {
-    const clash = fetch(
-        new URL("../../styles/ClashDisplay-Semibold.otf", import.meta.url),
-    ).then((res) => res.arrayBuffer());
+export async function GET(req: NextRequest) {
+  const clash = fetch(
+    new URL("@/styles/ClashDisplay-Semibold.otf", import.meta.url),
+  ).then((res) => res.arrayBuffer());
 
   const { searchParams } = req.nextUrl;
   const title = searchParams.get("title") || "Extrapolate";
