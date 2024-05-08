@@ -2,7 +2,6 @@
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Download } from "lucide-react";
-import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
 
@@ -35,19 +34,18 @@ function forceDownload(blobUrl: string, filename: string) {
 }
 
 export default function PhotoBooth({
+  id,
   input,
   blurDataURL,
   output,
   failed,
 }: {
+  id?: string;
   input: string;
   blurDataURL: string;
   output: string | null;
   failed?: boolean;
 }) {
-  const router = useRouter();
-  const { id } = router.query;
-
   const [state, setState] = useState("output");
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
   const [downloading, setDownloading] = useState(false);

@@ -1,18 +1,18 @@
-import Layout from "@/components/layout";
-import Balancer from "react-wrap-balancer";
+"use client";
+
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { Twitter } from "@/components/shared/icons";
-import { useUploadModal } from "@/components/home/upload-modal";
+import Balancer from "react-wrap-balancer";
 import { Upload } from "lucide-react";
-import PhotoBooth from "@/components/home/photo-booth";
 import { nFormatter } from "@/lib/utils";
-import { supabase } from "@/lib/supabase";
+import PhotoBooth from "@/components/home/photo-booth";
+import { useUploadModal } from "@/components/home/upload-modal";
 
-export default function Home({ count }: { count: number }) {
+export default function HomePage({ count }: { count: number | null }) {
   const { UploadModal, setShowUploadModal } = useUploadModal();
   return (
-    <Layout>
+    <>
       <UploadModal />
       <motion.div
         className="z-10 max-w-2xl px-5 xl:px-0"
@@ -65,7 +65,9 @@ export default function Home({ count }: { count: number }) {
             <p>Upload a photo</p>
           </button>
           <p className="mt-2 text-center text-sm text-gray-500">
-            {nFormatter(count)} photos generated and counting!
+            {count && count > 0
+              ? `${nFormatter(count)} photos generated and counting!`
+              : "Generate your photo now!"}
           </p>
         </motion.div>
         <PhotoBooth
@@ -74,19 +76,6 @@ export default function Home({ count }: { count: number }) {
           output={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/output.gif`}
         />
       </motion.div>
-    </Layout>
+    </>
   );
-}
-
-export async function getStaticProps() {
-  // TODO: error handling
-  const { count, error } = await supabase
-    .from("data")
-    .select("*", { count: "exact", head: true });
-  return {
-    props: {
-      count,
-    },
-    revalidate: 60,
-  };
 }

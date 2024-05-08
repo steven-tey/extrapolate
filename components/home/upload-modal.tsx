@@ -10,7 +10,7 @@ import {
 } from "react";
 import { UploadCloud } from "lucide-react";
 import { LoadingDots } from "@/components/shared/icons";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const UploadModal = ({
   showUploadModal,

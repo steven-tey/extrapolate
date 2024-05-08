@@ -1,39 +1,35 @@
-import { GetStaticPropsContext } from "next";
-import { useRouter } from "next/router";
-import { motion } from "framer-motion";
-import { ParsedUrlQuery } from "node:querystring";
+"use client";
+
+import { DataProps } from "@/lib/types";
 import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
-import Layout from "@/components/layout";
-import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import PhotoBooth from "@/components/home/photo-booth";
-import { getPlaiceholder } from "plaiceholder";
 import { useUploadModal } from "@/components/home/upload-modal";
-import { Upload } from "lucide-react";
 import { Toaster } from "react-hot-toast";
-import { DataProps } from "@/lib/types";
-import { supabase } from "@/lib/supabase";
+import { motion } from "framer-motion";
+import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
+import { Upload } from "lucide-react";
+import PhotoBooth from "@/components/home/photo-booth";
 
 export default function PhotoPage({
+  id,
   input,
   blurDataURL,
   data: fallbackData,
 }: {
+  id: string;
   input: string;
   blurDataURL: string;
-  data: DataProps;
+  data: DataProps | null;
 }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data } = useSWR<DataProps>(`/api/images/${id}`, fetcher, {
+  const { data } = useSWR<DataProps | null>(`/api/images/${id}`, fetcher, {
     fallbackData,
-    refreshInterval: fallbackData.output || fallbackData.expired ? 0 : 500,
+    refreshInterval: fallbackData?.output || fallbackData?.expired ? 0 : 500,
     refreshWhenHidden: true,
   });
   const { UploadModal, setShowUploadModal } = useUploadModal();
 
   return (
-    <Layout>
+    <>
       <Toaster />
       <UploadModal />
       <motion.div
@@ -75,6 +71,7 @@ export default function PhotoPage({
           </motion.div>
         ) : (
           <PhotoBooth
+            id={id}
             input={input}
             blurDataURL={blurDataURL}
             output={data!.output}
@@ -82,53 +79,6 @@ export default function PhotoPage({
           />
         )}
       </motion.div>
-    </Layout>
+    </>
   );
 }
-
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-};
-
-interface Params extends ParsedUrlQuery {
-  id: string;
-}
-
-export const getStaticProps = async (
-  context: GetStaticPropsContext & { params: Params },
-) => {
-  const { id } = context.params;
-  const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/${id}`;
-  // TODO: error handling
-  const { data, error } = await supabase
-    .from("data")
-    .select("*")
-    .eq("id", id)
-    .returns<DataProps[]>()
-    .single();
-  if (data) {
-    let imageData: { base64: string } | undefined;
-    try {
-      const buffer = await fetch(input).then(async (res) =>
-          Buffer.from(await res.arrayBuffer())
-      );
-      imageData = await getPlaiceholder(buffer);
-    } catch (error) {
-      console.error(error);
-    }
-    const { base64 } = imageData || {};
-    return {
-      props: {
-        input,
-        blurDataURL: base64 || "",
-        data,
-      },
-      revalidate: 1,
-    };
-  } else {
-    return { notFound: true, revalidate: 1 };
-  }
-};
