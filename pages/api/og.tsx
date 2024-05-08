@@ -6,16 +6,13 @@ export const config = {
   runtime: "edge",
 };
 
-const clash = fetch(
-  new URL("../../styles/ClashDisplay-Semibold.otf", import.meta.url),
-).then((res) => res.arrayBuffer());
-
 export default async function handler(req: NextRequest) {
-  const [clashData] = await Promise.all([clash]);
+    const clash = fetch(
+        new URL("../../styles/ClashDisplay-Semibold.otf", import.meta.url),
+    ).then((res) => res.arrayBuffer());
 
   const { searchParams } = req.nextUrl;
   const title = searchParams.get("title") || "Extrapolate";
-
   return new ImageResponse(
     (
       <div
@@ -32,7 +29,7 @@ export default async function handler(req: NextRequest) {
         }}
       >
         <img
-          src={new URL("../../public/logo.png", import.meta.url).toString()}
+          src={new URL("../../logo.png", import.meta.url).toString()}
           alt="Extrapolate Logo"
           tw="w-20 h-20 mb-4 opacity-95"
         />
@@ -57,7 +54,7 @@ export default async function handler(req: NextRequest) {
       fonts: [
         {
           name: "SF Pro",
-          data: clashData,
+          data: await clash,
         },
       ],
     },
