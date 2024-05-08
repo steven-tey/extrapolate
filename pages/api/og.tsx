@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextRequest } from "next/server";
 import {ImageResponse} from "@vercel/og";
+import {getURL} from "@/lib/utils";
 
 export const config = {
   runtime: "edge",
@@ -29,7 +30,7 @@ export default async function handler(req: NextRequest) {
         }}
       >
         <img
-          src={new URL("../../logo.png", import.meta.url).toString()}
+          src={getURL('/logo.png')}
           alt="Extrapolate Logo"
           tw="w-20 h-20 mb-4 opacity-95"
         />

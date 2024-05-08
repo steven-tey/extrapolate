@@ -61,3 +61,9 @@ export const truncate = (str: string, length: number) => {
   if (!str || str.length <= length) return str;
   return `${str.slice(0, length)}...`;
 };
+
+export const getURL = (input?: string) => {
+  return process.env.VERCEL_PROJECT_PRODUCTION_URL ?
+      `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}${input}` :
+      `http://localhost:3000${input}`
+}
