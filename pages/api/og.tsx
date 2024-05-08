@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextRequest } from "next/server";
-import {ImageResponse} from "next/og";
+import {ImageResponse} from "@vercel/og";
 
 export const config = {
   runtime: "edge",
