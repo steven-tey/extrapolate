@@ -1,19 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import { NextRequest } from "next/server";
-import {getURL} from "@/lib/utils";
 import { ImageResponse } from "next/og";
+import { getURL } from "@/lib/utils";
 
-export const runtime = 'edge'
+// Image metadata
+export const alt = "Extrapolate";
+export const size = {
+  width: 1200,
+  height: 630,
+};
 
-export async function GET(req: NextRequest) {
+export const contentType = "image/png";
+
+// Image generation
+export default async function Image() {
+  // Font
   const clash = fetch(
     new URL("@/styles/ClashDisplay-Semibold.otf", import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  const { searchParams } = req.nextUrl;
-  const title = searchParams.get("title") || "Extrapolate";
   return new ImageResponse(
     (
+      // ImageResponse JSX element
       <div
         style={{
           height: "100%",
@@ -28,7 +35,7 @@ export async function GET(req: NextRequest) {
         }}
       >
         <img
-          src={getURL('/logo.png')}
+          src={getURL("/logo.png")}
           alt="Extrapolate Logo"
           tw="w-20 h-20 mb-4 opacity-95"
         />
@@ -43,13 +50,13 @@ export async function GET(req: NextRequest) {
             letterSpacing: "-0.02em",
           }}
         >
-          {title}
+          {"Extrapolate"}
         </h1>
       </div>
     ),
+    // ImageResponse options
     {
-      width: 1200,
-      height: 630,
+      ...size,
       fonts: [
         {
           name: "SF Pro",

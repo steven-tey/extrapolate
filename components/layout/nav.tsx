@@ -6,8 +6,8 @@ export default async function Nav() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  return <Navbar session={session} />;
+  return <Navbar user={user} />;
 }

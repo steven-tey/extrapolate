@@ -5,9 +5,9 @@ import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
 import UserDropdown from "./user-dropwdown";
-import { Session } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 
-export default function Navbar({ session }: { session: Session | null }) {
+export default function Navbar({ user }: { user: User | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
 
@@ -33,8 +33,8 @@ export default function Navbar({ session }: { session: Session | null }) {
             <p>Extrapolate</p>
           </Link>
           <div>
-            {session ? (
-              <UserDropdown session={session} />
+            {user ? (
+              <UserDropdown user={user} />
             ) : (
               <button
                 className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"

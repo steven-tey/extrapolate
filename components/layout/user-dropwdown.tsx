@@ -4,19 +4,15 @@ import { useState } from "react";
 import { LayoutDashboard, LogOut } from "lucide-react";
 import Popover from "@/components/shared/popover";
 import Image from "next/image";
-import { Session } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 
-export default function UserDropdown({
-  session,
-}: {
-  session: Session | null | undefined;
-}) {
+export default function UserDropdown({ user }: { user: User | null }) {
   const supabase = createClient();
 
-  const name = session?.user.user_metadata?.full_name;
-  const email = session?.user.email;
-  const image = session?.user.user_metadata?.avatar_url;
+  const name = user?.user_metadata?.full_name;
+  const email = user?.email;
+  const image = user?.user_metadata?.avatar_url;
   const [openPopover, setOpenPopover] = useState(false);
 
   if (!email) return null;
@@ -32,9 +28,7 @@ export default function UserDropdown({
                   {name}
                 </p>
               )}
-              <p className="truncate text-sm text-gray-500">
-                {session?.user?.email}
-              </p>
+              <p className="truncate text-sm text-gray-500">{email}</p>
             </div>
             <button
               className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
