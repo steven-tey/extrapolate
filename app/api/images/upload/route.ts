@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "edge"
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const replicate = new Replicate({
     // get your token from https://replicate.com/account
     auth: process.env.REPLICATE_API_TOKEN || "",
@@ -33,49 +33,45 @@ export async function GET(req: NextRequest) {
   }
 
   // Handle request
-  if (req.method === "POST") {
-    // Generate key and insert id to supabase
-    const { key } = await setRandomKey();
+  // Generate key and insert id to supabase
+  const { key } = await setRandomKey();
 
-    const domain =
-      process.env.NODE_ENV === "development"
-        ? // run `pnpm tunnel` and set TUNNEL_URL
-        process.env.TUNNEL_URL!
-        : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  const domain =
+    process.env.NODE_ENV === "development"
+      ? // run `pnpm tunnel` and set TUNNEL_URL
+      process.env.TUNNEL_URL!
+      : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
-    await Promise.allSettled([
-      // Upload image to supabase storage
-      supabaseAdmin.storage.from("data").upload(`/${key}`, image, {
-        contentType: image.type,
-        cacheControl: "3600",
-        upsert: true,
-      }),
+  await Promise.allSettled([
+    // Upload image to supabase storage
+    supabaseAdmin.storage.from("data").upload(`/${key}`, image, {
+      contentType: image.type,
+      cacheControl: "3600",
+      upsert: true,
+    }),
 
-      // Start replicate prediction
-      replicate.predictions.create({
-        version:
-          "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
-        input: {
-          image,
-          target_age: "default",
-        },
-        webhook: `${domain}/api/images/${key}/webhook`,
-        webhook_events_filter: ["completed"],
-      }),
-    ]).then((results) =>
-      results.map((result) => {
-        if (result.status === "fulfilled") {
-          return result.value;
-        } else {
-          return result.reason;
-        }
-      }),
-    );
+    // Start replicate prediction
+    replicate.predictions.create({
+      version:
+        "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
+      input: {
+        image,
+        target_age: "default",
+      },
+      webhook: `${domain}/api/images/${key}/webhook`,
+      webhook_events_filter: ["completed"],
+    }),
+  ]).then((results) =>
+    results.map((result) => {
+      if (result.status === "fulfilled") {
+        return result.value;
+      } else {
+        return result.reason;
+      }
+    }),
+  );
 
-    return new Response(JSON.stringify({ key }));
-  } else {
-    return new Response("Method Not Allowed", { status: 405 });
-  }
+  return new Response(JSON.stringify({ key }));
 }
 
 // Generates new key that doesn't already exist in db

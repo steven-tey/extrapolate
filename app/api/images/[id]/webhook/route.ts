@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "edge"
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const id = req.nextUrl.pathname.split("/")[3];
 
   const { output, status } = await req.json();
