@@ -31,12 +31,12 @@ export default async function handler(req: NextRequest) {
         : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
     await Promise.allSettled([
-      await supabaseAdmin.storage.from("data").upload(`/${key}`, image, {
+      supabaseAdmin.storage.from("data").upload(`/${key}`, image, {
         contentType: image.type,
         cacheControl: "3600",
         upsert: true,
       }),
-      await supabase.from("data").upsert({ id: key }),
+      supabase.from("data").upsert({ id: key }),
       replicate.predictions.create({
         version:
           "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
