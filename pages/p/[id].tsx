@@ -5,13 +5,14 @@ import { ParsedUrlQuery } from "node:querystring";
 import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import Layout from "@/components/layout";
-import { getData, DataProps } from "@/lib/upstash";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import PhotoBooth from "@/components/home/photo-booth";
 import { getPlaiceholder } from "plaiceholder";
 import { useUploadModal } from "@/components/home/upload-modal";
 import { Upload } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { DataProps } from "@/lib/types";
+import { supabase } from "@/lib/supabase";
 
 export default function PhotoPage({
   input,
@@ -101,11 +102,20 @@ export const getStaticProps = async (
 ) => {
   const { id } = context.params;
   const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/${id}`;
-  const data = await getData(id);
+  // TODO: error handling
+  const { data, error } = await supabase
+    .from("data")
+    .select("*")
+    .eq("id", id)
+    .returns<DataProps[]>()
+    .single();
   if (data) {
     let imageData: { base64: string } | undefined;
     try {
-      imageData = await getPlaiceholder(input);
+      const buffer = await fetch(input).then(async (res) =>
+          Buffer.from(await res.arrayBuffer())
+      );
+      imageData = await getPlaiceholder(buffer);
     } catch (error) {
       console.error(error);
     }

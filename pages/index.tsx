@@ -6,8 +6,8 @@ import { Twitter } from "@/components/shared/icons";
 import { useUploadModal } from "@/components/home/upload-modal";
 import { Upload } from "lucide-react";
 import PhotoBooth from "@/components/home/photo-booth";
-import { redis } from "@/lib/upstash";
 import { nFormatter } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 export default function Home({ count }: { count: number }) {
   const { UploadModal, setShowUploadModal } = useUploadModal();
@@ -79,7 +79,10 @@ export default function Home({ count }: { count: number }) {
 }
 
 export async function getStaticProps() {
-  const count = await redis.dbsize();
+  // TODO: error handling
+  const { count, error } = await supabase
+    .from("data")
+    .select("*", { count: "exact", head: true });
   return {
     props: {
       count,
