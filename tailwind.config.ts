@@ -1,8 +1,9 @@
-/** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
+import type { Config } from 'tailwindcss'
+import plugin from "tailwindcss/plugin";
 
-module.exports = {
+const config = {
   content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
@@ -23,12 +24,12 @@ module.exports = {
       keyframes: {
         // Tooltip
         "slide-up-fade": {
-          "0%": { opacity: 0, transform: "translateY(6px)" },
-          "100%": { opacity: 1, transform: "translateY(0)" },
+          "0%": { opacity: '0', transform: "translateY(6px)" },
+          "100%": { opacity: '1', transform: "translateY(0)" },
         },
         "slide-down-fade": {
-          "0%": { opacity: 0, transform: "translateY(-6px)" },
-          "100%": { opacity: 1, transform: "translateY(0)" },
+          "0%": { opacity: '0', transform: "translateY(-6px)" },
+          "100%": { opacity: '1', transform: "translateY(0)" },
         },
       },
     },
@@ -43,4 +44,6 @@ module.exports = {
       addVariant("radix-side-bottom", '&[data-side="bottom"]');
     }),
   ],
-};
+} satisfies Config;
+
+export default config

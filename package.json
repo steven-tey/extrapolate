@@ -56,5 +56,18 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "next/core-web-vitals"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "semi": true,
+    "trailingComma": "all",
+    "printWidth": 80,
+    "tabWidth": 2,
+    "plugins": ["prettier-plugin-tailwindcss"]
   }
 }
