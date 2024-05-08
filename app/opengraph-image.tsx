@@ -2,6 +2,8 @@
 import { ImageResponse } from "next/og";
 import { getURL } from "@/lib/utils";
 
+export const runtime = "edge";
+
 // Image metadata
 export const alt = "Extrapolate";
 export const size = {
