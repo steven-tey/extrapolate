@@ -1,14 +1,14 @@
 "use client";
 
 import { DataProps } from "@/lib/types";
-import useSWR from "swr";
-import { fetcher } from "@/lib/utils";
 import { useUploadModal } from "@/components/home/upload-modal";
 import { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { Upload } from "lucide-react";
 import PhotoBooth from "@/components/home/photo-booth";
+import { createClient } from "@/lib/supabase/client";
+import { useState } from "react";
 
 export default function PhotoPage({
   id,
@@ -21,11 +21,33 @@ export default function PhotoPage({
   blurDataURL: string;
   data: DataProps | null;
 }) {
-  const { data } = useSWR<DataProps | null>(`/api/images/${id}`, fetcher, {
-    fallbackData,
-    refreshInterval: fallbackData?.output || fallbackData?.expired ? 0 : 500,
-    refreshWhenHidden: true,
-  });
+  const [data, setData] = useState<DataProps | null>(fallbackData);
+
+  const supabase = createClient();
+  const realtime = supabase.channel(id);
+
+  if (
+    !fallbackData?.output &&
+    !fallbackData?.expired &&
+    !fallbackData?.failed
+  ) {
+    realtime
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "data",
+          filter: `id=eq.${id}`,
+        },
+        async (payload) => {
+          setData(payload.new as DataProps);
+          await realtime.unsubscribe();
+        },
+      )
+      .subscribe();
+  }
+
   const { UploadModal, setShowUploadModal } = useUploadModal();
 
   return (
