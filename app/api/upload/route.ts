@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         image,
         target_age: "default",
       },
-      webhook: `${domain}/api/images/${key}/webhook`,
+      webhook: `${domain}/api/webhooks/replicate/${key}`,
       webhook_events_filter: ["completed"],
     }),
   ]).then((results) =>

@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
-export const runtime = "edge"
+export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
-  const id = req.nextUrl.pathname.split("/")[3];
+  const id = req.nextUrl.pathname.split("/")[4];
 
   const { output, status } = await req.json();
 
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
   let response;
   if (status === "succeeded") {
@@ -18,13 +18,13 @@ export async function POST(req: NextRequest) {
       .from("data")
       .update({ output: output })
       .eq("id", id);
-    response = error ?? 'OK';
+    response = error ?? "OK";
   } else if (status === "failed") {
     const { error } = await supabase
       .from("data")
       .update({ failed: true })
       .eq("id", id);
-    response = error ?? 'OK';
+    response = error ?? "OK";
   } else {
     response = null;
   }

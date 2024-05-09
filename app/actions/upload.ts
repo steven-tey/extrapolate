@@ -49,7 +49,7 @@ export async function upload(formData: FormData) {
         // image,
         target_age: "default",
       },
-      webhook: `${domain}/api/images/${key}/webhook`,
+      webhook: `${domain}/api/webhooks/replicate/${key}`,
       webhook_events_filter: ["completed"],
     });
 
