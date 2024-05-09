@@ -6,9 +6,10 @@ import type { PostgrestError } from "@supabase/supabase-js";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
+  let event: Stripe.Event;
+
   const supabase = createAdminClient();
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-  let event: Stripe.Event;
 
   // verify webhook
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_PRODUCTS;
