@@ -9,7 +9,8 @@
     "lint": "next lint",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "tunnel": "cloudflared tunnel --url http://localhost:3000"
+    "tunnel": "cloudflared tunnel --url http://localhost:3000",
+    "generate-types": "npx supabase gen types typescript --project-id pgyspoqpnqbseemsekfm --schema public > lib/supabase/types_db.ts"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.7",
@@ -36,6 +37,7 @@
     "react-wrap-balancer": "^1.1.0",
     "replicate": "^0.29.4",
     "sharp": "^0.33.3",
+    "stripe": "^15.5.0",
     "swr": "^2.2.5",
     "use-debounce": "^10.0.0"
   },
