@@ -23,14 +23,14 @@ export default function PhotoPage({
 }) {
   const [data, setData] = useState<DataProps | null>(fallbackData);
 
+  // replicate only keeps generated predictions for 1 hr
+  const expired =
+    new Date(fallbackData?.created_at!) < new Date(Date.now() - 3600000);
+
   const supabase = createClient();
   const realtime = supabase.channel(id);
 
-  if (
-    !fallbackData?.output &&
-    !fallbackData?.expired &&
-    !fallbackData?.failed
-  ) {
+  if (!fallbackData?.output && !expired && !fallbackData?.failed) {
     realtime
       .on(
         "postgres_changes",
@@ -76,7 +76,7 @@ export default function PhotoPage({
         >
           Your Results
         </motion.h1>
-        {data?.expired ? (
+        {expired ? (
           <motion.div
             className="mx-auto mt-10 flex h-[350px] w-full flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white sm:h-[600px] sm:w-[600px]"
             variants={FADE_DOWN_ANIMATION_VARIANTS}

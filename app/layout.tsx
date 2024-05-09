@@ -23,12 +23,10 @@ export const metadata: Metadata = {
   title: "Extrapolate - Transform your face with Artificial Intelligence",
   description:
     "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and privacy friendly.",
-  // icons: "/favicon.ico",
   openGraph: {
     title: "Extrapolate - Transform your face with Artificial Intelligence",
     description:
       "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and privacy friendly.",
-    // images: ["/api/og"],
   },
   twitter: {
     card: "summary_large_image",
@@ -37,7 +35,6 @@ export const metadata: Metadata = {
     title: "Extrapolate - Transform your face with Artificial Intelligence",
     description:
       "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and privacy friendly.",
-    // images: ["/api/og"],
   },
 };
 

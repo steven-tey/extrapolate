@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import Modal from "@/components/shared/modal";
 import {
   useState,
@@ -9,8 +10,8 @@ import {
   ChangeEvent,
 } from "react";
 import { UploadCloud } from "lucide-react";
-import { LoadingDots } from "@/components/shared/icons";
-import { useRouter } from "next/navigation";
+import { upload } from "@/app/actions/upload";
+import { UploadButton } from "@/components/home/upload-button";
 
 const UploadModal = ({
   showUploadModal,
@@ -19,13 +20,12 @@ const UploadModal = ({
   showUploadModal: boolean;
   setShowUploadModal: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
   const [data, setData] = useState<{
     image: string | null;
   }>({
     image: null,
   });
-  const [file, setFile] = useState<File>();
+
   const [fileSizeTooBig, setFileSizeTooBig] = useState(false);
 
   const [dragActive, setDragActive] = useState(false);
@@ -38,7 +38,6 @@ const UploadModal = ({
         if (file.size / 1024 / 1024 > 5) {
           setFileSizeTooBig(true);
         } else {
-          setFile(file);
           const reader = new FileReader();
           reader.onload = (e) => {
             setData((prev) => ({ ...prev, image: e.target?.result as string }));
@@ -49,12 +48,6 @@ const UploadModal = ({
     },
     [setData],
   );
-
-  const [saving, setSaving] = useState(false);
-
-  const saveDisabled = useMemo(() => {
-    return !data.image || saving;
-  }, [data.image, saving]);
 
   return (
     <Modal showModal={showUploadModal} setShowModal={setShowUploadModal}>
@@ -71,25 +64,8 @@ const UploadModal = ({
         </div>
 
         <form
+          action={upload}
           className="grid gap-6 bg-gray-50 px-4 py-8 md:px-16"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setSaving(true);
-            const formData = new FormData();
-            formData.append("image", file!);
-            fetch("/api/upload", {
-              method: "POST",
-              body: formData,
-            }).then(async (res) => {
-              if (res.status === 200) {
-                const { key } = await res.json();
-                router.push(`/p/${key}`);
-              } else {
-                setSaving(false);
-                alert("Something went wrong. Please try again later.");
-              }
-            });
-          }}
         >
           <div>
             <div className="flex items-center justify-between">
@@ -131,7 +107,6 @@ const UploadModal = ({
                     if (file.size / 1024 / 1024 > 5) {
                       setFileSizeTooBig(true);
                     } else {
-                      setFile(file);
                       const reader = new FileReader();
                       reader.onload = (e) => {
                         setData((prev) => ({
@@ -187,20 +162,7 @@ const UploadModal = ({
             </div>
           </div>
 
-          <button
-            disabled={saveDisabled}
-            className={`${
-              saveDisabled
-                ? "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400"
-                : "border-black bg-black text-white hover:bg-white hover:text-black"
-            } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
-          >
-            {saving ? (
-              <LoadingDots color="#808080" />
-            ) : (
-              <p className="text-sm">Confirm upload</p>
-            )}
-          </button>
+          <UploadButton data={data} />
         </form>
       </div>
     </Modal>
