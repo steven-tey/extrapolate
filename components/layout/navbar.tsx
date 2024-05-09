@@ -5,7 +5,7 @@ import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
 import UserDropdown from "./user-dropwdown";
-import { User } from "@supabase/supabase-js";
+import { User } from "@/lib/types";
 
 export default function Navbar({ user }: { user: User | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();

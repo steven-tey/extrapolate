@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { LayoutDashboard, LogOut } from "lucide-react";
+import { CircleDollarSign, CreditCard, LogOut } from "lucide-react";
 import Popover from "@/components/shared/popover";
 import Image from "next/image";
-import { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
+import { User } from "@/lib/types";
 
 export default function UserDropdown({ user }: { user: User | null }) {
   const supabase = createClient();
 
-  const name = user?.user_metadata?.full_name;
+  const name = user?.name;
   const email = user?.email;
-  const image = user?.user_metadata?.avatar_url;
+  const image = user?.image;
   const [openPopover, setOpenPopover] = useState(false);
 
   if (!email) return null;
@@ -34,8 +34,15 @@ export default function UserDropdown({ user }: { user: User | null }) {
               className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
               disabled
             >
-              <LayoutDashboard className="h-4 w-4" />
-              <p className="text-sm">Dashboard</p>
+              <CircleDollarSign className="h-4 w-4" />
+              <p className="text-sm">{user?.credits} Credits</p>
+            </button>
+            <button
+              className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
+              disabled
+            >
+              <CreditCard className="h-4 w-4" />
+              <p className="text-sm">Buy Credits</p>
             </button>
             <button
               className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
