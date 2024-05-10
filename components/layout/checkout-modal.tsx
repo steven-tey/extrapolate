@@ -11,12 +11,12 @@ import { createClient } from "@/lib/supabase/client";
 import useSWRImmutable from "swr/immutable";
 import { CheckoutButton } from "@/components/layout/checkout-button";
 
-const CreditsModal = ({
-  showCreditsModal,
-  setShowCreditsModal,
+const CheckoutModal = ({
+  showCheckoutModal,
+  setShowCheckoutModal,
 }: {
-  showCreditsModal: boolean;
-  setShowCreditsModal: Dispatch<SetStateAction<boolean>>;
+  showCheckoutModal: boolean;
+  setShowCheckoutModal: Dispatch<SetStateAction<boolean>>;
 }) => {
   const supabase = createClient();
 
@@ -27,7 +27,7 @@ const CreditsModal = ({
   });
 
   return (
-    <Modal showModal={showCreditsModal} setShowModal={setShowCreditsModal}>
+    <Modal showModal={showCheckoutModal} setShowModal={setShowCheckoutModal}>
       <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
         <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center md:px-16">
           <a href="https://precedent.dev">
@@ -40,7 +40,7 @@ const CreditsModal = ({
             />
           </a>
           <h3 className="font-display text-2xl font-bold">Buy Credits</h3>
-          <p className="text-sm text-gray-500">1 Image = 10 Credits</p>
+          <p className="text-sm text-gray-500">10 Credits = 1 Image</p>
         </div>
 
         <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
@@ -53,20 +53,20 @@ const CreditsModal = ({
   );
 };
 
-export function useCreditsModal() {
-  const [showCreditsModal, setShowCreditsModal] = useState(false);
+export function useCheckoutModal() {
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
-  const CreditsModalCallback = useCallback(() => {
+  const CheckoutModalCallback = useCallback(() => {
     return (
-      <CreditsModal
-        showCreditsModal={showCreditsModal}
-        setShowCreditsModal={setShowCreditsModal}
+      <CheckoutModal
+        showCheckoutModal={showCheckoutModal}
+        setShowCheckoutModal={setShowCheckoutModal}
       />
     );
-  }, [showCreditsModal, setShowCreditsModal]);
+  }, [showCheckoutModal, setShowCheckoutModal]);
 
   return useMemo(
-    () => ({ setShowCreditsModal, CreditsModal: CreditsModalCallback }),
-    [setShowCreditsModal, CreditsModalCallback],
+    () => ({ setShowCheckoutModal, CheckoutModal: CheckoutModalCallback }),
+    [setShowCheckoutModal, CheckoutModalCallback],
   );
 }

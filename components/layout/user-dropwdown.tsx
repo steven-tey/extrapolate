@@ -6,7 +6,7 @@ import Popover from "@/components/shared/popover";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { UserData } from "@/lib/types";
-import { useCreditsModal } from "@/components/layout/credits-modal";
+import { useCheckoutModal } from "@/components/layout/checkout-modal";
 import { BillingButton } from "@/components/layout/billing-button";
 
 export default function UserDropdown({
@@ -21,13 +21,13 @@ export default function UserDropdown({
   const image = userData?.image;
   const [openPopover, setOpenPopover] = useState(false);
 
-  const { CreditsModal, setShowCreditsModal } = useCreditsModal();
+  const { CheckoutModal, setShowCheckoutModal } = useCheckoutModal();
 
   if (!email) return null;
 
   return (
     <>
-      <CreditsModal />
+      <CheckoutModal />
       <div className="relative inline-block text-left">
         <Popover
           content={
@@ -50,7 +50,7 @@ export default function UserDropdown({
               <button
                 className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
                 onClick={() => {
-                  setShowCreditsModal(true);
+                  setShowCheckoutModal(true);
                 }}
               >
                 <CreditCard className="h-4 w-4" />
