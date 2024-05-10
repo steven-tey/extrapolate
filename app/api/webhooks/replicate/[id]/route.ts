@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-export const runtime = "edge";
-
 export async function POST(req: NextRequest) {
   const id = req.nextUrl.pathname.split("/")[4];
   const { output, status } = await req.json();
