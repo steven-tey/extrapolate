@@ -21,6 +21,8 @@ async function getData(id: string) {
     .eq("id", id)
     .single();
 
+  if (!data) notFound();
+
   const buffer = await fetch(input).then(async (res) =>
     Buffer.from(await res.arrayBuffer()),
   );
@@ -36,8 +38,6 @@ async function getData(id: string) {
 export default async function Photo({ params }: { params: { id: string } }) {
   const { id } = params;
   const { input, blurDataURL, data: fallbackData } = await getData(id);
-
-  if (!fallbackData) notFound();
 
   return (
     <PhotoPage
