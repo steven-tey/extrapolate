@@ -1,27 +1,31 @@
-import { useFormStatus } from "react-dom";
 import { LoadingDots } from "@/components/shared/icons";
 import { Product } from "@/lib/types";
 import { checkout } from "@/app/actions/checkout";
+import { useTransition } from "react";
 
-export function CreditsButton({ product }: { product: Product | null }) {
-  const { pending } = useFormStatus();
+export function CheckoutButton({ product }: { product: Product | null }) {
+  const [isPending, startTransition] = useTransition();
 
   const checkoutWithProps = checkout.bind(null, {
-    id: product?.id!,
+    price_id: product?.price_id!,
     credits: product?.credits!,
   });
 
   return (
     <button
-      formAction={checkoutWithProps}
-      disabled={pending}
+      disabled={isPending}
       className={`${
-        pending
+        isPending
           ? "cursor-not-allowed border-gray-200 bg-gray-100"
           : "border border-gray-200 bg-white text-black hover:bg-gray-50"
       } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
+      onClick={() => {
+        startTransition(async () => {
+          await checkoutWithProps();
+        });
+      }}
     >
-      {pending ? (
+      {isPending ? (
         <LoadingDots color="#808080" />
       ) : (
         <>

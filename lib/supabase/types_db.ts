@@ -209,6 +209,7 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: {
           id: string
+          price_id: string
           name: string
           description: string
           price: number

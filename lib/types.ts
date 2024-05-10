@@ -12,6 +12,7 @@ export type UserData = Tables<"users">;
 
 export interface Product {
   id: string;
+  price_id: string;
   name: string;
   description: string;
   price: number;

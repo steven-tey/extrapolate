@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import useSWRImmutable from "swr/immutable";
-import { CreditsButton } from "@/components/layout/credits-button";
+import { CheckoutButton } from "@/components/layout/checkout-button";
 
 const CreditsModal = ({
   showCreditsModal,
@@ -45,9 +45,7 @@ const CreditsModal = ({
 
         <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
           {products?.map((product) => (
-            <form key={product.id}>
-              <CreditsButton product={product} />
-            </form>
+            <CheckoutButton key={product.id} product={product} />
           ))}
         </div>
       </div>

@@ -7,10 +7,10 @@ import { getDomain } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export async function checkout({
-  id,
+  price_id,
   credits,
 }: {
-  id: string;
+  price_id: string;
   credits: number;
 }) {
   const cookieStore = cookies();
@@ -33,12 +33,15 @@ export async function checkout({
     cancel_url: getDomain(),
     line_items: [
       {
-        price: id,
+        price: price_id,
         quantity: 1,
       },
     ],
     metadata: {
       credits: credits,
+    },
+    invoice_creation: {
+      enabled: true,
     },
     mode: "payment",
   });

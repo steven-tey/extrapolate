@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { CircleDollarSign, CreditCard, LogOut } from "lucide-react";
+import { Coins, CreditCard, LogOut } from "lucide-react";
 import Popover from "@/components/shared/popover";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { UserData } from "@/lib/types";
 import { useCreditsModal } from "@/components/layout/credits-modal";
+import { BillingButton } from "@/components/layout/billing-button";
 
 export default function UserDropdown({
   userData,
@@ -43,7 +44,7 @@ export default function UserDropdown({
                 className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
                 disabled
               >
-                <CircleDollarSign className="h-4 w-4" />
+                <Coins className="h-4 w-4" />
                 <p className="text-sm">{userData?.credits} Credits</p>
               </button>
               <button
@@ -55,6 +56,7 @@ export default function UserDropdown({
                 <CreditCard className="h-4 w-4" />
                 <p className="text-sm">Buy Credits</p>
               </button>
+              <BillingButton />
               <button
                 className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
                 onClick={async () => {
