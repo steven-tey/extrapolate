@@ -1,8 +1,8 @@
 import { getPlaiceholder } from "plaiceholder";
-import { DataProps } from "@/lib/types";
 import PhotoPage from "@/components/photo-page";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 // export const revalidate = 1;
 
@@ -13,14 +13,12 @@ import { cookies } from "next/headers";
 async function getData(id: string) {
   const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/${id}`;
 
-  // TODO: error handling
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("data")
     .select("*")
     .eq("id", id)
-    .returns<DataProps[]>()
     .single();
 
   const buffer = await fetch(input).then(async (res) =>
@@ -38,6 +36,8 @@ async function getData(id: string) {
 export default async function Photo({ params }: { params: { id: string } }) {
   const { id } = params;
   const { input, blurDataURL, data: fallbackData } = await getData(id);
+
+  if (!fallbackData) notFound();
 
   return (
     <PhotoPage

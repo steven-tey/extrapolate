@@ -19,9 +19,9 @@ export default function PhotoPage({
   id: string;
   input: string;
   blurDataURL: string;
-  data: DataProps | null;
+  data: DataProps;
 }) {
-  const [data, setData] = useState<DataProps | null>(fallbackData);
+  const [data, setData] = useState<DataProps>(fallbackData);
 
   // replicate only keeps generated predictions for 1 hr
   const expired =
@@ -97,8 +97,8 @@ export default function PhotoPage({
             id={id}
             input={input}
             blurDataURL={blurDataURL}
-            output={data!.output}
-            failed={data!.failed}
+            output={data.output}
+            failed={data.failed}
           />
         )}
       </motion.div>

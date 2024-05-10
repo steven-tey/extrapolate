@@ -40,11 +40,11 @@ export default function PhotoBooth({
   output,
   failed,
 }: {
-  id?: string;
+  id: string;
   input: string;
   blurDataURL: string;
   output: string | null;
-  failed?: boolean;
+  failed: boolean | null;
 }) {
   const [state, setState] = useState("output");
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);

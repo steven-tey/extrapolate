@@ -8,8 +8,7 @@ async function getCount() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  // TODO: error handling
-  const { count, error } = await supabase
+  const { count } = await supabase
     .from("data")
     .select("*", { count: "exact", head: true });
   return count;

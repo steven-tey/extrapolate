@@ -1,12 +1,7 @@
-import Stripe from "stripe";
+import type Stripe from "stripe";
 import { Tables } from "@/lib/supabase/types_db";
 
-export interface DataProps {
-  id: string;
-  output: string | null; // output of prediction
-  failed?: boolean; // if the prediction failed
-  created_at: string;
-}
+export type DataProps = Tables<"data">;
 
 export type UserData = Tables<"users">;
 
