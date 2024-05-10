@@ -62,8 +62,18 @@ export const truncate = (str: string, length: number) => {
   return `${str.slice(0, length)}...`;
 };
 
-export const getURL = (input?: string) => {
-  return process.env.VERCEL_PROJECT_PRODUCTION_URL ?
-      `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}${input}` :
-      `http://localhost:3000${input}`
-}
+export const getURL = (input: string = "") => {
+  return process.env.NODE_ENV === "development"
+    ? `http://localhost:3000${input}`
+    : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}${input}`;
+};
+
+export const getDomain = (input: string = "") => {
+  const domain =
+    process.env.NODE_ENV === "development"
+      ? // run `pnpm tunnel` and set TUNNEL_URL
+        process.env.TUNNEL_URL!
+      : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+
+  return domain + input;
+};

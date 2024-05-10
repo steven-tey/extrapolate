@@ -54,7 +54,7 @@ const SignInModal = ({
               await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-                  redirectTo: getURL("api/auth/callback"),
+                  redirectTo: getURL("/api/auth/callback"),
                 },
               });
             }}

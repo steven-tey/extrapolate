@@ -5,9 +5,9 @@ import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
 import UserDropdown from "./user-dropwdown";
-import { User } from "@/lib/types";
+import { UserData } from "@/lib/types";
 
-export default function Navbar({ user }: { user: User | null }) {
+export default function Navbar({ userData }: { userData: UserData | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
 
@@ -33,8 +33,8 @@ export default function Navbar({ user }: { user: User | null }) {
             <p>Extrapolate</p>
           </Link>
           <div>
-            {user ? (
-              <UserDropdown user={user} />
+            {userData ? (
+              <UserDropdown userData={userData} />
             ) : (
               <button
                 className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"

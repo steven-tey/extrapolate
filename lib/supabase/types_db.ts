@@ -42,6 +42,7 @@ export type Database = {
           lookup_key: string | null
           metadata: Json | null
           nickname: string | null
+          object: string | null
           product: string | null
           recurring: Json | null
           tax_behavior: string | null
@@ -62,6 +63,7 @@ export type Database = {
           lookup_key?: string | null
           metadata?: Json | null
           nickname?: string | null
+          object?: string | null
           product?: string | null
           recurring?: Json | null
           tax_behavior?: string | null
@@ -82,6 +84,7 @@ export type Database = {
           lookup_key?: string | null
           metadata?: Json | null
           nickname?: string | null
+          object?: string | null
           product?: string | null
           recurring?: Json | null
           tax_behavior?: string | null
@@ -165,24 +168,27 @@ export type Database = {
       users: {
         Row: {
           credits: number
-          email: string | null
+          email: string
           id: string
           image: string | null
-          name: string | null
+          name: string
+          stripe_id: string | null
         }
         Insert: {
           credits?: number
-          email?: string | null
+          email: string
           id?: string
           image?: string | null
-          name?: string | null
+          name: string
+          stripe_id?: string | null
         }
         Update: {
           credits?: number
-          email?: string | null
+          email?: string
           id?: string
           image?: string | null
-          name?: string | null
+          name?: string
+          stripe_id?: string | null
         }
         Relationships: [
           {
@@ -199,7 +205,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_products: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          description: string
+          price: number
+          credits: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
