@@ -8,9 +8,9 @@ import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { waitUntil } from "@vercel/functions";
+// import { waitUntil } from "@vercel/functions";
 
-export async function upload(formData: FormData) {
+export async function upload(previousState: any, formData: FormData) {
   const replicate = new Replicate({
     // get your token from https://replicate.com/account
     auth: process.env.REPLICATE_API_TOKEN || "",
@@ -23,7 +23,7 @@ export async function upload(formData: FormData) {
     data: { user },
   } = await supabase.auth.getUser();
   const user_id = user?.id;
-  if (!user_id) return { message: "Unauthorized", status: 401 };
+  if (!user_id) return { message: "Please sign in to continue", status: 401 };
 
   // Check credits
   const credits = await getCredits(user_id);
@@ -65,7 +65,10 @@ export async function upload(formData: FormData) {
       upsert: true,
     });
   if (error)
-    return { message: "Unexpected error uploading image", status: 400 };
+    return {
+      message: "Unexpected error uploading image, please try again",
+      status: 400,
+    };
 
   try {
     const prediction = await replicate.predictions.create({
@@ -87,7 +90,10 @@ export async function upload(formData: FormData) {
       return { message: "Prediction error generating gif", status: 500 };
     }
   } catch (e) {
-    return { message: "Unexpected error generating gif", status: 500 };
+    return {
+      message: "Unexpected error generating gif, please try again",
+      status: 500,
+    };
   }
 
   await updateCredits(user_id, -10);

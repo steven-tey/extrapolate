@@ -137,6 +137,9 @@ export default function PhotoBooth({
                   <p className="text-sm text-red-600">
                     Failed to run - could not find face in image. Try another!
                   </p>
+                  <p className="text-sm text-red-600 underline">
+                    10 credits returned
+                  </p>
                 </div>
               )}
               {loading && (
@@ -154,7 +157,7 @@ export default function PhotoBooth({
                         className="text-sm text-gray-500"
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                       >
-                        This can take up to 30 seconds to run.
+                        This can take up to 1 minute to run.
                       </motion.p>
                     </motion.div>
                   )}

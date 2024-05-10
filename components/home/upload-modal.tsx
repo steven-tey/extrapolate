@@ -12,6 +12,7 @@ import {
 import { UploadCloud } from "lucide-react";
 import { upload } from "@/app/actions/upload";
 import { UploadButton } from "@/components/home/upload-button";
+import { useFormState } from "react-dom";
 
 const UploadModal = ({
   showUploadModal,
@@ -49,6 +50,12 @@ const UploadModal = ({
     [setData],
   );
 
+  // Move to useActionState in future release of Next.js
+  const [state, uploadFormAction] = useFormState(upload, {
+    message: "",
+    status: 0,
+  });
+
   return (
     <Modal showModal={showUploadModal} setShowModal={setShowUploadModal}>
       <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
@@ -61,10 +68,11 @@ const UploadModal = ({
             />
           </a>
           <h3 className="font-display text-2xl font-bold">Upload Photo</h3>
+          <p className="text-sm text-red-600">{state.message}</p>
         </div>
 
         <form
-          action={upload}
+          action={uploadFormAction}
           className="grid gap-6 bg-gray-50 px-4 py-8 md:px-16"
         >
           <div>
