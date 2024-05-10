@@ -6,11 +6,14 @@ import { checkout } from "@/app/actions/checkout";
 export function CreditsButton({ product }: { product: Product | null }) {
   const { pending } = useFormStatus();
 
-  const checkoutWithId = checkout.bind(null, product?.id!);
+  const checkoutWithProps = checkout.bind(null, {
+    id: product?.id!,
+    credits: product?.credits!,
+  });
 
   return (
     <button
-      formAction={checkoutWithId}
+      formAction={checkoutWithProps}
       disabled={pending}
       className={`${
         pending

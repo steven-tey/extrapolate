@@ -6,7 +6,13 @@ import Stripe from "stripe";
 import { getDomain } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export async function checkout(id: string) {
+export async function checkout({
+  id,
+  credits,
+}: {
+  id: string;
+  credits: number;
+}) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -31,6 +37,9 @@ export async function checkout(id: string) {
         quantity: 1,
       },
     ],
+    metadata: {
+      credits: credits,
+    },
     mode: "payment",
   });
 
