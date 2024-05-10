@@ -157,7 +157,7 @@ export default function PhotoBooth({
                         className="text-sm text-gray-500"
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                       >
-                        This can take up to 1 minute to run.
+                        This can take a minute to run.
                       </motion.p>
                     </motion.div>
                   )}
