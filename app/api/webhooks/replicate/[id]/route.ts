@@ -30,20 +30,20 @@ export async function POST(req: NextRequest) {
       new Response(`Error updating failed: ${error.message}`, { status: 400 });
 
     // get user_id for that prediction
-    const { data: user_id, error: user_id_error } = await supabase
+    const { data, error: user_id_error } = await supabase
       .from("data")
       .select("user_id")
       .eq("id", id)
       .single();
-    if (user_id_error)
-      new Response(`Error getting user_id: ${user_id_error.message}`, {
+    if (user_id_error || !data.user_id)
+      new Response(`Error getting user_id: ${user_id_error?.message}`, {
         status: 400,
       });
 
     // if user_id exists, add 10 credits since prediction failed
-    if (user_id) {
+    if (data?.user_id) {
       const { error } = await supabase.rpc("update_credits", {
-        user_id: user_id,
+        user_id: data.user_id,
         credit_amount: 10,
       });
       if (error)
