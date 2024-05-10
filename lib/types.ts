@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { Tables } from "@/lib/supabase/types_db";
 
 export interface DataProps {
   id: string;
@@ -7,12 +8,14 @@ export interface DataProps {
   created_at: string;
 }
 
-export interface User {
+export type UserData = Tables<"users">;
+
+export interface Product {
   id: string;
+  name: string;
+  description: string;
+  price: number;
   credits: number;
-  name: string | null;
-  email: string | null;
-  image: string | null;
 }
 
 export interface StripeProduct
