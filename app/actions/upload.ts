@@ -40,7 +40,7 @@ export async function upload(formData: FormData) {
     process.env.NODE_ENV === "development"
       ? // run `pnpm tunnel` and set TUNNEL_URL
         process.env.TUNNEL_URL!
-      : `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+      : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
 
   const { data, error } = await supabaseAdmin.storage
     .from("data")
