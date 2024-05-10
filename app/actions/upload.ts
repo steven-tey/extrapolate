@@ -8,12 +8,27 @@ import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { waitUntil } from "@vercel/functions";
 
 export async function upload(formData: FormData) {
   const replicate = new Replicate({
     // get your token from https://replicate.com/account
     auth: process.env.REPLICATE_API_TOKEN || "",
   });
+
+  // Authenticate
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const user_id = user?.id;
+  if (!user_id) return { message: "Unauthorized", status: 401 };
+
+  // Check credits
+  const credits = await getCredits(user_id);
+  if (!credits || credits < 10)
+    return { message: "Not enough credits, please buy more", status: 402 };
 
   const supabaseAdmin = createAdminClient();
 
@@ -69,11 +84,13 @@ export async function upload(formData: FormData) {
       prediction.status === "failed" ||
       prediction.status === "canceled"
     ) {
-      return { message: "Prediction error generating gif", status: 400 };
+      return { message: "Prediction error generating gif", status: 500 };
     }
   } catch (e) {
-    return { message: "Unexpected error generating gif", status: 400 };
+    return { message: "Unexpected error generating gif", status: 500 };
   }
+
+  await updateCredits(user_id, -10);
 
   redirect(`/p/${key}`);
 }
@@ -92,4 +109,24 @@ async function setRandomKey(): Promise<{ key: string }> {
   } else {
     return { key };
   }
+}
+
+async function getCredits(user_id: string) {
+  const supabaseAdmin = createAdminClient();
+
+  const { data } = await supabaseAdmin
+    .from("users")
+    .select("credits")
+    .eq("id", user_id)
+    .single();
+  return data?.credits;
+}
+
+async function updateCredits(user_id: string, credit_amount: number) {
+  const supabaseAdmin = createAdminClient();
+
+  await supabaseAdmin.rpc("update_credits", {
+    user_id: user_id,
+    credit_amount: credit_amount,
+  });
 }

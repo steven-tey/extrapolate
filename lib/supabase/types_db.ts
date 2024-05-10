@@ -216,6 +216,13 @@ export type Database = {
           credits: number
         }[]
       }
+      update_credits: {
+        Args: {
+          user_id: string
+          credit_amount: number
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

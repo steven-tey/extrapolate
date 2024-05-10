@@ -34,22 +34,19 @@ export async function POST(req: NextRequest) {
         checkout.status === "complete" &&
         checkout.payment_status === "paid"
       ) {
-        const { data } = await supabase
-          .from("users")
-          .select("credits")
-          .single();
-        const newCredits = data?.credits! + creditsToAdd;
-
-        const { error } = await supabase
-          .from("users")
-          .update({ credits: newCredits })
-          .match({ id: user_id, stripe_id: stripe_id });
+        const { error } = await supabase.rpc("update_credits", {
+          user_id: user_id,
+          credit_amount: creditsToAdd,
+        });
 
         if (error) {
-          console.log(`Database Sync Error: ${error.message}`);
-          return new Response(`Database Sync Error: ${error.message}`, {
-            status: 400,
-          });
+          console.log(`Error adding credits to user: ${error.message}`);
+          return new Response(
+            `Error adding credits to user: ${error.message}`,
+            {
+              status: 400,
+            },
+          );
         }
       }
       break;
