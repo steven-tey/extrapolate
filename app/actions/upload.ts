@@ -6,8 +6,6 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 // import { waitUntil } from "@vercel/functions";
 
 export async function upload(previousState: any, formData: FormData) {
@@ -35,16 +33,6 @@ export async function upload(previousState: any, formData: FormData) {
   const image = formData.get("image") as File;
   if (!image) {
     return { message: "Missing image", status: 400 };
-  }
-
-  // Rate limit
-  const ratelimit = new Ratelimit({
-    redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(10, "10 s"),
-  });
-  const { success } = await ratelimit.limit("upload");
-  if (!success) {
-    return { message: "Don't DDoS me pls 🥺", status: 429 };
   }
 
   // Handle request
