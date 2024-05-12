@@ -1,5 +1,4 @@
-"use server";
-
+import "server-only";
 import { cookies } from "next/headers";
 import Stripe from "stripe";
 import { getDomain } from "@/lib/utils";

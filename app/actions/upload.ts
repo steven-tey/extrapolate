@@ -1,5 +1,4 @@
-"use server";
-
+import "server-only";
 import Replicate from "replicate";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { cookies } from "next/headers";

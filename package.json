@@ -38,6 +38,7 @@
     "react-markdown": "^9.0.1",
     "react-wrap-balancer": "^1.1.0",
     "replicate": "^0.29.4",
+    "server-only": "^0.0.1",
     "sharp": "^0.33.3",
     "stripe": "^15.5.0",
     "swr": "^2.2.5",
@@ -57,6 +58,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "supabase": "^1.165.0",
     "tailwindcss": "^3.4.3",
     "typescript": "5.4.5"
   },

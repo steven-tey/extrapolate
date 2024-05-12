@@ -12,7 +12,8 @@ export async function POST(req: Request) {
 
   const supabase = createAdminClient();
 
-  // get ids to delete from storage
+  // TODO: Implement pagination if there are more than 1000 rows
+  // get ids to delete from data
   const { data: ids, error: idsError } = await supabase
     .from("data")
     .select("id")
@@ -30,13 +31,14 @@ export async function POST(req: Request) {
       status: 500,
     });
 
+  // Prob want to keep this data for count
   // delete from table
-  const { count, error } = await supabase
-    .from("data")
-    .delete()
-    .lte("created_at", subDays(new Date(), 1).toISOString());
-  if (error)
-    return new Response(`An error occured: ${error.message}`, { status: 500 });
+  // const { count, error } = await supabase
+  //   .from("data")
+  //   .delete()
+  //   .lte("created_at", subDays(new Date(), 1).toISOString());
+  // if (error)
+  //   return new Response(`An error occured: ${error.message}`, { status: 500 });
 
-  return new Response(`${count} rows and images cleaned up`, { status: 200 });
+  return new Response(`${toDelete.length} images cleaned up`, { status: 200 });
 }

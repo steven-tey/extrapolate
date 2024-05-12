@@ -10,7 +10,7 @@ async function getCount() {
 
   const { count } = await supabase
     .from("data")
-    .select("*", { count: "exact", head: true });
+    .select("*", { count: "estimated", head: true });
   return count;
 }
 
