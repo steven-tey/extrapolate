@@ -3,6 +3,8 @@ import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { UserData } from "@/lib/types";
 
+export const runtime = "edge";
+
 type SupabaseWebhook = {
   type: "INSERT" | "UPDATE" | "DELETE";
   table: string;

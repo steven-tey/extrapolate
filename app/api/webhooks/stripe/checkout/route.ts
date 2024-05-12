@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   let event: Stripe.Event;

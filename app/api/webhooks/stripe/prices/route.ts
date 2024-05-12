@@ -4,6 +4,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import type { StripePrice } from "@/lib/types";
 import type { PostgrestError } from "@supabase/supabase-js";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   let event: Stripe.Event;
