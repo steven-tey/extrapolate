@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Coins, CreditCard, LogOut } from "lucide-react";
 import Popover from "@/components/shared/popover";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { UserData } from "@/lib/types";
 import { useCheckoutModal } from "@/components/layout/checkout-modal";
 import { BillingButton } from "@/components/layout/billing-button";
-import { useSearchParams } from "next/dist/client/components/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function UserDropdown({
   userData,
@@ -25,10 +25,28 @@ export default function UserDropdown({
   const { CheckoutModal, setShowCheckoutModal } = useCheckoutModal();
 
   const searchParams = useSearchParams();
-  // TODO: display stripe success or failure modal
-  const stripeSuccess = searchParams.get("success");
-  // Used to optimistically update credits
-  const creditsToAdd = Number(searchParams.get("credits"));
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [stripeStatus, setStripeStatus] = useState<{
+    success: boolean;
+    credits: number;
+  }>();
+
+  useEffect(() => {
+    // TODO: display stripe success or failure modal
+    const stripeSuccess = searchParams.get("success") === "true";
+    // Used to optimistically update credits
+    const creditsToAdd = Number(searchParams.get("credits"));
+    setStripeStatus({ success: stripeSuccess, credits: creditsToAdd });
+
+    // Remove stripe search params
+    const nextSearchParams = new URLSearchParams(searchParams.toString());
+    nextSearchParams.delete("success");
+    nextSearchParams.delete("credits");
+    router.replace(`${pathname}?${nextSearchParams}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!email) return null;
 
@@ -53,8 +71,8 @@ export default function UserDropdown({
               >
                 <Coins className="h-4 w-4" />
                 <p className="text-sm">
-                  {creditsToAdd
-                    ? userData?.credits + creditsToAdd
+                  {stripeStatus?.credits
+                    ? userData?.credits + stripeStatus.credits
                     : userData?.credits}{" "}
                   Credits
                 </p>
