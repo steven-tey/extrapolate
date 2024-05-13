@@ -71,7 +71,7 @@ export default function UserDropdown({
               >
                 <Coins className="h-4 w-4" />
                 <p className="text-sm">
-                  {stripeStatus?.credits
+                  {stripeStatus?.success && stripeStatus?.credits
                     ? userData?.credits + stripeStatus.credits
                     : userData?.credits}{" "}
                   Credits
