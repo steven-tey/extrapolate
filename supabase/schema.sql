@@ -30,7 +30,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 CREATE OR REPLACE FUNCTION "public"."get_products"() RETURNS TABLE("id" "text", "price_id" "text", "name" "text", "description" "text", "price" numeric, "credits" numeric)
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$BEGIN
+    AS $$
+BEGIN
   RETURN QUERY 
   SELECT
     products.id,
@@ -41,9 +42,10 @@ CREATE OR REPLACE FUNCTION "public"."get_products"() RETURNS TABLE("id" "text", 
     (products.metadata ->> 'credits')::NUMERIC
   FROM
     products
-    JOIN prices ON products.default_price = prices.id
+    JOIN prices ON products.id = prices.product
   WHERE products.active = true;
-END;$$;
+END;
+$$;
 
 ALTER FUNCTION "public"."get_products"() OWNER TO "postgres";
 
