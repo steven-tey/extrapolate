@@ -30,8 +30,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 CREATE OR REPLACE FUNCTION "public"."get_products"() RETURNS TABLE("id" "text", "price_id" "text", "name" "text", "description" "text", "price" numeric, "credits" numeric)
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$
-BEGIN
+    AS $$BEGIN
   RETURN QUERY 
   SELECT
     products.id,
@@ -42,24 +41,24 @@ BEGIN
     (products.metadata ->> 'credits')::NUMERIC
   FROM
     products
-    JOIN prices ON products.default_price = prices.id;
-END;
-$$;
+    JOIN prices ON products.default_price = prices.id
+  WHERE products.active = true;
+END;$$;
 
 ALTER FUNCTION "public"."get_products"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  insert into public.users (id, name, email, image)
-  values (new.id, new.raw_user_meta_data->>'full_name', new.email, new.raw_user_meta_data->>'avatar_url');
+  insert into public.users (id, email, name, image)
+  values (new.id, new.email, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
   return new;
 end;$$;
 
 ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."update_credits"("user_id" "uuid", "credit_amount" numeric) RETURNS numeric
-    LANGUAGE "plpgsql" SECURITY DEFINER
+    LANGUAGE "plpgsql"
     AS $$
 
 DECLARE current_credits numeric;
@@ -69,7 +68,7 @@ SELECT credits INTO current_credits FROM public.users WHERE id = user_id;
 
 IF current_credits IS NOT NULL 
 THEN UPDATE public.users SET credits = current_credits + credit_amount WHERE id = user_id;
-ELSE RAISE EXCEPTION 'User not found';
+ELSE RAISE EXCEPTION 'User not found or permission denied';
 END IF;
 
 RETURN current_credits + credit_amount;
@@ -144,7 +143,7 @@ ALTER TABLE "public"."products" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."users" (
     "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "credits" numeric DEFAULT '30'::numeric NOT NULL,
+    "credits" numeric DEFAULT '0'::numeric NOT NULL,
     "name" "text" NOT NULL,
     "email" "text" NOT NULL,
     "image" "text",
@@ -168,14 +167,16 @@ ALTER TABLE ONLY "public"."users"
 CREATE OR REPLACE TRIGGER "customer" AFTER INSERT OR DELETE ON "public"."users" FOR EACH ROW EXECUTE FUNCTION "supabase_functions"."http_request"('https://extrapolate-new.vercel.app/api/webhooks/supabase/customer', 'POST', '{"Content-type":"application/json"}', '{}', '1000');
 
 ALTER TABLE ONLY "public"."data"
-    ADD CONSTRAINT "data_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT "data_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE SET NULL;
 
 ALTER TABLE ONLY "public"."users"
-    ADD CONSTRAINT "users_user_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT "users_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 CREATE POLICY "Enable ALL for users based on user_id" ON "public"."data" TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id")) WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
-CREATE POLICY "Enable select for users based on user_id" ON "public"."users" FOR SELECT TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "id"));
+CREATE POLICY "Enable read access for all users" ON "public"."data" FOR SELECT USING (true);
+
+CREATE POLICY "Enable select for users based on user_id" ON "public"."users" FOR SELECT USING ((( SELECT "auth"."uid"() AS "uid") = "id"));
 
 ALTER TABLE "public"."data" ENABLE ROW LEVEL SECURITY;
 
@@ -186,8 +187,6 @@ ALTER TABLE "public"."products" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."users" ENABLE ROW LEVEL SECURITY;
 
 ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
-
-ALTER PUBLICATION "supabase_realtime" ADD TABLE ONLY "public"."data";
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
@@ -236,7 +235,5 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "service_role";
-
-ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" REVOKE ALL ON FUNCTIONS  FROM PUBLIC;
 
 RESET ALL;

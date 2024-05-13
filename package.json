@@ -10,7 +10,7 @@
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "tunnel": "cloudflared tunnel --url http://localhost:3000",
-    "generate-types": "npx supabase gen types typescript --project-id pgyspoqpnqbseemsekfm --schema public > lib/supabase/types_db.ts"
+    "generate-types": "npx supabase gen types typescript --project-id cekdkrfapjaabzcnjwrr --schema public > lib/supabase/types_db.ts"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.7",

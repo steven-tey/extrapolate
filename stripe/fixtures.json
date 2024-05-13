@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "template_version": 0
+  },
+  "fixtures": [
+    {
+      "name": "300_credits",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "currency": "usd",
+        "unit_amount": 900,
+        "product_data": {
+          "name": "300 credits",
+          "metadata": {
+            "credits": "300"
+          }
+        }
+      }
+    },
+    {
+      "name": "900_credits",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "currency": "usd",
+        "unit_amount": 1900,
+        "product_data": {
+          "name": "900 credits",
+          "metadata": {
+            "credits": "900"
+          }
+        }
+      }
+    },
+    {
+      "name": "3000_credits",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "currency": "usd",
+        "unit_amount": 2900,
+        "product_data": {
+          "name": "3000 credits",
+          "metadata": {
+            "credits": "3000"
+          }
+        }
+      }
+    }
+  ]
+}
