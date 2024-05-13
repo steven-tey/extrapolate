@@ -5,9 +5,23 @@ import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
 import UserDropdown from "./user-dropwdown";
-import { UserData } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
+import useSWRImmutable from "swr/immutable";
 
-export default function Navbar({ userData }: { userData: UserData | null }) {
+export default function Navbar() {
+  const supabase = createClient();
+
+  const { data: userData, isLoading } = useSWRImmutable(
+    "userData",
+    async () => {
+      const { data: userData } = await supabase
+        .from("users")
+        .select("*")
+        .single();
+      return userData;
+    },
+  );
+
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
 
@@ -36,12 +50,14 @@ export default function Navbar({ userData }: { userData: UserData | null }) {
             {userData ? (
               <UserDropdown userData={userData} />
             ) : (
-              <button
-                className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                onClick={() => setShowSignInModal(true)}
-              >
-                Sign In
-              </button>
+              !isLoading && (
+                <button
+                  className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
+                  onClick={() => setShowSignInModal(true)}
+                >
+                  Sign In
+                </button>
+              )
             )}
           </div>
         </div>
