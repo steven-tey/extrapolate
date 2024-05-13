@@ -21,7 +21,11 @@ export async function POST(req: NextRequest) {
       console.log("Webhook secret not found.");
       return new Response("Webhook secret not found.", { status: 400 });
     }
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = await stripe.webhooks.constructEventAsync(
+      body,
+      signature,
+      webhookSecret,
+    );
   } catch (error) {
     console.log(`Webhook Error: ${error}`);
     return new Response(`Webhook Error: ${error}`, { status: 400 });
