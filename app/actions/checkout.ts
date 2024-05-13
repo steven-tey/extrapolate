@@ -29,8 +29,9 @@ export async function checkout({
   const stripeCheckoutSession = await stripe.checkout.sessions.create({
     customer: userData.stripe_id!,
     client_reference_id: userData?.id,
-    success_url: getDomain(),
-    cancel_url: getDomain(),
+    // TODO: modal to show result
+    success_url: getDomain(`/?success=true&credits=${credits}`),
+    cancel_url: getDomain(`/success=false&credits=${credits}`),
     line_items: [
       {
         price: price_id,

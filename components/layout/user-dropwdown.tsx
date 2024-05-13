@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { UserData } from "@/lib/types";
 import { useCheckoutModal } from "@/components/layout/checkout-modal";
 import { BillingButton } from "@/components/layout/billing-button";
+import { useSearchParams } from "next/dist/client/components/navigation";
 
 export default function UserDropdown({
   userData,
@@ -22,6 +23,12 @@ export default function UserDropdown({
   const [openPopover, setOpenPopover] = useState(false);
 
   const { CheckoutModal, setShowCheckoutModal } = useCheckoutModal();
+
+  const searchParams = useSearchParams();
+  // TODO: display stripe success or failure modal
+  const stripeSuccess = searchParams.get("success");
+  // Used to optimistically update credits
+  const creditsToAdd = Number(searchParams.get("credits"));
 
   if (!email) return null;
 
@@ -45,7 +52,12 @@ export default function UserDropdown({
                 disabled
               >
                 <Coins className="h-4 w-4" />
-                <p className="text-sm">{userData?.credits} Credits</p>
+                <p className="text-sm">
+                  {creditsToAdd
+                    ? userData?.credits + creditsToAdd
+                    : userData?.credits}{" "}
+                  Credits
+                </p>
               </button>
               <button
                 className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
