@@ -11,7 +11,7 @@ export function BillingButton() {
       disabled={isPending}
       className={`${
         isPending && "cursor-not-allowed bg-gray-100"
-      } relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100`}
+      } relative flex w-full items-center justify-start space-x-2 rounded-md p-2 h-9 text-left text-sm transition-all duration-75 hover:bg-gray-100`}
       onClick={() => {
         startTransition(async () => {
           await billing();
