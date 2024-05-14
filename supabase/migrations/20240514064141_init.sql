@@ -4,82 +4,82 @@
 
 create table
     public.users (
-                     id uuid not null default auth.uid (),
-                     credits numeric not null default '0'::numeric,
-                     name text not null,
-                     email text not null,
-                     image text null,
-                     stripe_id text null,
-                     constraint users_pkey primary key (id),
-                     constraint users_id_fkey foreign key (id) references auth.users (id) on update cascade on delete cascade
+        id uuid not null default auth.uid (),
+        credits numeric not null default '0'::numeric,
+        name text not null,
+        email text not null,
+        image text null,
+        stripe_id text null,
+        constraint users_pkey primary key (id),
+        constraint users_id_fkey foreign key (id) references auth.users (id) on update cascade on delete cascade
 ) tablespace pg_default;
 CREATE POLICY "Enable select for users based on user_id" ON "public"."users" FOR SELECT USING ((( SELECT "auth"."uid"() AS "uid") = "id"));
-ALTER TABLE "public"."users" ENABLE ROW LEVEL SECURITY;
+alter table public.users enable row level security;
 
 create table
     public.data (
-                    id text not null,
-                    output text null,
-                    failed boolean null,
-                    created_at timestamp with time zone null default now(),
-                    user_id uuid null default auth.uid (),
-                    constraint data_pkey primary key (id),
-                    constraint data_user_id_fkey foreign key (user_id) references auth.users (id) on update cascade on delete set null
+        id text not null,
+        output text null,
+        failed boolean null,
+        created_at timestamp with time zone null default now(),
+        user_id uuid null default auth.uid (),
+        constraint data_pkey primary key (id),
+        constraint data_user_id_fkey foreign key (user_id) references auth.users (id) on update cascade on delete set null
 ) tablespace pg_default;
-CREATE POLICY "Enable ALL for users based on user_id" ON "public"."data" TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id")) WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
-CREATE POLICY "Enable read access for all users" ON "public"."data" FOR SELECT USING (true);
-ALTER TABLE "public"."data" ENABLE ROW LEVEL SECURITY;
+create policy "Enable ALL for users based on user_id" on public.data to "authenticated" using ((( select "auth"."uid"() as "uid") = "user_id")) with check ((( select "auth"."uid"() as "uid") = "user_id"));
+create policy "Enable read access for all users" on public.data for select using (true);
+alter table public.data enable row level security;
 
 create table
     public.products (
-                        id text not null,
-                        active boolean null,
-                        attributes jsonb null,
-                        created numeric null,
-                        default_price text null,
-                        description text null,
-                        images jsonb null,
-                        livemode boolean null,
-                        marketing_features jsonb null,
-                        metadata jsonb null,
-                        name text null,
-                        package_dimensions jsonb null,
-                        shippable boolean null,
-                        statement_descriptor text null,
-                        tax_code text null,
-                        type text null,
-                        unit_label text null,
-                        updated numeric null,
-                        url text null,
-                        object text null,
-                        constraint products_pkey primary key (id)
+        id text not null,
+        active boolean null,
+        attributes jsonb null,
+        created numeric null,
+        default_price text null,
+        description text null,
+        images jsonb null,
+        livemode boolean null,
+        marketing_features jsonb null,
+        metadata jsonb null,
+        name text null,
+        package_dimensions jsonb null,
+        shippable boolean null,
+        statement_descriptor text null,
+        tax_code text null,
+        type text null,
+        unit_label text null,
+        updated numeric null,
+        url text null,
+        object text null,
+        constraint products_pkey primary key (id)
 ) tablespace pg_default;
-ALTER TABLE "public"."products" ENABLE ROW LEVEL SECURITY;
+alter table public.products enable row level security;
 
 create table
     public.prices (
-                      id text not null,
-                      active boolean null,
-                      billing_scheme text null,
-                      created numeric null,
-                      currency text null,
-                      custom_unit_amount jsonb null,
-                      livemode boolean null,
-                      lookup_key text null,
-                      metadata jsonb null,
-                      nickname text null,
-                      product text null,
-                      recurring jsonb null,
-                      tax_behavior text null,
-                      tiers_mode text null,
-                      transform_quantity jsonb null,
-                      type text null,
-                      unit_amount numeric null,
-                      unit_amount_decimal text null,
-                      object text null,
-                      constraint prices_pkey primary key (id)
+        id text not null,
+        active boolean null,
+        billing_scheme text null,
+        created numeric null,
+        currency text null,
+        custom_unit_amount jsonb null,
+        livemode boolean null,
+        lookup_key text null,
+        metadata jsonb null,
+        nickname text null,
+        product text null,
+        recurring jsonb null,
+        tax_behavior text null,
+        tiers_mode text null,
+        transform_quantity jsonb null,
+        type text null,
+        unit_amount numeric null,
+        unit_amount_decimal text null,
+        object text null,
+        constraint prices_pkey primary key (id)
 ) tablespace pg_default;
-ALTER TABLE "public"."prices" ENABLE ROW LEVEL SECURITY;
+alter table public.prices enable row level security;
 
 
 /*
