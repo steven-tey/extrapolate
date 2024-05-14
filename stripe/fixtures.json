@@ -47,6 +47,15 @@
           }
         }
       }
+    },
+    {
+      "name": "webhooks",
+      "path": "/v1/webhook_endpoints",
+      "method": "post",
+      "params": {
+        "enabled_events": ["product.created", "product.deleted", "product.updated", "price.created", "price.deleted", "price.updated", "checkout.session.completed"],
+        "url": "https://extrapolate-new.vercel.app/api/webhooks/stripe"
+      }
     }
   ]
 }

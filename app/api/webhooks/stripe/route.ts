@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { StripePrice } from "@/lib/types";
+import type { StripePrice, StripeProduct } from "@/lib/types";
 import type { PostgrestError } from "@supabase/supabase-js";
 
 export const runtime = "edge";
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
   // verify webhook
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_PRICES;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const signature = req.headers.get("stripe-signature");
   try {
     if (!webhookSecret || !signature) {
@@ -31,36 +31,76 @@ export async function POST(req: NextRequest) {
     return new Response(`Webhook Error: ${error}`, { status: 400 });
   }
 
+  const product = event.data.object as StripeProduct;
   const price = event.data.object as StripePrice;
+  const checkout = event.data.object as Stripe.Checkout.Session;
 
-  let error: PostgrestError | null;
+  let error: PostgrestError | null = null;
 
   // Handle the event
   switch (event.type) {
+    // Product
+    case "product.created":
+      const { error: product_insert_error } = await supabase
+        .from("products")
+        .insert(product);
+      error = product_insert_error;
+      break;
+    case "product.updated":
+      const { error: product_update_error } = await supabase
+        .from("products")
+        .update(product)
+        .eq("id", product.id);
+      error = product_update_error;
+      break;
+    case "product.deleted":
+      const { error: product_delete_error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", product.id);
+      error = product_delete_error;
+      break;
+
+    // Price
     case "price.created":
-      const { error: insert_error } = await supabase
+      const { error: price_insert_error } = await supabase
         .from("prices")
         .insert(price);
-      error = insert_error;
+      error = price_insert_error;
       break;
     case "price.updated":
-      const { error: update_error } = await supabase
+      const { error: price_update_error } = await supabase
         .from("prices")
         .update(price)
         .eq("id", price.id);
-      error = update_error;
+      error = price_update_error;
       break;
     case "price.deleted":
-      const { error: delete_error } = await supabase
+      const { error: price_delete_error } = await supabase
         .from("prices")
         .delete()
         .eq("id", price.id);
-      error = delete_error;
+      error = price_delete_error;
+      break;
+
+    // Checkout
+    case "checkout.session.completed":
+      if (
+        checkout.status === "complete" &&
+        checkout.payment_status === "paid"
+      ) {
+        const { error: checkout_error } = await supabase.rpc("update_credits", {
+          user_id: checkout.client_reference_id!,
+          credit_amount: Number(checkout.metadata?.credits),
+        });
+        error = checkout_error;
+      }
       break;
     default:
       // Unexpected event type
       console.log(`Unhandled event type ${event.type}.`);
       error = null;
+      break;
   }
 
   if (error) {
