@@ -29,7 +29,7 @@ export function CheckoutButton({ product }: { product: Product | null }) {
         <LoadingDots color="#808080" />
       ) : (
         <>
-          <p>{`${product?.credits} - $${product?.price}`}</p>
+          <p>{`${product?.credits} credits - $${product?.price}`}</p>
         </>
       )}
     </button>

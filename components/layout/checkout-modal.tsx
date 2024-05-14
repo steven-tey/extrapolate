@@ -44,7 +44,9 @@ const CheckoutModal = ({
         </div>
 
         <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
-          {products?.map((product) => (
+          {products?.sort(
+            (a: any, b: any) => a.price - b.price,
+          ).map((product) => (
             <CheckoutButton key={product.id} product={product} />
           ))}
         </div>
