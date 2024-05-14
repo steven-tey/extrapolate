@@ -9,9 +9,9 @@
 
 
 - [Stripe](https://stripe.com) for Billing
-  - [Stripe Checkout](https://stripe.com/docs/payments/checkout) to buy credits for image generation.
-  - [Stripe Customer Portal](https://stripe.com/docs/billing/subscriptions/customer-portal) to manage billing and view invoices.
-  - [Stripe Webhooks](https://docs.stripe.com/webhooks) to automatically sync product offerings with database.
+  - [Checkout](https://stripe.com/docs/payments/checkout) to buy credits for image generation.
+  - [Customer Portal](https://stripe.com/docs/billing/subscriptions/customer-portal) to manage billing and view invoices.
+  - [Webhooks](https://docs.stripe.com/webhooks) to automatically sync product offerings with database.
 
 
 - Next.js [App Router](https://nextjs.org/docs/app) 
@@ -34,7 +34,9 @@
 ### Steps
   - Use the Deploy with Vercel button above. This will:
     1. Create a new git repository for the project.
-    2. Set up the necessary Supabase environment variables and run the [SQL migrations](supabase/migrations) to set up the Database schema on a new project.
+    2. Set up the necessary Supabase environment variables and run the [SQL migrations](https://github.com/ajayvignesh01/extrapolate-new/tree/main/supabase/migrations) to set up the Database schema on a new project.
+       - If for some reason the migrations weren't automatically run by the integration, you can manually run them in the [SQL Editor](https://app.supabase.com/project/_/sql).
+       - The integration should have also handled adding the site url and approved redirect urls for auth. But in case it didn't, you manually do so [here](https://app.supabase.com/project/_/auth/url-configuration).
     3. Set up some environment variables.
     
   - There are two more things we need to manually set up on Supabase
@@ -45,7 +47,7 @@
        - You can follow the instructions from the official documentation [here](https://supabase.com/dashboard/project/_/database/hooks).
 
   - Now, we can configure Stripe
-    1. Edit the webhook url in the stripe [fixtures.json](/stripe/fixtures.json) file to match your domain.
+    1. Edit the webhook url in the stripe [fixtures.json](https://github.com/ajayvignesh01/extrapolate-new/blob/main/stripe/fixtures.json) file to match your domain.
     2. Run `pnpm fixtures`. This will generate the default products/prices and also set up the necessary webhooks on your Stripe account.
 
   - Lastly, back on Vercel
@@ -53,6 +55,11 @@
     2. Then add `TUNNEL_URL` env variable and make it an empty string. You will edit this in your `.env.local` when developing locally as needed.
     3. If you haven't already added your `REPLICATE_API_TOKEN` env variable, you can do that now as well.
     4. Now redeploy your app on Vercel, and you should be good to go.
+
+### Additional
+
+  - You can use the Stripe CLI to test webhooks locally. More info [here](https://docs.stripe.com/webhooks#test-webhook).
+  - You can pull env variables from Vercel using `pnpm dlx vercel env pull`
 
 
 
