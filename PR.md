@@ -29,7 +29,7 @@
   - Supabase [Account](https://supabase.com/dashboard/sign-in?) & [CLI](https://supabase.com/docs/guides/cli/getting-started?queryGroups=platform&platform=npx)
   - Stripe [Account](https://dashboard.stripe.com/login) & [CLI](https://docs.stripe.com/stripe-cli)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new&env=REPLICATE_API_TOKEN,STRIPE_SECRET_KEY,STRIPE_WEBHOOK_SECRET,CRON_SECRET&envDescription=API%20Keys%20needed%20for%20the%20application&envLink=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new%2Fblob%2Fmain%2F.env.example&project-name=extrapolate&repository-name=extrapolate&demo-title=Extrapolate%20new%20Demo&demo-url=https%3A%2F%2Fextrapolate-new.vercel.app&demo-image=https%3A%2F%2Fextrapolate-new.vercel.app%2Fopengraph-image&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6&external-id=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new%2Ftree%2Fmain)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new&env=REPLICATE_API_TOKEN,STRIPE_SECRET_KEY,CRON_SECRET&envDescription=API%20Keys%20needed%20for%20the%20application&envLink=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new%2Fblob%2Fmain%2F.env.example&project-name=extrapolate-new&repository-name=extrapolate-new&demo-title=Extrapolate%20New%20Demo&demo-url=https%3A%2F%2Fextrapolate-new.vercel.app&demo-image=https%3A%2F%2Fextrapolate-new.vercel.app%2Fopengraph-image&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6&external-id=https%3A%2F%2Fgithub.com%2Fajayvignesh01%2Fextrapolate-new%2Ftree%2Fmain)
 
 ### Steps
   - Use the Deploy with Vercel button above. This will:
