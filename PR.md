@@ -35,7 +35,7 @@
   - Use the Deploy with Vercel button above. This will:
     1. Create a new git repository for the project.
     2. Set up the necessary Supabase environment variables and run the [SQL migrations](https://github.com/ajayvignesh01/extrapolate-new/tree/main/supabase/migrations) to set up the Database schema on a new project.
-       - If for some reason the migrations weren't automatically run by the integration, you can manually run them in the [SQL Editor](https://app.supabase.com/project/_/sql).
+       - If for some reason the migrations weren't automatically run by the integration, or you are manually setting up Supabase, you can manually run them in the [SQL Editor](https://app.supabase.com/project/_/sql).
        - The integration should have also handled adding the site url and approved redirect urls for auth. But in case it didn't, you manually do so [here](https://app.supabase.com/project/_/auth/url-configuration).
     3. Set up some environment variables.
     
@@ -47,14 +47,19 @@
        - You can follow the instructions from the official documentation [here](https://supabase.com/dashboard/project/_/database/hooks).
 
   - Now, we can configure Stripe
-    1. Edit the webhook url in the stripe [fixtures.json](https://github.com/ajayvignesh01/extrapolate-new/blob/main/stripe/fixtures.json) file to match your domain.
-    2. Run `pnpm fixtures`. This will generate the default products/prices and also set up the necessary webhooks on your Stripe account.
+    1. Edit the webhook url in the stripe [webhook.json](https://github.com/ajayvignesh01/extrapolate-new/blob/main/stripe/webhook.json) file to match your domain.
+    2. Run `pnpm fixtures:webhook`. This will set up a webhook to sync products/prices between Stripe & Supabase.
 
-  - Lastly, back on Vercel
+  - Back on Vercel
     1. Add the `STRIPE_WEBHOOK_SECRET` environment variable. You can find this in your [Stripe Webhooks Dashboard](https://dashboard.stripe.com/test/webhooks) under `Signing secret` for the specific webhook.
     2. Then add `TUNNEL_URL` env variable and make it an empty string. You will edit this in your `.env.local` when developing locally as needed.
     3. If you haven't already added your `REPLICATE_API_TOKEN` env variable, you can do that now as well.
-    4. Now redeploy your app on Vercel, and you should be good to go.
+    4. Now redeploy your app on Vercel, and wait for the deployment to complete before moving onto the next step.
+
+  - Lastly, 
+    1. Run `pnpm fixtures:products`. This will generate the default products/prices on your Stripe account.
+    2. You can verify this worked by checking your [Stripe Dashboard](https://dashboard.stripe.com/test/products?active=true) & the products/prices table on [Supabase](https://supabase.com/dashboard/project/_/editor)
+    3. You should be all set to go now!
 
 ### Additional
 

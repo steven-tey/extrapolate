@@ -12,7 +12,8 @@
     "tunnel": "cloudflared tunnel --url http://localhost:3000",
     "gen-types": "pnpm dlx supabase gen types typescript --linked -s public > lib/supabase/types_db.ts",
     "gen-schema": "pnpm dlx supabase db dump --linked -f supabase/schema.sql",
-    "fixtures": "stripe fixtures ./stripe/fixtures.json"
+    "fixtures:webhook": "stripe fixtures stripe/webhook.json",
+    "fixtures:products": "stripe fixtures stripe/products.json"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.7",
