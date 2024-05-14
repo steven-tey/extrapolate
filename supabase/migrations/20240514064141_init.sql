@@ -26,6 +26,7 @@ create table
         constraint data_pkey primary key (id),
         constraint data_user_id_fkey foreign key (user_id) references auth.users (id) on update cascade on delete set null
 ) tablespace pg_default;
+alter publication supabase_realtime add table public.data;
 create policy "Enable ALL for users based on user_id" on public.data to "authenticated" using ((( select "auth"."uid"() as "uid") = "user_id")) with check ((( select "auth"."uid"() as "uid") = "user_id"));
 create policy "Enable read access for all users" on public.data for select using (true);
 alter table public.data enable row level security;
