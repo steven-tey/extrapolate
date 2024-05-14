@@ -26,7 +26,7 @@
 
 ## Introduction
 
-Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence. 100% free and open-source.
+Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence.
 
 https://user-images.githubusercontent.com/28986134/213781048-d215894d-2286-4176-a200-f745b255ecbe.mp4
 

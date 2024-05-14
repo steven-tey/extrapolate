@@ -53,7 +53,7 @@ export default function HomePage({ count }: { count: number | null }) {
         >
           <Balancer ratio={0.6}>
             Curious how you&apos;ll look in 10 years? 20 years? When you&apos;re
-            90? Upload a photo and find out! 100% free and open-source.
+            90 years old? Upload a photo and find out!
           </Balancer>
         </motion.p>
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">
