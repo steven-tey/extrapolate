@@ -2,7 +2,6 @@
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Download } from "lucide-react";
-import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
 
@@ -35,19 +34,18 @@ function forceDownload(blobUrl: string, filename: string) {
 }
 
 export default function PhotoBooth({
+  id,
   input,
   blurDataURL,
   output,
   failed,
 }: {
+  id?: string;
   input: string;
   blurDataURL: string;
   output: string | null;
-  failed?: boolean;
+  failed?: boolean | null;
 }) {
-  const router = useRouter();
-  const { id } = router.query;
-
   const [state, setState] = useState("output");
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
   const [downloading, setDownloading] = useState(false);
@@ -139,6 +137,9 @@ export default function PhotoBooth({
                   <p className="text-sm text-red-600">
                     Failed to run - could not find face in image. Try another!
                   </p>
+                  <p className="text-sm text-red-600 underline">
+                    10 credits returned
+                  </p>
                 </div>
               )}
               {loading && (
@@ -156,7 +157,7 @@ export default function PhotoBooth({
                         className="text-sm text-gray-500"
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                       >
-                        This can take anywhere between 2-3 minutes to run.
+                        This can take a minute to run.
                       </motion.p>
                     </motion.div>
                   )}
