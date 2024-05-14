@@ -66,7 +66,7 @@ export default function HomePage({ count }: { count: number | null }) {
           </button>
           <p className="mt-2 text-center text-sm text-gray-500">
             {count && count > 0
-              ? `${nFormatter(count)} photos generated and counting!`
+              ? `${nFormatter(370929 + count)} photos generated and counting!`
               : "Generate your photo now!"}
           </p>
         </motion.div>
