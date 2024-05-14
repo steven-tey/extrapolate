@@ -31,7 +31,7 @@ export async function checkout({
     client_reference_id: userData?.id,
     // TODO: modal to show result
     success_url: getDomain(`/?success=true&credits=${credits}`),
-    cancel_url: getDomain(`/success=false&credits=${credits}`),
+    cancel_url: getDomain(`/?success=false&credits=${credits}`),
     line_items: [
       {
         price: price_id,
