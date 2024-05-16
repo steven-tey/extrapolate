@@ -12,12 +12,10 @@ import { useState } from "react";
 
 export default function PhotoPage({
   id,
-  input,
   blurDataURL,
   data: fallbackData,
 }: {
   id: string;
-  input: string;
   blurDataURL: string;
   data: DataProps;
 }) {
@@ -95,10 +93,11 @@ export default function PhotoPage({
         ) : (
           <PhotoBooth
             id={id}
-            input={input}
+            input={data.input}
             blurDataURL={blurDataURL}
             output={data.output}
             failed={data.failed}
+            className="h-[350px] sm:h-[600px] sm:w-[600px]"
           />
         )}
       </motion.div>

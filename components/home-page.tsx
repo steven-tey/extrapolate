@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { Twitter } from "@/components/shared/icons";
 import Balancer from "react-wrap-balancer";
-import { Upload } from "lucide-react";
+import { Images, Upload } from "lucide-react";
 import { nFormatter } from "@/lib/utils";
 import PhotoBooth from "@/components/home/photo-booth";
 import { useUploadModal } from "@/components/home/upload-modal";
+import Link from "next/link";
 
 export default function HomePage({ count }: { count: number | null }) {
   const { UploadModal, setShowUploadModal } = useUploadModal();
@@ -57,16 +58,27 @@ export default function HomePage({ count }: { count: number | null }) {
           </Balancer>
         </motion.p>
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">
-          <button
-            className="group mx-auto mt-6 flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-            onClick={() => setShowUploadModal(true)}
-          >
-            <Upload className="h-5 w-5 text-white group-hover:text-black" />
-            <p>Upload a photo</p>
-          </button>
+          <div className="mt-6 flex flex-row justify-center space-x-4">
+            <div>
+              <button
+                className="group mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
+                onClick={() => setShowUploadModal(true)}
+              >
+                <Upload className="h-5 w-5 text-white group-hover:text-black" />
+                <p>Upload a Photo</p>
+              </button>
+            </div>
+
+            <Link href={"/gallery"}>
+              <button className="group mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black">
+                <Images className="h-5 w-5 text-white group-hover:text-black" />
+                <p>My Gallery</p>
+              </button>
+            </Link>
+          </div>
           <p className="mt-2 text-center text-sm text-gray-500">
             {count && count > 0
-              ? `${nFormatter(370929 + count)} photos generated and counting!`
+              ? `${nFormatter(370986 + count)} photos generated and counting!`
               : "Generate your photo now!"}
           </p>
         </motion.div>
@@ -76,6 +88,7 @@ export default function HomePage({ count }: { count: number | null }) {
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR4nAEnANj/ALjj/4mIh+P+/9Lv/wCn0+xeLxV9cWWUtL0AUz0tKQAAeVU0j4d/y2cTsDiuaawAAAAASUVORK5CYII="
           // output={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/output.gif`}
           output="https://images.extrapolate.workers.dev/output.gif"
+          className="h-[350px] sm:h-[600px] sm:w-[600px]"
         />
       </motion.div>
     </>

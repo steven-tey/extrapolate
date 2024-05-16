@@ -1,4 +1,6 @@
 import ms from "ms";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
   if (!timestamp) return "never";
@@ -77,3 +79,7 @@ export const getDomain = (input: string = "") => {
 
   return domain + input;
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

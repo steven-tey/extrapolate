@@ -9,14 +9,43 @@ export async function POST(req: NextRequest) {
 
   const supabase = createAdminClient();
 
-  // Prediction successful --> update db --> user receives output via supabase realtime
+  // get user_id
+  const { data, error } = await supabase
+    .from("data")
+    .select("user_id")
+    .eq("id", id)
+    .single();
+  if (error)
+    return new Response(`Error getting user_id: ${error.message}`, {
+      status: 400,
+    });
+
+  // Prediction successful --> upload output to supabase storage --> update db output url --> user receives output via supabase realtime
   if (status === "succeeded") {
+    const blob = await fetch(output).then((res) => res.blob());
+    const { data: storageData, error: storageError } = await supabase.storage
+      .from("output")
+      .upload(`/${data?.user_id}/${id}`, blob, {
+        contentType: blob.type,
+        cacheControl: "3600",
+        upsert: true,
+      });
+    if (storageError)
+      new Response(`Error saving output: ${storageError.message}`, {
+        status: 400,
+      });
+    const outputURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/output/${storageData?.path}`;
+
     const { error } = await supabase
       .from("data")
-      .update({ output: output })
+      .update({
+        output: outputURL,
+      })
       .eq("id", id);
     if (error)
-      new Response(`Error updating output: ${error.message}`, { status: 400 });
+      new Response(`Error updating output url: ${error.message}`, {
+        status: 400,
+      });
   }
 
   // Prediction failed --> update db --> user receives failed via supabase realtime --> user gets credits returned

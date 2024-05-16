@@ -1,9 +1,12 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
+import { cn } from "@/lib/utils";
 
 const variants = {
   enter: (direction: number) => {
@@ -39,14 +42,19 @@ export default function PhotoBooth({
   blurDataURL,
   output,
   failed,
+  initialState = "output",
+  className,
 }: {
   id?: string;
   input: string;
-  blurDataURL: string;
+  // TODO: do we need this extra step?
+  blurDataURL?: string;
   output: string | null;
   failed?: boolean | null;
+  initialState?: "input" | "output";
+  className?: string;
 }) {
-  const [state, setState] = useState("output");
+  const [state, setState] = useState(initialState);
   const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -68,12 +76,15 @@ export default function PhotoBooth({
 
   return (
     <motion.div
-      className="group relative mx-auto mt-10 h-[350px] w-full overflow-hidden rounded-2xl border border-gray-200 sm:h-[600px] sm:w-[600px]"
+      className={cn(
+        "group relative mx-auto mt-10 size-full w-full overflow-hidden rounded-2xl border border-gray-200",
+        className,
+      )}
       variants={FADE_DOWN_ANIMATION_VARIANTS}
     >
       <button
         onClick={() => setState(state === "output" ? "input" : "output")}
-        className="absolute left-5 top-5 z-10 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
+        className="absolute left-5 top-5 z-20 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
       >
         <p className="text-sm font-semibold text-gray-500">
           {state === "output" ? "View original" : "View result"}
@@ -130,7 +141,7 @@ export default function PhotoBooth({
               initial="enter"
               animate="center"
               exit="exit"
-              className="absolute h-full w-full"
+              className="absolute flex h-full w-full items-center justify-center"
             >
               {failed && (
                 <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
@@ -142,7 +153,7 @@ export default function PhotoBooth({
                   </p>
                 </div>
               )}
-              {loading && (
+              {loading && !failed && (
                 <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
                   <LoadingCircle />
                   {id && showForm && (
@@ -179,7 +190,7 @@ export default function PhotoBooth({
               initial="enter"
               animate="center"
               exit="exit"
-              className="absolute h-full w-full"
+              className="absolute flex h-full w-full items-center justify-center"
             >
               <img
                 alt="original image"

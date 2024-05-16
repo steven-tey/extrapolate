@@ -11,25 +11,28 @@ export type Database = {
     Tables: {
       data: {
         Row: {
-          created_at: string | null
+          created_at: string
           failed: boolean | null
           id: string
+          input: string
           output: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           failed?: boolean | null
           id: string
+          input?: string
           output?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           failed?: boolean | null
           id?: string
+          input?: string
           output?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {

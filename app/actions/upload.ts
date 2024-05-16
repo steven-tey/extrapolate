@@ -37,7 +37,8 @@ export async function upload(previousState: any, formData: FormData) {
 
   // Handle request
   // Generate key and insert id to supabase
-  const { key } = await setRandomKey();
+  const { key } = await setRandomKey(user_id);
+  const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/input/${user_id}/${key}`;
 
   const domain =
     process.env.NODE_ENV === "development"
@@ -45,14 +46,14 @@ export async function upload(previousState: any, formData: FormData) {
         process.env.TUNNEL_URL!
       : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
 
-  const { data, error } = await supabaseAdmin.storage
-    .from("data")
-    .upload(`/${key}`, image, {
+  const { data: storageData, error: storageError } = await supabaseAdmin.storage
+    .from("input")
+    .upload(`/${user_id}/${key}`, image, {
       contentType: image.type,
       cacheControl: "3600",
       upsert: true,
     });
-  if (error)
+  if (storageError)
     return {
       message: "Unexpected error uploading image, please try again",
       status: 400,
@@ -63,7 +64,7 @@ export async function upload(previousState: any, formData: FormData) {
       version:
         "9222a21c181b707209ef12b5e0d7e94c994b58f01c7b2fec075d2e892362f13c",
       input: {
-        image: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/${key}`,
+        image: input,
         target_age: "default",
       },
       webhook: `${domain}/api/webhooks/replicate/${key}`,
@@ -90,16 +91,19 @@ export async function upload(previousState: any, formData: FormData) {
 }
 
 // Generates new key that doesn't already exist in db
-async function setRandomKey(): Promise<{ key: string }> {
+async function setRandomKey(user_id: string): Promise<{ key: string }> {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
   /* recursively set link till successful */
   const key = nanoid();
-  const { error } = await supabase.from("data").insert({ id: key });
+  const { error } = await supabase.from("data").insert({
+    id: key,
+    input: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/input/${user_id}/${key}`,
+  });
   if (error) {
     // by the off chance that key already exists
-    return setRandomKey();
+    return setRandomKey(user_id);
   } else {
     return { key };
   }
