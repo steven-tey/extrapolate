@@ -14,7 +14,7 @@ import {
 import { Coins, CreditCard, LogOut, Receipt } from "lucide-react";
 import { billing } from "@/app/actions/billing";
 import { LoadingDots } from "@/components/shared/icons";
-import { useCheckoutModal } from "@/components/layout/checkout-modal";
+import { useCheckoutDialog } from "@/components/layout/checkout-dialog";
 
 export function UserDropdown({ userData }: { userData: UserData | null }) {
   const supabase = createClient();
@@ -47,14 +47,13 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { CheckoutModal, setShowCheckoutModal } = useCheckoutModal();
+  const setCheckoutDialogOpen = useCheckoutDialog((s) => s.setOpen);
   const [isPending, startTransition] = useTransition();
 
   if (!email) return null;
 
   return (
     <>
-      <CheckoutModal />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="size-9">
@@ -95,7 +94,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
           <DropdownMenuItem
             className="space-x-2"
             onSelect={() => {
-              setShowCheckoutModal(true);
+              setCheckoutDialogOpen(true);
             }}
           >
             <CreditCard className="h-4 w-4" />
