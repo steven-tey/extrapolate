@@ -4,9 +4,10 @@
 import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
-import UserDropdown from "./user-dropwdown";
+import { UserDropdown } from "./user-dropdown";
 import { createClient } from "@/lib/supabase/client";
 import useSWRImmutable from "swr/immutable";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const supabase = createClient();
@@ -51,12 +52,13 @@ export default function Navbar() {
               <UserDropdown userData={userData} />
             ) : (
               !isLoading && (
-                <button
-                  className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
+                <Button
+                  size="sm"
+                  className="border-primary hover:bg-primary-foreground hover:text-primary rounded-full border transition-all"
                   onClick={() => setShowSignInModal(true)}
                 >
                   Sign In
-                </button>
+                </Button>
               )
             )}
           </div>
