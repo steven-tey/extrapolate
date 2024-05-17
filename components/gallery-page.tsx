@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export function GalleryPage({ data }: { data: Tables<"data">[] | null }) {
   const router = useRouter();
   return (
-    <>
+    <div className="flex flex-col items-center justify-center">
       <div className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]">
         <Balancer>Gallery</Balancer>
       </div>
@@ -24,7 +24,7 @@ export function GalleryPage({ data }: { data: Tables<"data">[] | null }) {
               input={row.input}
               output={row.output}
               failed={row.failed}
-              initialState="input"
+              initialState={0}
               className="h-[350px]"
             />
           </div>
@@ -35,6 +35,6 @@ export function GalleryPage({ data }: { data: Tables<"data">[] | null }) {
           <p>Upload a photo to see your gallery!</p>
         </div>
       )}
-    </>
+    </div>
   );
 }

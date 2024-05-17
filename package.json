@@ -42,7 +42,6 @@
     "plaiceholder": "^3.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-hot-toast": "^2.4.1",
     "react-markdown": "^9.0.1",
     "react-wrap-balancer": "^1.1.0",
     "replicate": "^0.29.4",

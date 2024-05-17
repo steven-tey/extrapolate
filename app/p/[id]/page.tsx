@@ -19,22 +19,14 @@ async function getData(id: string) {
     .eq("id", id)
     .single();
 
-  if (!data) notFound();
+  if (!data) return notFound();
 
-  const buffer = await fetch(data.input).then(async (res) =>
-    Buffer.from(await res.arrayBuffer()),
-  );
-  const { base64: blurDataURL } = await getPlaiceholder(buffer);
-
-  return {
-    blurDataURL,
-    data,
-  };
+  return data;
 }
 
 export default async function Photo({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { blurDataURL, data: fallbackData } = await getData(id);
+  const fallbackData = await getData(id);
 
-  return <PhotoPage id={id} blurDataURL={blurDataURL} data={fallbackData} />;
+  return <PhotoPage id={id} data={fallbackData} />;
 }

@@ -8,11 +8,12 @@ import { nFormatter } from "@/lib/utils";
 import PhotoBooth from "@/components/home/photo-booth";
 import { useUploadModal } from "@/components/home/upload-modal";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function HomePage({ count }: { count: number | null }) {
   const { UploadModal, setShowUploadModal } = useUploadModal();
   return (
-    <>
+    <div className="flex flex-col items-center justify-center">
       <UploadModal />
       <motion.div
         className="z-10 max-w-2xl px-5 xl:px-0"
@@ -46,21 +47,19 @@ export default function HomePage({ count }: { count: number | null }) {
         </motion.p>
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">
           <div className="mt-6 flex flex-row justify-center space-x-4">
-            <div>
-              <button
-                className="group mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
-                onClick={() => setShowUploadModal(true)}
-              >
-                <Upload className="h-5 w-5 text-white group-hover:text-black" />
-                <p>Upload a Photo</p>
-              </button>
-            </div>
+            <Button
+              className="hover:bg-background hover:text-foreground space-x-2 rounded-full border border-black transition-colors"
+              onClick={() => setShowUploadModal(true)}
+            >
+              <Upload className="h-5 w-5" />
+              <p>Upload a Photo</p>
+            </Button>
 
             <Link href={"/gallery"}>
-              <button className="group mx-auto flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black">
-                <Images className="h-5 w-5 text-white group-hover:text-black" />
+              <Button className="hover:bg-background hover:text-foreground space-x-2 rounded-full border border-black transition-colors">
+                <Images className="h-5 w-5" />
                 <p>My Gallery</p>
-              </button>
+              </Button>
             </Link>
           </div>
           <p className="mt-2 text-center text-sm text-gray-500">
@@ -72,12 +71,12 @@ export default function HomePage({ count }: { count: number | null }) {
         <PhotoBooth
           // input={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/input.jpg`}
           input="https://images.extrapolate.workers.dev/input.jpg"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR4nAEnANj/ALjj/4mIh+P+/9Lv/wCn0+xeLxV9cWWUtL0AUz0tKQAAeVU0j4d/y2cTsDiuaawAAAAASUVORK5CYII="
+          // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR4nAEnANj/ALjj/4mIh+P+/9Lv/wCn0+xeLxV9cWWUtL0AUz0tKQAAeVU0j4d/y2cTsDiuaawAAAAASUVORK5CYII="
           // output={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/output.gif`}
           output="https://images.extrapolate.workers.dev/output.gif"
           className="h-[350px] sm:h-[600px] sm:w-[600px]"
         />
       </motion.div>
-    </>
+    </div>
   );
 }
