@@ -60,7 +60,8 @@ export default function PhotoBooth({
       variants={FADE_DOWN_ANIMATION_VARIANTS}
     >
       <Button
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           api?.canScrollNext() ? api?.scrollNext() : api?.scrollPrev();
         }}
         variant="secondary"
@@ -78,7 +79,8 @@ export default function PhotoBooth({
       */}
       {id && output && !failed && current === 1 && (
         <Button
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             setDownloading(true);
             fetch(output, {
               headers: new Headers({

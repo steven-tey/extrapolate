@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -34,14 +35,14 @@ export default function NotFound() {
           className="mx-auto mt-10 flex h-[350px] w-full flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white sm:h-[600px] sm:w-[600px]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          <p className="text-sm text-gray-500">
-            Photo not found or deleted. Please upload a new photo.
+          <p className="text-muted-foreground text-sm">
+            Photo not found, please upload a new one.
           </p>
           <Link href="/">
-            <button className="group mx-auto mt-6 flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black">
+            <Button className="hover:bg-primary-foreground hover:text-primary border-primary group mt-6 space-x-2 rounded-full border transition-colors">
               <Upload className="h-5 w-5 text-white group-hover:text-black" />
               <p>Upload another photo</p>
-            </button>
+            </Button>
           </Link>
         </motion.div>
       </motion.div>

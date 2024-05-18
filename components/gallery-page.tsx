@@ -25,7 +25,7 @@ export function GalleryPage({ data }: { data: Tables<"data">[] | null }) {
               output={row.output}
               failed={row.failed}
               initialState={0}
-              className="h-[350px]"
+              className="h-full"
             />
           </div>
         ))}

@@ -12,7 +12,7 @@ export default async function Gallery() {
     .from("data")
     .select("*")
     .order("created_at", { ascending: false })
-    .eq("user_id", session?.user.id || "");
+    .match({ user_id: session?.user.id || "", failed: false });
 
   return <GalleryPage data={data} />;
 }
