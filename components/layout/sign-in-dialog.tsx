@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import useSWRImmutable from "swr/immutable";
 import {
   Dialog,
   DialogContent,
@@ -23,31 +22,25 @@ import { Button } from "@/components/ui/button";
 import { create } from "zustand";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { Product } from "@/lib/types";
-import { useTransition } from "react";
-import { checkout } from "@/app/actions/checkout";
-import { LoadingDots } from "@/components/shared/icons";
+import { useState } from "react";
+import { Google, LoadingDots } from "@/components/shared/icons";
+import { getURL } from "@/lib/utils";
 
-type CheckoutDialogStore = {
+type SignInDialogStore = {
   open: boolean;
   setOpen: (isOpen: boolean) => void;
 };
 
-export const useCheckoutDialog = create<CheckoutDialogStore>((set) => ({
+export const useSignInDialog = create<SignInDialogStore>((set) => ({
   open: false,
   setOpen: (open) => set(() => ({ open: open })),
 }));
 
-export function CheckoutDialog() {
+export function SignInDialog() {
   const supabase = createClient();
+  const [signInClicked, setSignInClicked] = useState(false);
 
-  const { data: products } = useSWRImmutable("get_products", async () => {
-    const { data: products, error } = await supabase.rpc("get_products");
-
-    return products;
-  });
-
-  const [open, setOpen] = useCheckoutDialog((s) => [s.open, s.setOpen]);
+  const [open, setOpen] = useSignInDialog((s) => [s.open, s.setOpen]);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
@@ -65,10 +58,11 @@ export function CheckoutDialog() {
               />
             </a>
             <DialogTitle className="font-display text-2xl font-bold leading-normal tracking-normal">
-              Buy Credits
+              Sign In
             </DialogTitle>
             <DialogDescription className="text-center">
-              10 Credits = 1 Image
+              By signing up, you agree to our Terms of Service and Privacy
+              Policy.
             </DialogDescription>
           </DialogHeader>
 
@@ -76,11 +70,29 @@ export function CheckoutDialog() {
 
           {/* Buttons */}
           <div className="flex flex-col space-y-4 bg-gray-50 px-16 py-8">
-            {products
-              ?.sort((a: any, b: any) => a.price - b.price)
-              .map((product) => (
-                <CheckoutButton key={product.id} product={product} />
-              ))}
+            <Button
+              variant="outline"
+              disabled={signInClicked}
+              className={`w-full space-x-3 shadow-sm`}
+              onClick={async () => {
+                setSignInClicked(true);
+                await supabase.auth.signInWithOAuth({
+                  provider: "google",
+                  options: {
+                    redirectTo: getURL("/api/auth/callback"),
+                  },
+                });
+              }}
+            >
+              {signInClicked ? (
+                <LoadingDots color="#808080" />
+              ) : (
+                <>
+                  <Google className="h-5 w-5" />
+                  <p>Sign In with Google</p>
+                </>
+              )}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -101,10 +113,10 @@ export function CheckoutDialog() {
             />
           </a>
           <DrawerTitle className="font-display text-2xl font-bold leading-normal tracking-normal">
-            Buy Credits
+            Sign In
           </DrawerTitle>
           <DrawerDescription className="text-center">
-            10 Credits = 1 Image
+            By signing up, you agree to our Terms of Service and Privacy Policy.
           </DrawerDescription>
         </DrawerHeader>
 
@@ -112,11 +124,29 @@ export function CheckoutDialog() {
 
         {/* Buttons */}
         <div className="bg-muted flex flex-col space-y-4 px-4 py-8">
-          {products
-            ?.sort((a: any, b: any) => a.price - b.price)
-            .map((product) => (
-              <CheckoutButton key={product.id} product={product} />
-            ))}
+          <Button
+            variant="outline"
+            disabled={signInClicked}
+            className={`w-full space-x-3 shadow-sm`}
+            onClick={async () => {
+              setSignInClicked(true);
+              await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                  redirectTo: getURL("/api/auth/callback"),
+                },
+              });
+            }}
+          >
+            {signInClicked ? (
+              <LoadingDots color="#808080" />
+            ) : (
+              <>
+                <Google className="h-5 w-5" />
+                <p>Sign In with Google</p>
+              </>
+            )}
+          </Button>
         </div>
 
         <DrawerFooter className="bg-muted">
@@ -126,35 +156,5 @@ export function CheckoutDialog() {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  );
-}
-
-function CheckoutButton({ product }: { product: Product | null }) {
-  const [isPending, startTransition] = useTransition();
-
-  const checkoutWithProps = checkout.bind(null, {
-    price_id: product?.price_id!,
-    credits: product?.credits!,
-  });
-
-  return (
-    <Button
-      variant="outline"
-      className="w-full focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
-      onClick={() => {
-        startTransition(async () => {
-          await checkoutWithProps();
-        });
-      }}
-      disabled={isPending}
-    >
-      {isPending ? (
-        <LoadingDots color="#808080" />
-      ) : (
-        <>
-          <p>{`${product?.credits} credits - $${product?.price}`}</p>
-        </>
-      )}
-    </Button>
   );
 }

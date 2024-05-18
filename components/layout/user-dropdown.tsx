@@ -47,7 +47,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setCheckoutDialogOpen = useCheckoutDialog((s) => s.setOpen);
+  const setShowCheckoutDialog = useCheckoutDialog((s) => s.setOpen);
   const [isPending, startTransition] = useTransition();
 
   if (!email) return null;
@@ -56,7 +56,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="size-9">
+          <Avatar className="size-9 cursor-pointer">
             <AvatarImage
               alt={email}
               src={
@@ -94,7 +94,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
           <DropdownMenuItem
             className="space-x-2"
             onSelect={() => {
-              setCheckoutDialogOpen(true);
+              setShowCheckoutDialog(true);
             }}
           >
             <CreditCard className="h-4 w-4" />
