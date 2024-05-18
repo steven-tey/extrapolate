@@ -1,7 +1,6 @@
 "use client";
 
 import { DataProps } from "@/lib/types";
-import { useUploadModal } from "@/components/home/upload-modal";
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import PhotoBooth from "@/components/home/photo-booth";
@@ -39,11 +38,8 @@ export default function PhotoPage({
       .subscribe();
   }
 
-  const { UploadModal, setShowUploadModal } = useUploadModal();
-
   return (
     <div className="flex flex-col items-center justify-center">
-      <UploadModal />
       <motion.div
         className="z-10 max-w-2xl px-5 xl:px-0"
         initial="hidden"

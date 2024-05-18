@@ -75,7 +75,7 @@ export function CheckoutDialog() {
           <Separator />
 
           {/* Buttons */}
-          <div className="flex flex-col space-y-4 bg-gray-50 px-16 py-8">
+          <div className="bg-muted flex flex-col space-y-4 px-16 py-8">
             {products
               ?.sort((a: any, b: any) => a.price - b.price)
               .map((product) => (

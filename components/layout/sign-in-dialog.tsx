@@ -68,8 +68,8 @@ export function SignInDialog() {
 
           <Separator />
 
-          {/* Buttons */}
-          <div className="flex flex-col space-y-4 bg-gray-50 px-16 py-8">
+          {/* Sign In Button */}
+          <div className="bg-muted flex flex-col space-y-4 px-16 py-8">
             <Button
               variant="outline"
               disabled={signInClicked}
@@ -122,7 +122,7 @@ export function SignInDialog() {
 
         <Separator />
 
-        {/* Buttons */}
+        {/* Sign In Button */}
         <div className="bg-muted flex flex-col space-y-4 px-4 py-8">
           <Button
             variant="outline"

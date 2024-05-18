@@ -6,15 +6,15 @@ import Balancer from "react-wrap-balancer";
 import { Images, Upload } from "lucide-react";
 import { nFormatter } from "@/lib/utils";
 import PhotoBooth from "@/components/home/photo-booth";
-import { useUploadModal } from "@/components/home/upload-modal";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { UploadDialog, useUploadDialog } from "@/components/home/upload-dialog";
 
 export default function HomePage({ count }: { count: number | null }) {
-  const { UploadModal, setShowUploadModal } = useUploadModal();
+  const setShowUploadModal = useUploadDialog((s) => s.setOpen);
   return (
     <div className="flex flex-col items-center justify-center">
-      <UploadModal />
+      <UploadDialog />
       <motion.div
         className="z-10 max-w-2xl px-5 xl:px-0"
         initial="hidden"
@@ -48,7 +48,7 @@ export default function HomePage({ count }: { count: number | null }) {
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">
           <div className="mt-6 flex flex-row justify-center space-x-4">
             <Button
-              className="hover:bg-background hover:text-foreground space-x-2 rounded-full border border-black transition-colors"
+              className="hover:bg-primary-foreground hover:text-primary border-primary space-x-2 rounded-full border transition-colors"
               onClick={() => setShowUploadModal(true)}
             >
               <Upload className="h-5 w-5" />
@@ -56,7 +56,7 @@ export default function HomePage({ count }: { count: number | null }) {
             </Button>
 
             <Link href={"/gallery"}>
-              <Button className="hover:bg-background hover:text-foreground space-x-2 rounded-full border border-black transition-colors">
+              <Button className="hover:bg-primary-foreground hover:text-primary border-primary space-x-2 rounded-full border transition-colors">
                 <Images className="h-5 w-5" />
                 <p>My Gallery</p>
               </Button>
