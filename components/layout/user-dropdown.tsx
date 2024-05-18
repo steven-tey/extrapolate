@@ -14,7 +14,10 @@ import {
 import { Coins, CreditCard, LogOut, Receipt } from "lucide-react";
 import { billing } from "@/app/actions/billing";
 import { LoadingDots } from "@/components/shared/icons";
-import { useCheckoutDialog } from "@/components/layout/checkout-dialog";
+import {
+  CheckoutDialog,
+  useCheckoutDialog,
+} from "@/components/layout/checkout-dialog";
 
 export function UserDropdown({ userData }: { userData: UserData | null }) {
   const supabase = createClient();
@@ -54,6 +57,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
 
   return (
     <>
+      <CheckoutDialog />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="size-9 cursor-pointer">

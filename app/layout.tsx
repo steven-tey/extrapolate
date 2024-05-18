@@ -7,7 +7,6 @@ import Footer from "@/components/layout/footer";
 import cx from "classnames";
 import Navbar from "@/components/layout/navbar";
 import Script from "next/script";
-import { Dialogs } from "@/components/layout/dialogs";
 
 const clash = localFont({
   src: "../styles/ClashDisplay-Semibold.otf",
@@ -62,7 +61,6 @@ export default function RootLayout({
       />
       <body>
         <div className="fixed -z-10 h-screen w-screen bg-gradient-to-br from-emerald-100 via-blue-50 to-rose-100" />
-        <Dialogs />
         <Navbar />
         <main className="min-h-screen py-32 antialiased">{children}</main>
         <Footer />
