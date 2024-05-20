@@ -11,6 +11,7 @@
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "tunnel": "cloudflared tunnel --url http://localhost:3000",
     "gen-types": "pnpm dlx supabase gen types typescript --linked -s public > lib/supabase/types_db.ts",
+    "gen-types-2": "pnpm dlx supabase gen types typescript --project-id zufrwdcmaojotovkjeww --schema public > lib/supabase/types_db.ts",
     "gen-schema": "pnpm dlx supabase db dump --linked -f supabase/schema.sql",
     "fixtures:webhook": "stripe fixtures stripe/webhook.json",
     "fixtures:products": "stripe fixtures stripe/products.json"
@@ -19,6 +20,7 @@
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",

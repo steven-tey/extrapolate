@@ -11,13 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Coins, CreditCard, LogOut, Receipt } from "lucide-react";
+import { Coins, CreditCard, LogOut, Receipt, Trash2 } from "lucide-react";
 import { billing } from "@/app/actions/billing";
 import { LoadingDots } from "@/components/shared/icons";
 import {
   CheckoutDialog,
   useCheckoutDialog,
 } from "@/components/layout/checkout-dialog";
+import {
+  DeleteAccountDialog,
+  useDeleteAccountDialog,
+} from "@/components/layout/delete-account-dialog";
 
 export function UserDropdown({ userData }: { userData: UserData | null }) {
   const supabase = createClient();
@@ -34,6 +38,8 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
     success: boolean;
     credits: number;
   }>();
+
+  const setShowDeleteAccountModal = useDeleteAccountDialog((s) => s.setOpen);
 
   useEffect(() => {
     // TODO: display stripe success or failure modal
@@ -58,6 +64,7 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
   return (
     <>
       <CheckoutDialog />
+      <DeleteAccountDialog />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="size-9 cursor-pointer">
@@ -136,6 +143,16 @@ export function UserDropdown({ userData }: { userData: UserData | null }) {
           >
             <LogOut className="h-4 w-4" />
             <p className="text-sm">Logout</p>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            className="space-x-2 focus:bg-destructive focus:text-destructive-foreground"
+            onClick={() => setShowDeleteAccountModal(true)}
+          >
+            <Trash2 className="h-4 w-4" />
+            <p className="text-sm">Delete Account</p>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

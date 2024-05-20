@@ -21,13 +21,7 @@ import { Button } from "@/components/ui/button";
 import { create } from "zustand";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import {
-  ChangeEvent,
-  useCallback,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { LoadingDots } from "@/components/shared/icons";
 import { UploadCloud } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -155,7 +149,7 @@ export function UploadForm() {
   return (
     <form
       action={uploadFormAction}
-      className="bg-muted grid gap-6 px-4 py-8 md:px-16"
+      className="grid gap-6 bg-muted px-4 py-8 md:px-16"
     >
       <div>
         <div className="flex items-center justify-between">
@@ -248,6 +242,7 @@ export function UploadForm() {
             onChange={onChangePicture}
           />
         </div>
+        {state?.message && <p className="text-destructive">{state.message}</p>}
       </div>
 
       <UploadButton data={data} />

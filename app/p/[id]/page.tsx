@@ -1,5 +1,4 @@
-import { getPlaiceholder } from "plaiceholder";
-import PhotoPage from "@/components/photo-page";
+import PhotoPage from "@/app/p/[id]/photo-page";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";

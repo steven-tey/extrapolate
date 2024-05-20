@@ -2,10 +2,10 @@
 
 import Balancer from "react-wrap-balancer";
 import PhotoBooth from "@/components/home/photo-booth";
-import { Tables } from "@/lib/supabase/types_db";
 import { useRouter } from "next/navigation";
+import { DataProps } from "@/lib/types";
 
-export function GalleryPage({ data }: { data: Tables<"data">[] | null }) {
+export function GalleryPage({ data }: { data: DataProps[] | null }) {
   const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center">

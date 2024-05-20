@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-import { GalleryPage } from "@/components/gallery-page";
+import { GalleryPage } from "@/app/gallery/gallery-page";
 
 export default async function Gallery() {
   const cookieStore = cookies();
