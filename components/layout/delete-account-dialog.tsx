@@ -136,6 +136,7 @@ function DeleteAccountForm() {
         <Input
           type="text"
           id="deleteConfirmation"
+          name="deleteConfirmation"
           required
           pattern="delete my account"
           className="w-full"

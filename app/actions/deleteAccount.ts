@@ -3,8 +3,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-import { z } from "zod";
-import { redirect } from "next/navigation";
 
 type FormState = {
   message: string;
@@ -15,6 +13,13 @@ export async function deleteAccount(prevState: FormState, formData: FormData) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const supabaseAdmin = createAdminClient();
+
+  const confirmation = formData.get("deleteConfirmation") as string;
+  if (confirmation !== "deleteConfirmation")
+    return {
+      message: `Confirmation failed`,
+      status: 400,
+    };
 
   // get user object
   const {
@@ -61,7 +66,7 @@ export async function deleteAccount(prevState: FormState, formData: FormData) {
     };
 
   return {
-    message: `Successfully deleted account for ${user.email}. Sign out or refresh the page`,
+    message: `Successfully deleted account for ${deleteData.user?.email}. Sign out or refresh the page`,
     status: 200,
   };
 }
