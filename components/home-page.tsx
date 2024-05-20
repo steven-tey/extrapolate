@@ -9,6 +9,7 @@ import PhotoBooth from "@/components/home/photo-booth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UploadDialog, useUploadDialog } from "@/components/home/upload-dialog";
+import { FAQ } from "@/components/home/faq";
 
 export default function HomePage({ count }: { count: number | null }) {
   const setShowUploadModal = useUploadDialog((s) => s.setOpen);
@@ -48,7 +49,7 @@ export default function HomePage({ count }: { count: number | null }) {
         <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS} className="-mb-4">
           <div className="mt-6 flex flex-row justify-center space-x-4">
             <Button
-              className="hover:bg-primary-foreground hover:text-primary border-primary space-x-2 rounded-full border transition-colors"
+              className="space-x-2 rounded-full border border-primary transition-colors hover:bg-primary-foreground hover:text-primary"
               onClick={() => setShowUploadModal(true)}
             >
               <Upload className="h-5 w-5" />
@@ -56,7 +57,7 @@ export default function HomePage({ count }: { count: number | null }) {
             </Button>
 
             <Link href={"/gallery"}>
-              <Button className="hover:bg-primary-foreground hover:text-primary border-primary space-x-2 rounded-full border transition-colors">
+              <Button className="space-x-2 rounded-full border border-primary transition-colors hover:bg-primary-foreground hover:text-primary">
                 <Images className="h-5 w-5" />
                 <p>My Gallery</p>
               </Button>
@@ -77,6 +78,8 @@ export default function HomePage({ count }: { count: number | null }) {
           className="h-[350px] sm:h-[600px] sm:w-[600px]"
         />
       </motion.div>
+
+      <FAQ />
     </div>
   );
 }
