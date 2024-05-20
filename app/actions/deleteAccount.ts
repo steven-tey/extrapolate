@@ -15,7 +15,7 @@ export async function deleteAccount(prevState: FormState, formData: FormData) {
   const supabaseAdmin = createAdminClient();
 
   const confirmation = formData.get("deleteConfirmation") as string;
-  if (confirmation !== "deleteConfirmation")
+  if (confirmation !== "delete my account")
     return {
       message: `Confirmation failed`,
       status: 400,

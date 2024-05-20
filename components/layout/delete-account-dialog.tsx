@@ -141,7 +141,9 @@ function DeleteAccountForm() {
           pattern="delete my account"
           className="w-full"
         />
-        {state?.message && <p className="text-destructive">{state.message}</p>}
+        {state?.message && (
+          <p className="text-sm text-destructive">{state.message}</p>
+        )}
       </div>
       <DeleteAccountButton />
     </form>
