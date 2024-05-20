@@ -10,9 +10,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UploadDialog, useUploadDialog } from "@/components/home/upload-dialog";
 import { FAQ } from "@/components/home/faq";
+import { useUserDataStore } from "@/components/layout/navbar";
+import { useSignInDialog } from "@/components/layout/sign-in-dialog";
+import { useCheckoutDialog } from "@/components/layout/checkout-dialog";
 
 export default function HomePage({ count }: { count: number | null }) {
   const setShowUploadModal = useUploadDialog((s) => s.setOpen);
+  const setShowCheckoutModal = useCheckoutDialog((s) => s.setOpen);
+  const setShowSignInModal = useSignInDialog((s) => s.setOpen);
+  const userData = useUserDataStore((s) => s.userData);
   return (
     <div className="flex flex-col items-center justify-center">
       <UploadDialog />
@@ -50,14 +56,30 @@ export default function HomePage({ count }: { count: number | null }) {
           <div className="mt-6 flex flex-row justify-center space-x-4">
             <Button
               className="space-x-2 rounded-full border border-primary transition-colors hover:bg-primary-foreground hover:text-primary"
-              onClick={() => setShowUploadModal(true)}
+              onClick={() => {
+                if (!userData) {
+                  setShowSignInModal(true);
+                } else if (userData.credits < 10) {
+                  setShowCheckoutModal(true);
+                } else {
+                  setShowUploadModal(true);
+                }
+              }}
             >
               <Upload className="h-5 w-5" />
               <p>Upload a Photo</p>
             </Button>
 
             <Link href={"/gallery"}>
-              <Button className="space-x-2 rounded-full border border-primary transition-colors hover:bg-primary-foreground hover:text-primary">
+              <Button
+                className="space-x-2 rounded-full border border-primary transition-colors hover:bg-primary-foreground hover:text-primary"
+                onClick={(e) => {
+                  if (!userData) {
+                    e.preventDefault();
+                    setShowSignInModal(true);
+                  }
+                }}
+              >
                 <Images className="h-5 w-5" />
                 <p>My Gallery</p>
               </Button>

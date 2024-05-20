@@ -1,7 +1,5 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
-import useSWRImmutable from "swr/immutable";
 import {
   Dialog,
   DialogContent,
@@ -38,14 +36,6 @@ export const useUploadDialog = create<UploadDialogStore>((set) => ({
 }));
 
 export function UploadDialog() {
-  const supabase = createClient();
-
-  const { data: products } = useSWRImmutable("get_products", async () => {
-    const { data: products, error } = await supabase.rpc("get_products");
-
-    return products;
-  });
-
   const [open, setOpen] = useUploadDialog((s) => [s.open, s.setOpen]);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 

@@ -16,7 +16,7 @@ export function FAQ() {
         <AccordionItem value="item-1">
           <AccordionTrigger>How do I use it?</AccordionTrigger>
           <AccordionContent>
-            {`First have to sign in / sign up by clicking on the "Sign in" button on the top right. Then you can buy credits by clicking on your user icon in the top right. You can now upload
+            {`First, you have to sign in / sign up by clicking on the "Sign in" button on the top right. Then, you can buy credits by clicking on your user icon in the top right. You can now upload
               an image to see how well you age!`}
           </AccordionContent>
         </AccordionItem>

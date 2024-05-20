@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -27,6 +28,7 @@ import { Product } from "@/lib/types";
 import { useTransition } from "react";
 import { checkout } from "@/app/actions/checkout";
 import { LoadingDots } from "@/components/shared/icons";
+import { useUserDataStore } from "@/components/layout/navbar";
 
 type CheckoutDialogStore = {
   open: boolean;
@@ -48,6 +50,7 @@ export function CheckoutDialog() {
   });
 
   const [open, setOpen] = useCheckoutDialog((s) => [s.open, s.setOpen]);
+  const userData = useUserDataStore((s) => s.userData);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
@@ -75,13 +78,17 @@ export function CheckoutDialog() {
           <Separator />
 
           {/* Buttons */}
-          <div className="bg-muted flex flex-col space-y-4 px-16 py-8">
+          <div className="flex flex-col space-y-4 bg-muted px-16 py-8">
             {products
               ?.sort((a: any, b: any) => a.price - b.price)
               .map((product) => (
                 <CheckoutButton key={product.id} product={product} />
               ))}
           </div>
+
+          <DialogFooter className="bg-muted pb-8 text-sm text-muted-foreground sm:justify-center">
+            {`You currently have ${userData?.credits} credits and can generate ${Math.floor((userData?.credits || 0) / 10)} images`}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     );
@@ -111,7 +118,7 @@ export function CheckoutDialog() {
         <Separator />
 
         {/* Buttons */}
-        <div className="bg-muted flex flex-col space-y-4 px-4 py-8">
+        <div className="flex flex-col space-y-4 bg-muted px-4 py-8">
           {products
             ?.sort((a: any, b: any) => a.price - b.price)
             .map((product) => (
@@ -120,6 +127,7 @@ export function CheckoutDialog() {
         </div>
 
         <DrawerFooter className="bg-muted">
+          <p className="text-center text-sm text-muted-foreground">{`You currently have ${userData?.credits} credits and can generate ${Math.floor((userData?.credits || 0) / 10)} images`}</p>
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
           </DrawerClose>
