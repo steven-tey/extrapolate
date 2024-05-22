@@ -48,7 +48,7 @@ type CheckoutDialogStore = {
 };
 
 export const useCheckoutDialog = create<CheckoutDialogStore>((set) => ({
-  open: true,
+  open: false,
   setOpen: (open) => set(() => ({ open: open })),
 }));
 
