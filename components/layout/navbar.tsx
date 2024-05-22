@@ -3,12 +3,30 @@
 
 import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
-import { useSignInModal } from "@/components/layout/sign-in-modal";
-import UserDropdown from "./user-dropwdown";
+import { UserDropdown } from "./user-dropdown";
 import { createClient } from "@/lib/supabase/client";
 import useSWRImmutable from "swr/immutable";
+import { Button } from "@/components/ui/button";
+import {
+  SignInDialog,
+  useSignInDialog,
+} from "@/components/layout/sign-in-dialog";
+import { Tables } from "@/lib/supabase/types_db";
+import { create } from "zustand";
+
+type UserDataStore = {
+  userData: Tables<"users"> | null;
+  setUserData: (userData: Tables<"users"> | null) => void;
+};
+
+export const useUserDataStore = create<UserDataStore>((set) => ({
+  userData: null,
+  setUserData: (userData) => set(() => ({ userData: userData })),
+}));
 
 export default function Navbar() {
+  const setUserData = useUserDataStore((s) => s.setUserData);
+
   const supabase = createClient();
 
   const { data: userData, isLoading } = useSWRImmutable(
@@ -18,16 +36,19 @@ export default function Navbar() {
         .from("users")
         .select("*")
         .single();
+
+      setUserData(userData);
+
       return userData;
     },
   );
 
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+  const setShowSignInDialog = useSignInDialog((s) => s.setOpen);
   const scrolled = useScroll(50);
 
   return (
     <>
-      <SignInModal />
+      <SignInDialog />
       <div
         className={`fixed top-0 w-full ${
           scrolled
@@ -51,12 +72,13 @@ export default function Navbar() {
               <UserDropdown userData={userData} />
             ) : (
               !isLoading && (
-                <button
-                  className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                  onClick={() => setShowSignInModal(true)}
+                <Button
+                  size="sm"
+                  className="rounded-full border border-primary transition-all hover:bg-primary-foreground hover:text-primary"
+                  onClick={() => setShowSignInDialog(true)}
                 >
                   Sign In
-                </button>
+                </Button>
               )
             )}
           </div>

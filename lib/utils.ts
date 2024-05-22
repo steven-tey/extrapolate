@@ -1,4 +1,6 @@
 import ms from "ms";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
   if (!timestamp) return "never";
@@ -65,7 +67,7 @@ export const truncate = (str: string, length: number) => {
 export const getURL = (input: string = "") => {
   return process.env.NODE_ENV === "development"
     ? `http://localhost:3000${input}`
-    : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}${input}`;
+    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}${input}`;
 };
 
 export const getDomain = (input: string = "") => {
@@ -73,7 +75,11 @@ export const getDomain = (input: string = "") => {
     process.env.NODE_ENV === "development"
       ? // run `pnpm tunnel` and set TUNNEL_URL
         process.env.TUNNEL_URL!
-      : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
+      : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 
   return domain + input;
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

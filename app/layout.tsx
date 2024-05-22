@@ -60,11 +60,9 @@ export default function RootLayout({
         strategy="lazyOnload"
       />
       <body>
-        <div className="fixed h-screen w-full bg-gradient-to-br from-emerald-100 via-blue-50 to-rose-100" />
+        <div className="fixed -z-10 h-screen w-screen bg-gradient-to-br from-emerald-100 via-blue-50 to-rose-100" />
         <Navbar />
-        <main className="flex min-h-screen w-full flex-col items-center justify-center py-32">
-          {children}
-        </main>
+        <main className="min-h-screen py-32 antialiased">{children}</main>
         <Footer />
         <Analytics />
       </body>

@@ -11,23 +11,26 @@ export type Database = {
     Tables: {
       data: {
         Row: {
-          created_at: string | null
+          created_at: string
           failed: boolean | null
           id: string
+          input: string
           output: string | null
           user_id: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           failed?: boolean | null
           id: string
+          input?: string
           output?: string | null
           user_id?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           failed?: boolean | null
           id?: string
+          input?: string
           output?: string | null
           user_id?: string | null
         }

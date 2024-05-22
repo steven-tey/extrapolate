@@ -1,28 +1,20 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { motion } from "framer-motion";
 import { Download } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { LoadingCircle } from "../shared/icons";
-
-const variants = {
-  enter: (direction: number) => {
-    return {
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-    };
-  },
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => {
-    return {
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0,
-    };
-  },
-};
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Card } from "@/components/ui/card";
 
 function forceDownload(blobUrl: string, filename: string) {
   let a: any = document.createElement("a");
@@ -36,58 +28,59 @@ function forceDownload(blobUrl: string, filename: string) {
 export default function PhotoBooth({
   id,
   input,
-  blurDataURL,
   output,
   failed,
+  initialState = 1,
+  className,
 }: {
   id?: string;
   input: string;
-  blurDataURL: string;
   output: string | null;
   failed?: boolean | null;
+  initialState?: 0 | 1;
+  className?: string;
 }) {
-  const [state, setState] = useState("output");
-  const direction = useMemo(() => (state === "output" ? 1 : -1), [state]);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(initialState);
   const [downloading, setDownloading] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (loading) {
-        setShowForm(true);
-      }
-    }, 5000);
-  }, [loading]);
+    if (!api) return;
 
-  useEffect(() => {
-    if (output) {
-      setLoading(false);
-    }
-  }, [output]);
+    setCurrent(api.selectedScrollSnap() as 0 | 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() as 0 | 1);
+    });
+  }, [api]);
 
   return (
     <motion.div
-      className="group relative mx-auto mt-10 h-[350px] w-full overflow-hidden rounded-2xl border border-gray-200 sm:h-[600px] sm:w-[600px]"
+      className={cn("group relative mx-auto mt-10 size-full", className)}
       variants={FADE_DOWN_ANIMATION_VARIANTS}
     >
-      <button
-        onClick={() => setState(state === "output" ? "input" : "output")}
-        className="absolute left-5 top-5 z-10 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
+      <Button
+        onClick={(event) => {
+          event.stopPropagation();
+          api?.canScrollNext() ? api?.scrollNext() : api?.scrollPrev();
+        }}
+        variant="secondary"
+        className="hover:bg-secondary absolute left-5 top-5 z-20 rounded-full border transition-all hover:scale-105 active:scale-95"
       >
-        <p className="text-sm font-semibold text-gray-500">
-          {state === "output" ? "View original" : "View result"}
+        <p className="text-muted-foreground font-semibold">
+          {api?.selectedScrollSnap() === 1 ? "View original" : "View result"}
         </p>
-      </button>
-      {/* 
+      </Button>
+      {/*
         only show the download button if:
-          - it's on a page with an id (i.e. not the demo page) 
+          - it's on a page with an id (i.e. not the demo page)
           - there's an output
           - we're in the output tab
       */}
-      {id && output && state === "output" && !failed && (
-        <button
-          onClick={() => {
+      {id && output && !failed && current === 1 && (
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
             setDownloading(true);
             fetch(output, {
               headers: new Headers({
@@ -100,96 +93,80 @@ export default function PhotoBooth({
                 let blobUrl = window.URL.createObjectURL(blob);
                 forceDownload(
                   blobUrl,
-                  `${id || "demo"}.${state === "output" ? "gif" : ""}`,
+                  `${id || "demo"}.${current === 1 ? "gif" : ""}`,
                 );
                 setDownloading(false);
               })
               .catch((e) => console.error(e));
           }}
-          className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm transition-all hover:scale-105 active:scale-95"
+          variant="secondary"
+          size="icon"
+          className="hover:bg-secondary absolute right-5 top-5 z-20 rounded-full border transition-all hover:scale-105 active:scale-95"
         >
           {downloading ? (
             <LoadingCircle />
           ) : (
-            <Download className="h-5 w-5 text-gray-500" />
+            <Download className="text-muted-foreground h-5 w-5" />
           )}
-        </button>
+        </Button>
       )}
-      <MotionConfig
-        transition={{
-          x: { type: "spring", stiffness: 300, damping: 30 },
-          opacity: { duration: 0.2 },
+
+      <Carousel
+        setApi={setApi}
+        opts={{
+          startIndex: initialState,
         }}
+        className="relative rounded-2xl"
       >
-        <AnimatePresence initial={false} custom={direction}>
-          {state === "output" ? (
-            <motion.div
-              key={output}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute h-full w-full"
-            >
-              {failed && (
-                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
-                  <p className="text-sm text-red-600">
-                    Failed to run - could not find face in image. Try another!
-                  </p>
-                  <p className="text-sm text-red-600 underline">
-                    10 credits returned
-                  </p>
-                </div>
-              )}
-              {loading && (
-                <div className="z-10 flex h-full w-full flex-col items-center bg-white pt-[140px] sm:pt-[280px]">
+        <CarouselContent>
+          {/* Input */}
+          <CarouselItem>
+            <Card className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl">
+              <img
+                alt="input image"
+                src={input || ""}
+                className="h-full object-cover"
+              />
+            </Card>
+          </CarouselItem>
+
+          {/* Output */}
+          <CarouselItem>
+            <Card className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl">
+              {failed ? (
+                <p className="text-center text-sm text-red-500">
+                  Failed to run - could not find face in image. Try another!{" "}
+                  <br /> 10 credits returned
+                </p>
+              ) : !output ? (
+                <div className="flex flex-col items-center justify-center">
                   <LoadingCircle />
-                  {id && showForm && (
-                    <motion.div
-                      className="my-4 flex flex-col items-center space-y-4"
-                      initial="hidden"
-                      whileInView="show"
-                      animate="show"
-                      viewport={{ once: true }}
+                  <motion.div
+                    className="my-4 space-y-4"
+                    initial="hidden"
+                    animate="show"
+                    transition={{ delayChildren: 5 }}
+                    viewport={{ once: true }}
+                  >
+                    <motion.p
+                      className="text-muted-foreground text-sm"
+                      variants={FADE_DOWN_ANIMATION_VARIANTS}
                     >
-                      <motion.p
-                        className="text-sm text-gray-500"
-                        variants={FADE_DOWN_ANIMATION_VARIANTS}
-                      >
-                        This can take a minute to run.
-                      </motion.p>
-                    </motion.div>
-                  )}
+                      This can take a minute to run.
+                    </motion.p>
+                  </motion.div>
                 </div>
-              )}
-              {output && (
+              ) : (
                 <img
                   alt="output image"
-                  src={output}
+                  src={output || ""}
                   className="h-full object-cover"
                 />
               )}
-            </motion.div>
-          ) : (
-            <motion.div
-              key={input}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute h-full w-full"
-            >
-              <img
-                alt="original image"
-                src={input}
-                className="h-full object-cover"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </MotionConfig>
+            </Card>
+          </CarouselItem>
+        </CarouselContent>
+      </Carousel>
     </motion.div>
   );
 }
