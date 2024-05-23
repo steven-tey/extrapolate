@@ -46,9 +46,11 @@ export async function upload(previousState: any, formData: FormData) {
         process.env.TUNNEL_URL!
       : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
 
+  const buffer = await image.arrayBuffer();
+  
   const { data: storageData, error: storageError } = await supabaseAdmin.storage
     .from("input")
-    .upload(`/${user_id}/${key}`, image, {
+    .upload(`/${user_id}/${key}`, buffer, {
       contentType: image.type,
       cacheControl: "3600",
       upsert: true,
