@@ -17,7 +17,7 @@ export async function checkout({
   const supabase = createClient(cookieStore);
 
   const stripe = new Stripe(
-    process.env.NODE_ENV === "production"
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? process.env.STRIPE_SECRET_KEY!
       : process.env.STRIPE_SECRET_KEY_DEV!,
   );
@@ -32,7 +32,7 @@ export async function checkout({
 
   const stripeCheckoutSession = await stripe.checkout.sessions.create({
     customer:
-      process.env.NODE_ENV === "production"
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
         ? userData.stripe_id!
         : userData.stripe_id_dev!,
     client_reference_id: userData?.id,

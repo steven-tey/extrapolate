@@ -58,7 +58,7 @@ export function CheckoutDialog() {
   const { data: products } = useSWRImmutable("get_products", async () => {
     // TODO: sort by price in rpc, lowest --> greatest
     const get_products =
-      process.env.NODE_ENV === "production"
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
         ? "get_products"
         : "get_products_dev";
     const { data: products, error } = await supabase.rpc(get_products);
