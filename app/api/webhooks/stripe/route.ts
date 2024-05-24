@@ -14,14 +14,14 @@ export async function POST(req: NextRequest) {
   const stripe = new Stripe(
     process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? process.env.STRIPE_SECRET_KEY!
-      : process.env.STRIPE_SECRET_KEY_DEV!,
+      : process.env.STRIPE_SECRET_KEY_TEST!,
   );
 
   // verify webhook
   const webhookSecret =
     process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? process.env.STRIPE_WEBHOOK_SECRET
-      : process.env.STRIPE_WEBHOOK_SECRET_DEV;
+      : process.env.STRIPE_WEBHOOK_SECRET_TEST;
   const signature = req.headers.get("stripe-signature");
   try {
     if (!webhookSecret || !signature) {

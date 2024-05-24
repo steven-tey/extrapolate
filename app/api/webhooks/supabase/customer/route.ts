@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   const stripe = new Stripe(
     process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? process.env.STRIPE_SECRET_KEY!
-      : process.env.STRIPE_SECRET_KEY_DEV!,
+      : process.env.STRIPE_SECRET_KEY_TEST!,
   );
 
   const record = body.record as UserData;

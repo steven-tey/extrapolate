@@ -19,7 +19,7 @@ export async function checkout({
   const stripe = new Stripe(
     process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? process.env.STRIPE_SECRET_KEY!
-      : process.env.STRIPE_SECRET_KEY_DEV!,
+      : process.env.STRIPE_SECRET_KEY_TEST!,
   );
 
   const { data: userData, error } = await supabase
