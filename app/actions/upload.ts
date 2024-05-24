@@ -41,10 +41,10 @@ export async function upload(previousState: any, formData: FormData) {
   const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/input/${user_id}/${key}`;
 
   const domain =
-    process.env.NODE_ENV === "development"
+    process.env.NODE_ENV === "production"
       ? // run `pnpm tunnel` and set TUNNEL_URL
-        process.env.TUNNEL_URL!
-      : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
+        `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+      : process.env.TUNNEL_URL!;
 
   const buffer = await image.arrayBuffer();
 

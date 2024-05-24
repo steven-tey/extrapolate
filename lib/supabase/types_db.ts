@@ -187,6 +187,7 @@ export type Database = {
           image: string | null
           name: string
           stripe_id: string | null
+          stripe_id_dev: string | null
         }
         Insert: {
           credits?: number
@@ -195,6 +196,7 @@ export type Database = {
           image?: string | null
           name: string
           stripe_id?: string | null
+          stripe_id_dev?: string | null
         }
         Update: {
           credits?: number
@@ -203,6 +205,7 @@ export type Database = {
           image?: string | null
           name?: string
           stripe_id?: string | null
+          stripe_id_dev?: string | null
         }
         Relationships: [
           {
@@ -220,6 +223,17 @@ export type Database = {
     }
     Functions: {
       get_products: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          price_id: string
+          name: string
+          description: string
+          price: number
+          credits: number
+        }[]
+      }
+      get_products_dev: {
         Args: Record<PropertyKey, never>
         Returns: {
           id: string

@@ -10,7 +10,11 @@ export async function billing() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(
+    process.env.NODE_ENV === "production"
+      ? process.env.STRIPE_SECRET_KEY!
+      : process.env.STRIPE_SECRET_KEY_DEV!,
+  );
 
   const { data: userData, error } = await supabase
     .from("users")
@@ -21,7 +25,10 @@ export async function billing() {
   }
 
   const stripeBillingSession = await stripe.billingPortal.sessions.create({
-    customer: userData.stripe_id!,
+    customer:
+      process.env.NODE_ENV === "production"
+        ? userData.stripe_id!
+        : userData.stripe_id_dev!,
     return_url: getDomain(),
   });
 
