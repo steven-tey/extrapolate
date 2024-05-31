@@ -17,7 +17,11 @@ export async function POST(req: NextRequest) {
   const body = (await req.json()) as SupabaseWebhook;
 
   const supabase = createAdminClient();
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? process.env.STRIPE_SECRET_KEY!
+      : process.env.STRIPE_SECRET_KEY_TEST!,
+  );
 
   const record = body.record as UserData;
   const old_record = body.old_record as UserData;

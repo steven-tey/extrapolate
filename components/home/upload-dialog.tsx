@@ -116,7 +116,7 @@ export function UploadForm() {
       setFileSizeTooBig(false);
       const file = event.currentTarget.files && event.currentTarget.files[0];
       if (file) {
-        if (file.size / 1024 / 1024 > 5) {
+        if (file.size / 1024 / 1024 > 10) {
           setFileSizeTooBig(true);
         } else {
           const reader = new FileReader();
@@ -176,7 +176,7 @@ export function UploadForm() {
               setFileSizeTooBig(false);
               const file = e.dataTransfer.files && e.dataTransfer.files[0];
               if (file) {
-                if (file.size / 1024 / 1024 > 5) {
+                if (file.size / 1024 / 1024 > 10) {
                   setFileSizeTooBig(true);
                 } else {
                   const reader = new FileReader();

@@ -16,7 +16,11 @@ export async function checkout({
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? process.env.STRIPE_SECRET_KEY!
+      : process.env.STRIPE_SECRET_KEY_TEST!,
+  );
 
   const { data: userData, error } = await supabase
     .from("users")
@@ -27,7 +31,10 @@ export async function checkout({
   }
 
   const stripeCheckoutSession = await stripe.checkout.sessions.create({
-    customer: userData.stripe_id!,
+    customer:
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+        ? userData.stripe_id!
+        : userData.stripe_id_dev!,
     client_reference_id: userData?.id,
     // TODO: modal to show result
     success_url: getDomain(`/?success=true&credits=${credits}`),

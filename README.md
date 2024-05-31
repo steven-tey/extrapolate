@@ -24,6 +24,8 @@
 </p>
 <br/>
 
+--NEW README COMING SOON--
+
 ## Introduction
 
 Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence.

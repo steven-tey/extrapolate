@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
+import { getDomain } from "@/lib/utils";
 // import { waitUntil } from "@vercel/functions";
 
 export async function upload(previousState: any, formData: FormData) {
@@ -40,11 +41,7 @@ export async function upload(previousState: any, formData: FormData) {
   const { key } = await setRandomKey(user_id);
   const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/input/${user_id}/${key}`;
 
-  const domain =
-    process.env.NODE_ENV === "development"
-      ? // run `pnpm tunnel` and set TUNNEL_URL
-        process.env.TUNNEL_URL!
-      : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
+  const buffer = await image.arrayBuffer();
 
   const buffer = await image.arrayBuffer();
   
@@ -69,7 +66,7 @@ export async function upload(previousState: any, formData: FormData) {
         image: input,
         target_age: "default",
       },
-      webhook: `${domain}/api/webhooks/replicate/${key}`,
+      webhook: getDomain(`/api/webhooks/replicate/${key}`),
       webhook_events_filter: ["completed"],
     });
 

@@ -11,10 +11,17 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
 
   const supabase = createAdminClient();
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? process.env.STRIPE_SECRET_KEY!
+      : process.env.STRIPE_SECRET_KEY_TEST!,
+  );
 
   // verify webhook
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? process.env.STRIPE_WEBHOOK_SECRET
+      : process.env.STRIPE_WEBHOOK_SECRET_TEST;
   const signature = req.headers.get("stripe-signature");
   try {
     if (!webhookSecret || !signature) {

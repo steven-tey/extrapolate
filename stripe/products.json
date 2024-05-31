@@ -4,29 +4,29 @@
   },
   "fixtures": [
     {
-      "name": "300_credits",
+      "name": "Starter",
       "path": "/v1/prices",
       "method": "post",
       "params": {
         "currency": "usd",
         "unit_amount": 900,
         "product_data": {
-          "name": "300 credits",
+          "name": "Starter",
           "metadata": {
-            "credits": "300"
+            "credits": "100"
           }
         }
       }
     },
     {
-      "name": "900_credits",
+      "name": "Pro",
       "path": "/v1/prices",
       "method": "post",
       "params": {
         "currency": "usd",
         "unit_amount": 1900,
         "product_data": {
-          "name": "900 credits",
+          "name": "Pro",
           "metadata": {
             "credits": "900"
           }
@@ -34,16 +34,16 @@
       }
     },
     {
-      "name": "3000_credits",
+      "name": "Premium",
       "path": "/v1/prices",
       "method": "post",
       "params": {
         "currency": "usd",
-        "unit_amount": 2900,
+        "unit_amount": 3900,
         "product_data": {
-          "name": "3000 credits",
+          "name": "Premium",
           "metadata": {
-            "credits": "3000"
+            "credits": "4000"
           }
         }
       }
