@@ -42,8 +42,6 @@ export async function upload(previousState: any, formData: FormData) {
   const input = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/input/${user_id}/${key}`;
 
   const buffer = await image.arrayBuffer();
-
-  const buffer = await image.arrayBuffer();
   
   const { data: storageData, error: storageError } = await supabaseAdmin.storage
     .from("input")
