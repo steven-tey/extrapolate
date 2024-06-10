@@ -68,7 +68,7 @@ export const getURL = (input: string = "") => {
   return process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}${input}`
     : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}${input}`
       : `http://localhost:3000${input}`;
 };
 
