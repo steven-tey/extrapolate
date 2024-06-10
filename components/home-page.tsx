@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";
 import Balancer from "react-wrap-balancer";
-import { Images, Upload } from "lucide-react";
+import { ArrowRight, Images, Upload } from "lucide-react";
 import { nFormatter } from "@/lib/utils";
 import PhotoBooth from "@/components/home/photo-booth";
 import Link from "next/link";
@@ -13,15 +13,21 @@ import { FAQ } from "@/components/home/faq";
 import { useUserDataStore } from "@/components/layout/navbar";
 import { useSignInDialog } from "@/components/layout/sign-in-dialog";
 import { useCheckoutDialog } from "@/components/layout/checkout-dialog";
+import {
+  AgePredictDialog,
+  useAgePredictDialog,
+} from "@/components/age-predict-modal";
 
 export default function HomePage({ count }: { count: number | null }) {
   const setShowUploadModal = useUploadDialog((s) => s.setOpen);
+  const setShowAgePredictModal = useAgePredictDialog((s) => s.setOpen);
   const setShowCheckoutModal = useCheckoutDialog((s) => s.setOpen);
   const setShowSignInModal = useSignInDialog((s) => s.setOpen);
   const userData = useUserDataStore((s) => s.userData);
   return (
     <div className="flex flex-col items-center justify-center">
       <UploadDialog />
+      <AgePredictDialog />
       <motion.div
         className="z-10 max-w-2xl px-5 xl:px-0"
         initial="hidden"
@@ -37,6 +43,16 @@ export default function HomePage({ count }: { count: number | null }) {
           },
         }}
       >
+        <motion.div
+          variants={FADE_DOWN_ANIMATION_VARIANTS}
+          className="mx-auto mb-5 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200"
+          onClick={() => setShowAgePredictModal(true)}
+        >
+          <p className="text-sm font-semibold text-[#1d9bf0]">
+            NEW: Find out how old you look for free
+          </p>
+          <ArrowRight className="size-5 text-[#1d9bf0]" />
+        </motion.div>
         <motion.h1
           className="bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
           variants={FADE_DOWN_ANIMATION_VARIANTS}
