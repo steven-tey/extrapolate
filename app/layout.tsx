@@ -63,7 +63,6 @@ export default function RootLayout({
         <div className="fixed -z-10 h-screen w-screen bg-gradient-to-br from-emerald-100 via-blue-50 to-rose-100" />
         <Navbar />
         <main className="min-h-screen py-32 antialiased">{children}</main>
-        <Footer />
         <Analytics />
       </body>
     </html>
