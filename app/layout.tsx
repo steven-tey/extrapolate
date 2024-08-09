@@ -6,7 +6,8 @@ import Footer from "@/components/layout/footer";
 import cx from "classnames";
 import Navbar from "@/components/layout/navbar";
 import Script from "next/script";
-import { Analytics } from "@/components/GoogleAnalytics";
+import { Analytics } from "@/components/analytics";
+import { Toaster } from "sonner";
 
 const clash = localFont({
   src: "../styles/ClashDisplay-Semibold.otf",
@@ -64,6 +65,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-h-screen py-32 antialiased">{children}</main>
         <Analytics />
+        <Toaster />
       </body>
     </html>
   );

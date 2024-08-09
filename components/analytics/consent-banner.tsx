@@ -3,21 +3,16 @@
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import { Toaster } from "@/components/ui/sonner";
-import { headers } from "next/headers";
 
-export function Analytics() {
+export function ConsentBanner({ children }: { children: React.ReactNode }) {
   const [consent, setConsent] = useLocalStorage<boolean | null>(
     "analytics_consent",
     null,
   );
   const hasToastShown = useRef(false);
 
-  const continent = headers().get("x-vercel-ip-continent");
-
   useEffect(() => {
-    if (consent === null && continent === "EU" && !hasToastShown.current) {
+    if (consent === null && !hasToastShown.current) {
       hasToastShown.current = true;
 
       toast("Cookie consent", {
@@ -35,15 +30,14 @@ export function Analytics() {
       }, 7000);
     }
 
-    if (consent === null && continent !== "EU") {
+    if (consent === null) {
       setConsent(true);
     }
-  }, [continent, consent, setConsent]);
+  }, [consent, setConsent]);
 
-  return (
-    <>
-      {consent === (true || null) && <GoogleAnalytics gaId="G-8V7G187WH7" />}
-      <Toaster />
-    </>
-  );
+  if (consent === (true || null)) {
+    return <>{children}</>;
+  }
+
+  return null;
 }
