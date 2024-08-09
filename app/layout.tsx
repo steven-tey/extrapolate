@@ -1,12 +1,12 @@
 import "@/styles/globals.css";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
 import { Metadata, Viewport } from "next";
 import Footer from "@/components/layout/footer";
 import cx from "classnames";
 import Navbar from "@/components/layout/navbar";
 import Script from "next/script";
+import { Analytics } from "@/components/GoogleAnalytics";
 
 const clash = localFont({
   src: "../styles/ClashDisplay-Semibold.otf",
