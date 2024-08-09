@@ -50,8 +50,7 @@ async function isEUCustomer() {
   const response = await fetch('https://ipapi.co/json/');
   const location: Location = await response.json();
 
-  const euCountries = ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
-  return euCountries.includes(location.country_code)
+  return location.country_code === 'EU'
 }
 
 type Location = {
