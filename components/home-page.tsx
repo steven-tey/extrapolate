@@ -13,6 +13,7 @@ import { FAQ } from "@/components/home/faq";
 import { useUserDataStore } from "@/components/layout/navbar";
 import { useSignInDialog } from "@/components/layout/sign-in-dialog";
 import { useCheckoutDialog } from "@/components/layout/checkout-dialog";
+import { TermsAndPrivacy } from "@/components/layout/terms-and-privacy";
 // import {
 //   AgePredictDialog,
 //   useAgePredictDialog,
@@ -118,6 +119,8 @@ export default function HomePage({ count }: { count: number | null }) {
       </motion.div>
 
       <FAQ />
+
+      <TermsAndPrivacy/>
     </div>
   );
 }
