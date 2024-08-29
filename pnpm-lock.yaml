@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@dub/analytics':
+        specifier: ^0.0.15
+        version: 0.0.15
       '@next/third-parties':
         specifier: ^14.2.5
         version: 14.2.5(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -71,6 +74,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      dub:
+        specifier: ^0.36.2
+        version: 0.36.2(zod@3.23.8)
       embla-carousel-react:
         specifier: ^8.0.4
         version: 8.0.4(react@18.3.1)
@@ -210,6 +216,9 @@ packages:
   '@babel/runtime@7.24.5':
     resolution: {integrity: sha512-Nms86NXrsaeU9vbBJKni6gXiEXZ4CVpYVzEjDH9Sb8vmZ3UljyA1GSOJl/6LGPO8EHLuSF9H+IxNXHPX8QHJ4g==}
     engines: {node: '>=6.9.0'}
+
+  '@dub/analytics@0.0.15':
+    resolution: {integrity: sha512-jVksQ3W3GHSiqyNr7dXc8kJtXNnHsc1GooeaGGEQ18WHtcgiCndtP/pji40kye9UfSMUySlHmW6/qOAMtj0lRw==}
 
   '@emnapi/runtime@1.1.1':
     resolution: {integrity: sha512-3bfqkzuR1KLx57nZfjr2NLnFOobvyS0aTszaEGCGqmYMVDRaGvgIZbjGSV/MHSSmLgQ/b9JFHQ5xm5WRZYd+XQ==}
@@ -1387,6 +1396,11 @@ packages:
   doctrine@3.0.0:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
+
+  dub@0.36.2:
+    resolution: {integrity: sha512-LHFwJ9UVJ5PY4UbMYolkoTG8RDaLmROTRFGG6WHtDXq+lyaYILXfgDPu4sZiGrTAov4zgerepSN7kAxEFck4sA==}
+    peerDependencies:
+      zod: '>= 3'
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -2626,6 +2640,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
     engines: {node: '>= 0.4'}
@@ -3038,6 +3055,9 @@ packages:
   yoga-wasm-web@0.3.3:
     resolution: {integrity: sha512-N+d4UJSJbt/R3wqY7Coqs5pcV0aUj2j9IaQ3rNj9bVCLld8tTGKRa2USARjnvZJWVx1NDmQev8EknoczaOQDOA==}
 
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
   zustand@4.5.2:
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
     engines: {node: '>=12.7.0'}
@@ -3069,6 +3089,10 @@ snapshots:
   '@babel/runtime@7.24.5':
     dependencies:
       regenerator-runtime: 0.14.0
+
+  '@dub/analytics@0.0.15':
+    dependencies:
+      server-only: 0.0.1
 
   '@emnapi/runtime@1.1.1':
     dependencies:
@@ -4256,6 +4280,10 @@ snapshots:
   doctrine@3.0.0:
     dependencies:
       esutils: 2.0.3
+
+  dub@0.36.2(zod@3.23.8):
+    dependencies:
+      zod: 3.23.8
 
   eastasianwidth@0.2.0: {}
 
@@ -5761,6 +5789,8 @@ snapshots:
 
   semver@7.6.2: {}
 
+  server-only@0.0.1: {}
+
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -6271,6 +6301,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoga-wasm-web@0.3.3: {}
+
+  zod@3.23.8: {}
 
   zustand@4.5.2(@types/react@18.3.1)(react@18.3.1):
     dependencies:
