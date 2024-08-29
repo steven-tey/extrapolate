@@ -47,6 +47,7 @@ export async function checkout({
     ],
     metadata: {
       credits: credits,
+      dubCustomerId: userData.id,
     },
     invoice_creation: {
       enabled: true,

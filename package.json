@@ -17,6 +17,7 @@
     "fixtures:products": "stripe fixtures stripe/products.json"
   },
   "dependencies": {
+    "@dub/analytics": "^0.0.15",
     "@next/third-parties": "^14.2.5",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -38,6 +39,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "dub": "^0.36.2",
     "embla-carousel-react": "^8.0.4",
     "focus-trap-react": "^10.2.3",
     "framer-motion": "^11.1.9",
@@ -95,5 +97,6 @@
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
 }

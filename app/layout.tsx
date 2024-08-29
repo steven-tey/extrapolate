@@ -2,12 +2,12 @@ import "@/styles/globals.css";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { Metadata, Viewport } from "next";
-import Footer from "@/components/layout/footer";
 import cx from "classnames";
 import Navbar from "@/components/layout/navbar";
 import Script from "next/script";
 import { Analytics } from "@/components/analytics";
 import { Toaster } from "sonner";
+import { Analytics as DubAnalytics } from "@dub/analytics/react";
 
 const clash = localFont({
   src: "../styles/ClashDisplay-Semibold.otf",
@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     title: "Extrapolate - Transform your face with Artificial Intelligence",
     description:
       "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence.",
+    images: "https://ref.extrapolate.app/og",
   },
   twitter: {
     card: "summary_large_image",
@@ -36,6 +37,7 @@ export const metadata: Metadata = {
     title: "Extrapolate - Transform your face with Artificial Intelligence",
     description:
       "Extrapolate is an app for you to see how well you age by transforming your face with Artificial Intelligence.",
+    images: "https://ref.extrapolate.app/og",
   },
 };
 
@@ -63,6 +65,7 @@ export default function RootLayout({
       <body>
         <div className="fixed -z-10 h-screen w-screen bg-gradient-to-br from-emerald-100 via-blue-50 to-rose-100" />
         <Navbar />
+        <DubAnalytics />
         <main className="min-h-screen py-32 antialiased">{children}</main>
         <Analytics />
         <Toaster />
