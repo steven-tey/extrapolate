@@ -20,16 +20,20 @@ export async function GET(request: Request) {
         new Date(user.created_at) > new Date(Date.now() - 10 * 60 * 1000);
       // if the user is new and has a dclid cookie, track the lead
       if (dclid && isNewUser) {
-        waitUntil(
-          dub.track.lead({
-            clickId: dclid,
-            eventName: "Sign Up",
-            customerId: user.id,
-            customerName: user.user_metadata.name,
-            customerEmail: user.email,
-            customerAvatar: user.user_metadata.avatar_url,
-          }),
-        );
+        try {
+          waitUntil(
+            dub.track.lead({
+              clickId: dclid,
+              eventName: "Sign Up",
+              customerId: user.id,
+              customerName: user.user_metadata.name,
+              customerEmail: user.email,
+              customerAvatar: user.user_metadata.avatar_url,
+            }),
+          );
+        } catch (error) {
+          console.error("Error tracking lead:", error);
+        }
         // delete the clickId cookie
         cookies().delete("dclid");
       }
