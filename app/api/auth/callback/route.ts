@@ -15,14 +15,15 @@ export async function GET(request: Request) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       const { user } = data;
-      const dclid = cookies().get("dclid")?.value;
+      const clickId =
+        cookies().get("dub_id")?.value || cookies().get("dclid")?.value;
       const isNewUser =
         new Date(user.created_at) > new Date(Date.now() - 10 * 60 * 1000);
-      // if the user is new and has a dclid cookie, track the lead
-      if (dclid && isNewUser) {
+      // if the user is new and has a clickId cookie, track the lead
+      if (clickId && isNewUser) {
         waitUntil(
           dub.track.lead({
-            clickId: dclid,
+            clickId,
             eventName: "Sign Up",
             customerId: user.id,
             customerName: user.user_metadata.name,
@@ -31,6 +32,7 @@ export async function GET(request: Request) {
           }),
         );
         // delete the clickId cookie
+        cookies().delete("dub_id");
         cookies().delete("dclid");
       }
       return NextResponse.redirect(`${origin}${next}`);
