@@ -109,11 +109,11 @@ export default function HomePage({ count }: { count: number | null }) {
           </p>
         </motion.div>
         <PhotoBooth
-          // input={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/input.jpg`}
-          input="https://images.extrapolate.workers.dev/input.jpg"
+          input={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/temp/input.jpeg`}
+          // input="https://images.extrapolate.workers.dev/input.jpg"
           // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR4nAEnANj/ALjj/4mIh+P+/9Lv/wCn0+xeLxV9cWWUtL0AUz0tKQAAeVU0j4d/y2cTsDiuaawAAAAASUVORK5CYII="
-          // output={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/data/output.gif`}
-          output="https://images.extrapolate.workers.dev/output.gif"
+          output={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/temp/output.gif`}
+          // output="https://images.extrapolate.workers.dev/output.gif"
           className="h-[350px] sm:h-[600px] sm:w-[600px]"
         />
       </motion.div>
