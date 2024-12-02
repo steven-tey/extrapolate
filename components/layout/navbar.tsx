@@ -50,7 +50,7 @@ export default function Navbar() {
     <>
       <SignInDialog />
       <div
-        className={`fixed top-0 w-full ${
+        className={`fixed top-12 w-full ${
           scrolled
             ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl"
             : "bg-white/0"
